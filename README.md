@@ -2,5 +2,9 @@
 
 - Si la base ne se lance pas :
   - psql -U postgres
-  - ALTER USER postgres WITH PASSWORD 'postgres';
-  - CREATE DATABASE location_borne;
+    - Si l'utilisateur n'existe pas :
+      - CREATE USER postgres WITH PASSWORD 'postgres';
+    - Si l'utilisateur existe mais le mot de passe est incorrect:
+      - ALTER USER postgres WITH PASSWORD 'postgres';
+  - Si la base n'existe pas :
+    - CREATE DATABASE location_borne;
