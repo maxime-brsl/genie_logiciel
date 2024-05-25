@@ -24,8 +24,7 @@ public class LicencePlateValidatorTests {
 
     @Test
     public void testIsValidLicensePlate_NullPlate() {
-        String nullPlate = null;
-        assertFalse(LicencePlateValidator.isValidLicensePlate(nullPlate));
+        assertFalse(LicencePlateValidator.isValidLicensePlate(null));
     }
 
     @Test
