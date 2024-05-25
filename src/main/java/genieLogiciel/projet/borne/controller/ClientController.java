@@ -2,6 +2,7 @@ package genieLogiciel.projet.borne.controller;
 
 import genieLogiciel.projet.borne.entity.Client;
 import genieLogiciel.projet.borne.repository.ClientRepository;
+import genieLogiciel.projet.borne.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +13,15 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @GetMapping
-    public List<Client> getAllUtilisateurs() {
-        return clientRepository.findAll();
+    public List<Client> getAllClient() {
+        return clientService.getAllClients();
     }
 
     @PostMapping
-    public Client createUtilisateur(@RequestBody Client utilisateur) {
-        return clientRepository.save(utilisateur);
+    public Client createClient(@RequestBody Client utilisateur) {
+        return clientService.createClient(utilisateur);
     }
 }
