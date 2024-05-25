@@ -7,9 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Launcher implements CommandLineRunner {
+	private final Application application;
 
 	@Autowired
-	private Application application;
+	public Launcher(Application application) {
+		this.application = application;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Launcher.class, args);
@@ -17,6 +20,6 @@ public class Launcher implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		application.runTerminalApp();
+		application.run();
 	}
 }
