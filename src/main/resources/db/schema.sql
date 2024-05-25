@@ -40,8 +40,6 @@ CREATE TABLE reservation (
     vehicule_id INTEGER NOT NULL,
     borne_id INTEGER NOT NULL,
     facture_id INTEGER NULL,
-    numero_compte VARCHAR(16) NOT NULL,
-    solde DECIMAL(10,2) NOT NULL,
     heure_debut TIMESTAMP NOT NULL,
     heure_fin_prevue TIMESTAMP NOT NULL,
     heure_fin_reelle TIMESTAMP,

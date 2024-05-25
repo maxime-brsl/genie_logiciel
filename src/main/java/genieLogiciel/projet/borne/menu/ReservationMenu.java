@@ -1,32 +1,32 @@
 package genieLogiciel.projet.borne.menu;
 
+import genieLogiciel.projet.borne.entity.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
 @Service
-public class MainMenu {
+public class ReservationMenu {
 
     @Autowired
-    private GuestMenu guestMenu;
+    private MainMenu mainMenu;
 
     Scanner scanner = new Scanner(System.in);
 
-    public void displayMainMenu() {
-
+    public void displayReservationMenu(final Reservation reservation) {
         boolean running = true;
         while (running) {
-            displayOptions();
+            displayOptions(reservation);
             System.out.println("Choisissez une option : ");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    guestMenu.displayGuestMenu();
+                    System.out.println(reservation);
                     break;
                 case "2":
-                    System.out.println("Merci d'avoir utilisé nos borne !");
+                    mainMenu.displayMainMenu();
                     running = false;
                     break;
                 default:
@@ -34,12 +34,11 @@ public class MainMenu {
             }
         }
         scanner.close();
-        System.exit(0);
     }
 
-    public void displayOptions() {
-        System.out.println("------ Menu principal ------");
-        System.out.println("1. Se connecter en tant qu'invité");
-        System.out.println("2. Quitter");
+    private void displayOptions(final Reservation reservation) {
+        System.out.println("----- Réservation n°" + reservation.getId()+" -----");
+        System.out.println("1. Voir la réservation");
+        System.out.println("2. Retour au menu principal");
     }
 }
