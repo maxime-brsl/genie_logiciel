@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VehiculeService {
+
     @Autowired
     private VehiculeRepository vehiculeRepository;
+
+    public boolean isLicensePlateInDatabase(String licensePlate) {
+        return vehiculeRepository.findByLicensePlate(licensePlate).isPresent();
+    }
 }

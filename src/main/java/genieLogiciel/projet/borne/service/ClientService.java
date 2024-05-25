@@ -20,4 +20,8 @@ public class ClientService {
     public Client createClient(Client client) {
         return clientRepository.save(client);
     }
+
+    public boolean isPhoneNumberInDatabase(String phoneNumber) {
+        return clientRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
 }

@@ -4,6 +4,7 @@ import genieLogiciel.projet.borne.entity.Client;
 import genieLogiciel.projet.borne.entity.Reservation;
 import genieLogiciel.projet.borne.service.ClientService;
 import genieLogiciel.projet.borne.service.ReservationService;
+import genieLogiciel.projet.borne.service.VehiculeService;
 import genieLogiciel.projet.borne.util.LicencePlateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,12 @@ public class GuestMenu {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private VehiculeService vehiculeService;
+
     Scanner scanner = new Scanner(System.in);
+    @Autowired
+    private ClientService clientService;
 
     public void displayGuestMenu() {
         boolean running = true;
@@ -54,6 +60,21 @@ public class GuestMenu {
                     if (LicencePlateValidator.isValidLicensePlate(licensePlate)) {
                         System.out.println("Immatriculation " + licensePlate);
                         // Rechercher si l'immatriculation existe
+                        if (vehiculeService.isLicensePlateInDatabase(licensePlate)) {
+                            //TODO Chercher si une réservation existe
+                        } else {
+                            System.out.println("La plaque n'est pas reconnue.");
+                            System.out.println("Entrez votre numéro de téléphone :");
+                            String phoneNumber = scanner.nextLine();
+                            if (clientService.isPhoneNumberInDatabase(phoneNumber)){
+                                //TODO : Vérifier si une est borne disponible
+                                //TODO : Proposer de réserver directement ou en différé
+                            } else {
+                                System.out.println("Numéro de téléphone inconnu.");
+                                System.out.println("Veuillez vous inscrire : ");
+                                //TODO : Procéder à l'inscription
+                            }
+                        }
                     } else {
                         System.out.println("Le numéro d'immatriculation n'est pas valide.");
                     }
@@ -68,6 +89,7 @@ public class GuestMenu {
         }
         scanner.close();
     }
+
 
     private void displayOptions() {
         System.out.println("------ Menu invité ------");
