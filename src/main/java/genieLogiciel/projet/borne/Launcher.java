@@ -17,6 +17,6 @@ public class Launcher implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		application.runTerminalApp();
+		application.run();
 	}
 }
