@@ -12,7 +12,7 @@ public class Vehicule {
     private Long id;
 
     @Column(name = "client_id", nullable = false)
-    private Integer clientId;
+    private Long clientId;
 
     @Column(name = "plaque_immatriculation", nullable = false, length = 50)
     private String plaqueImmatriculation;
@@ -26,5 +26,17 @@ public class Vehicule {
 
     public Long getId() {
         return id;
+    }
+
+    public void setPlaqueImmatriculation(String plaqueImmatriculation) {
+        this.plaqueImmatriculation = plaqueImmatriculation;
+    }
+
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setLoue(Boolean loue) {
+        this.loue = loue;
     }
 }

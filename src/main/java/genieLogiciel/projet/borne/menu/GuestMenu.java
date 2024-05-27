@@ -29,6 +29,9 @@ public class GuestMenu {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private InscriptionMenu inscriptionMenu;
+
 
     Scanner scanner = new Scanner(System.in);
 
@@ -83,7 +86,6 @@ public class GuestMenu {
                             System.out.println("La plaque n'est pas reconnue.");
                             System.out.println("Entrez votre numéro de téléphone (avec le préfixe) :");
                             String phoneNumber = scanner.nextLine();
-                            //TODO MAXIME : déplacer isValidPhoneNumber
                             if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
                                 //Vérifier si le numéro de téléphone est dans la base de données
                                 if (clientService.isPhoneNumberInDatabase(phoneNumber)){
@@ -92,7 +94,7 @@ public class GuestMenu {
                                 } else {
                                     System.out.println("Numéro de téléphone inconnu.");
                                     System.out.println("Veuillez vous inscrire : ");
-                                    //TODO : Procéder à l'inscription
+                                    inscriptionMenu.displayInscriptionMenu();
                                 }
                             } else {
                                 System.out.println("Numéro de téléphone invalide.");

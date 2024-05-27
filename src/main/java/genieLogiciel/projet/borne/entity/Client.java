@@ -29,6 +29,19 @@ public class Client {
     @Column(name = "numero_tel")
     private String numeroTel;
 
+    @Column(name = "mot_de_passe")
+    private String motDePasse;
+
+    public Client(String nom, String prenom, String email, String adresse, String numeroCarteCredit, String telephone, String motDePasse) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = email;
+        this.adresse = adresse;
+        this.numeroDebit = numeroCarteCredit;
+        this.numeroTel = telephone;
+        this.motDePasse = motDePasse;
+    }
+
     // Getters et setters
     public Long getId() {
         return id;

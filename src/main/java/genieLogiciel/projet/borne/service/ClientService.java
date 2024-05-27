@@ -17,8 +17,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client createClient(Client client) {
-        return clientRepository.save(client);
+    public void addClient(Client client) {
+        clientRepository.save(client);
     }
 
     public boolean isPhoneNumberInDatabase(final String phoneNumber) {
