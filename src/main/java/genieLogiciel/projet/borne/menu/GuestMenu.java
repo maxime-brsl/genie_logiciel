@@ -59,31 +59,27 @@ public class GuestMenu {
                 case "2":
                     System.out.println("Saisir le numéro d'immatriculation : ");
                     String licensePlate = scanner.nextLine();
-                    if (LicencePlateValidator.isValidLicensePlate(licensePlate)) {
-                        System.out.println("Immatriculation " + licensePlate);
-                        //Chercher si une réservation existe pour cette immatriculation
-                        if (vehiculeService.isLicensePlateInDatabase(licensePlate)) {
-                            Long vehiculeId = vehiculeService.getVehiculeIdByLicensePlate(licensePlate);
-                            List<Reservation> reservations = reservationService.getReservationsByVehiculeId(vehiculeId);
-                            //Vérifier si une réservation est imminente
-                            Reservation imminentReservation = reservationService.getReservationImminente(reservations);
-                            if (imminentReservation == null) {
-                                System.out.println("Aucune réservation imminente pour le véhicule " + licensePlate);
-                                //TODO : Vérifier si une borne est disponible
+                    if (handleLicensePlate()) {
+                        Long vehiculeId = vehiculeService.getVehiculeIdByLicensePlate(licensePlate);
+                        List<Reservation> reservations = reservationService.getReservationsByVehiculeId(vehiculeId);
+                        //Vérifier si une réservation est imminente
+                        Reservation imminentReservation = reservationService.getReservationImminente(reservations);
+                        if (imminentReservation == null) {
+                            System.out.println("Aucune réservation imminente pour le véhicule " + licensePlate);
+                            //TODO : Vérifier si une borne est disponible
                                     //TODO : Proposer de réserver
                                         //faire un switch pour oui/non
                                         //si oui, menu de réservation
-                            } else {
-                                //Afficher la réservation imminente
-                                System.out.println(imminentReservation.toString()+"\n");
-                                System.out.println("Voulez-vous valider la présence ?");
-                                //TODO : Valider la présence
-                            }
                         } else {
-                            System.out.println("La plaque n'est pas reconnue.");
-                            System.out.println("Entrez votre numéro de téléphone (avec le préfixe) :");
-                            String phoneNumber = scanner.nextLine();
-                            //TODO MAXIME : déplacer isValidPhoneNumber
+                            //Afficher la réservation imminente
+                            System.out.println(imminentReservation + "\n");
+                            System.out.println("Voulez-vous valider la présence pour cette réservation ?");
+                            //TODO : Valider la présence
+                        }
+                    } else {
+                        System.out.println("Entrez votre numéro de téléphone (avec le préfixe) :");
+                        String phoneNumber = scanner.nextLine();
+                        //TODO MAXIME : déplacer isValidPhoneNumber
                             if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
                                 //Vérifier si le numéro de téléphone est dans la base de données
                                 if (clientService.isPhoneNumberInDatabase(phoneNumber)){
@@ -99,9 +95,6 @@ public class GuestMenu {
                                 break;
                             }
                         }
-                    } else {
-                        System.out.println("Le numéro d'immatriculation n'est pas valide.");
-                    }
                     break;
                 case "3":
                     mainMenu.displayMainMenu();
@@ -120,6 +113,17 @@ public class GuestMenu {
         System.out.println("1. Entrer le numéro de réservation");
         System.out.println("2. Entrer le numéro d'immatriculation");
         System.out.println("3. Retour au menu principal");
+    }
+
+    private boolean handleLicensePlate(){
+        System.out.println("Saisir le numéro d'immatriculation : ");
+        String licensePlate = scanner.nextLine();
+        if (LicencePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicensePlateInDatabase(licensePlate)) {
+            return true;
+        } else {
+            System.out.println("La plaque n'est pas reconnue.");
+            return false;
+        }
     }
 
 }
