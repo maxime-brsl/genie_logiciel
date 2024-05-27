@@ -17,8 +17,8 @@ CREATE TABLE client (
     mail Text NOT NULL,
     adresse Text NOT NULL,
     numero_debit Text NOT NULL,
-    numero_tel Text NOT NULL,
-    mot_de_passe VARCHAR(50) NOT NULL
+    numero_tel Text NOT NULL UNIQUE,
+    mot_de_passe Text NOT NULL
 );
 
 CREATE TABLE vehicule (

@@ -40,8 +40,20 @@ public class InscriptionMenu {
                     String adresse = CompteValidator.saisirAdresse();
                     String numeroCarteCredit = CompteValidator.saisirNumeroCarteCredit();
                     String telephone = CompteValidator.saisirTelephone();
+                    while (clientService.isPhoneNumberInDatabase(telephone)){
+                        System.out.println("Le numéro de téléphone est déjà utilisé.");
+                        telephone = CompteValidator.saisirTelephone();
+                    }
                     String motDePasse = CompteValidator.saisirMotDePasse();
-                    Client client = new Client(nom, prenom, email, adresse, numeroCarteCredit, telephone, motDePasse);
+                    Client client = new Client();
+                    client.setNom(nom);
+                    client.setPrenom(prenom);
+                    client.setMail(email);
+                    client.setAdresse(adresse);
+                    client.setNumeroDebit(numeroCarteCredit);
+                    client.setNumeroTel(telephone);
+                    client.setMotDePasse(motDePasse);
+
                     clientService.addClient(client);
                     System.out.println("Inscription réussie !");
                     System.out.println("Voulez-vous ajouter une plaque d'immatriculation ? (O/N)");
@@ -60,8 +72,6 @@ public class InscriptionMenu {
                         vehicule.setClientId(idClient);
                         vehicule.setLoue(false);
                         vehiculeService.addVehicule(vehicule);
-                    } else {
-                        displayOptions();
                     }
                     break;
                 case "2":

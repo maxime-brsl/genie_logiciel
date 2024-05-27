@@ -39,4 +39,8 @@ public class Vehicule {
     public void setLoue(Boolean loue) {
         this.loue = loue;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
