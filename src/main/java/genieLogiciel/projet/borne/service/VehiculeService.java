@@ -11,6 +11,12 @@ public class VehiculeService {
     private VehiculeRepository vehiculeRepository;
 
     public boolean isLicensePlateInDatabase(String licensePlate) {
-        return vehiculeRepository.findByLicensePlate(licensePlate).isPresent();
+        return vehiculeRepository.findByplaqueImmatriculation(licensePlate).isPresent();
+    }
+
+    public Long getVehiculeIdByLicensePlate(String licensePlate) {
+        return vehiculeRepository.findByplaqueImmatriculation(licensePlate)
+                .map(vehicule -> vehicule.getId())
+                .orElse(null);
     }
 }

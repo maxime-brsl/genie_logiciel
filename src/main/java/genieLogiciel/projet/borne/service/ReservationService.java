@@ -5,6 +5,8 @@ import genieLogiciel.projet.borne.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservationService {
 
@@ -15,5 +17,10 @@ public class ReservationService {
     public Reservation getReservationById(int reservationId) {
         return reservationRepository.findById(reservationId).orElse(null);
     }
+
+    public List<Reservation> getReservationsByVehiculeId(Long vehiculeId) {
+        return reservationRepository.findByvehiculeId(vehiculeId);
+    }
+
 
 }

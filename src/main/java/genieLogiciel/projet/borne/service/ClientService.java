@@ -22,6 +22,6 @@ public class ClientService {
     }
 
     public boolean isPhoneNumberInDatabase(String phoneNumber) {
-        return clientRepository.findByPhoneNumber(phoneNumber).isPresent();
+        return clientRepository.findBynumeroTel(phoneNumber).isPresent();
     }
 }
