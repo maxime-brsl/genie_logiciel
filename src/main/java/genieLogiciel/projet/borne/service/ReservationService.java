@@ -19,7 +19,7 @@ public class ReservationService {
         return reservationRepository.findById(reservationId).orElse(null);
     }
 
-    public List<Reservation> getReservationsByVehiculeId(Long vehiculeId) {
+    public List<Reservation> getReservationsByVehiculeId(final Long vehiculeId) {
         return reservationRepository.findByvehiculeId(vehiculeId);
     }
 

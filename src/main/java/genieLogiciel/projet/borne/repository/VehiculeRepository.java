@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface VehiculeRepository extends JpaRepository<Vehicule, Integer> {
-    Optional<Vehicule> findByplaqueImmatriculation(String licensePlate);
+    Optional<Vehicule> findByplaqueImmatriculation(final String licensePlate);
 
 }

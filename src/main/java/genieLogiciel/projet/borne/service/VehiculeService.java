@@ -14,7 +14,7 @@ public class VehiculeService {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate).isPresent();
     }
 
-    public Long getVehiculeIdByLicensePlate(String licensePlate) {
+    public Long getVehiculeIdByLicensePlate(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate)
                 .map(vehicule -> vehicule.getId())
                 .orElse(null);

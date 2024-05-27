@@ -21,7 +21,7 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
-    public boolean isPhoneNumberInDatabase(String phoneNumber) {
+    public boolean isPhoneNumberInDatabase(final String phoneNumber) {
         return clientRepository.findBynumeroTel(phoneNumber).isPresent();
     }
 }

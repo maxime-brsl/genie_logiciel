@@ -3,6 +3,7 @@ package genieLogiciel.projet.borne.service;
 import genieLogiciel.projet.borne.entity.Reservation;
 import genieLogiciel.projet.borne.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,13 @@ public class ReservationServiceTests {
 
     @InjectMocks
     private ReservationService reservationService;
+
+    private LocalDateTime now;
+
+    @BeforeEach
+    public void setUp() {
+        now = LocalDateTime.now();
+    }
 
     @Test
     public void testGetReservationById() {
@@ -54,8 +62,8 @@ public class ReservationServiceTests {
     }
 
     @Test
+    @DisplayName("Une seule réservation, pas imminente")
     public void testGetReservationImminente_SingleReservationNotImminent() {
-        LocalDateTime now = LocalDateTime.now();
         Reservation reservation = new Reservation();
         reservation.setHeureDebut(now.plusMinutes(20));
 
@@ -67,8 +75,8 @@ public class ReservationServiceTests {
     }
 
     @Test
+    @DisplayName("Une seule réservation, imminente")
     public void testGetReservationImminente_SingleReservationImminent() {
-        LocalDateTime now = LocalDateTime.now();
         Reservation reservation = new Reservation();
         reservation.setHeureDebut(now.plusMinutes(5));
 
@@ -81,9 +89,8 @@ public class ReservationServiceTests {
     }
 
     @Test
+    @DisplayName("Plusieurs réservations imminentes")
     public void testGetReservationImminente_MultipleReservationsImminent() {
-        LocalDateTime now = LocalDateTime.now();
-
         Reservation imminentReservation = new Reservation();
         imminentReservation.setHeureDebut(now.plusMinutes(5));
 

@@ -24,7 +24,6 @@ public class Vehicule {
         return plaqueImmatriculation;
     }
 
-
     public Long getId() {
         return id;
     }

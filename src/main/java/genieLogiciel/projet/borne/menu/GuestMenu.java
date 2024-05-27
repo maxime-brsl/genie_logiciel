@@ -74,8 +74,9 @@ public class GuestMenu {
                                         //faire un switch pour oui/non
                                         //si oui, menu de réservation
                             } else {
-                                //Afficher les réservations imminentes
-                                System.out.println(imminentReservation.toString());
+                                //Afficher la réservation imminente
+                                System.out.println(imminentReservation.toString()+"\n");
+                                System.out.println("Voulez-vous valider la présence ?");
                                 //TODO : Valider la présence
                             }
                         } else {

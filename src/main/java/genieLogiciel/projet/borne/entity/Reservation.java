@@ -66,7 +66,7 @@ public class Reservation {
         return heureDebut;
     }
 
-    public void setHeureDebut(LocalDateTime localDateTime) {
+    public void setHeureDebut(final LocalDateTime localDateTime) {
         this.heureDebut = localDateTime;
     }
 }
