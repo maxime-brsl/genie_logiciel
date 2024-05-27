@@ -1,6 +1,5 @@
 package genieLogiciel.projet.borne.menu;
 
-import genieLogiciel.projet.borne.entity.Client;
 import genieLogiciel.projet.borne.entity.Reservation;
 import genieLogiciel.projet.borne.service.ClientService;
 import genieLogiciel.projet.borne.service.ReservationService;
@@ -9,8 +8,6 @@ import genieLogiciel.projet.borne.util.LicencePlateValidator;
 import genieLogiciel.projet.borne.util.PhoneNumberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,6 +28,7 @@ public class GuestMenu {
 
     @Autowired
     private ClientService clientService;
+
 
     Scanner scanner = new Scanner(System.in);
 
@@ -68,10 +66,13 @@ public class GuestMenu {
                             Long vehiculeId = vehiculeService.getVehiculeIdByLicensePlate(licensePlate);
                             List<Reservation> reservations = reservationService.getReservationsByVehiculeId(vehiculeId);
                             //Vérifier si une réservation est imminente
-                            Reservation imminentReservation = getReservationImminente(reservations);
+                            Reservation imminentReservation = reservationService.getReservationImminente(reservations);
                             if (imminentReservation == null) {
                                 System.out.println("Aucune réservation imminente pour le véhicule " + licensePlate);
-                                break;
+                                //TODO : Vérifier si une borne est disponible
+                                    //TODO : Proposer de réserver
+                                        //faire un switch pour oui/non
+                                        //si oui, menu de réservation
                             } else {
                                 //Afficher les réservations imminentes
                                 System.out.println(imminentReservation.toString());
@@ -79,9 +80,9 @@ public class GuestMenu {
                             }
                         } else {
                             System.out.println("La plaque n'est pas reconnue.");
-                            System.out.println("Entrez votre numéro de téléphone :");
+                            System.out.println("Entrez votre numéro de téléphone (avec le préfixe) :");
                             String phoneNumber = scanner.nextLine();
-                            //Vérifier si le numéro de téléphone est dans un format correct
+                            //TODO MAXIME : déplacer isValidPhoneNumber
                             if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
                                 //Vérifier si le numéro de téléphone est dans la base de données
                                 if (clientService.isPhoneNumberInDatabase(phoneNumber)){
@@ -120,15 +121,4 @@ public class GuestMenu {
         System.out.println("3. Retour au menu principal");
     }
 
-    private Reservation getReservationImminente(List<Reservation> reservations){
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime imminentTime = now.plusMinutes(10);
-        Reservation imminentReservation = null;
-        for (Reservation reservation : reservations) {
-            if (reservation.getHeureDebut().isAfter(now) && reservation.getHeureDebut().isBefore(imminentTime)) {
-                imminentReservation = reservation;
-            }
-        }
-        return imminentReservation;
-    }
 }
