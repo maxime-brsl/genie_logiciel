@@ -3,6 +3,7 @@ package genieLogiciel.projet.borne.service;
 import genieLogiciel.projet.borne.entity.Reservation;
 import genieLogiciel.projet.borne.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,10 +11,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,6 +27,13 @@ public class ReservationServiceTests {
 
     @InjectMocks
     private ReservationService reservationService;
+
+    private LocalDateTime now;
+
+    @BeforeEach
+    public void setUp() {
+        now = LocalDateTime.now();
+    }
 
     @Test
     public void testGetReservationById() {
@@ -43,5 +53,56 @@ public class ReservationServiceTests {
 
         Reservation retrievedReservation = reservationService.getReservationById(2);
         assertNull(retrievedReservation);
+    }
+
+    public void testGetReservationImminente_NoReservation() {
+        List<Reservation> reservations = new ArrayList<>();
+        Reservation imminentReservation = reservationService.getReservationImminente(reservations);
+        assertNull(imminentReservation);
+    }
+
+    @Test
+    @DisplayName("Une seule réservation, pas imminente")
+    public void testGetReservationImminente_SingleReservationNotImminent() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(20));
+
+        List<Reservation> reservations = new ArrayList<>();
+        reservations.add(reservation);
+
+        Reservation imminentReservation = reservationService.getReservationImminente(reservations);
+        assertNull(imminentReservation);
+    }
+
+    @Test
+    @DisplayName("Une seule réservation, imminente")
+    public void testGetReservationImminente_SingleReservationImminent() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(5));
+
+        List<Reservation> reservations = new ArrayList<>();
+        reservations.add(reservation);
+
+        Reservation imminentReservation = reservationService.getReservationImminente(reservations);
+        assertNotNull(imminentReservation);
+        assertEquals(reservation, imminentReservation);
+    }
+
+    @Test
+    @DisplayName("Plusieurs réservations imminentes")
+    public void testGetReservationImminente_MultipleReservationsImminent() {
+        Reservation imminentReservation = new Reservation();
+        imminentReservation.setHeureDebut(now.plusMinutes(5));
+
+        Reservation nonImminentReservation = new Reservation();
+        nonImminentReservation.setHeureDebut(now.plusMinutes(15));
+
+        List<Reservation> reservations = new ArrayList<>();
+        reservations.add(imminentReservation);
+        reservations.add(nonImminentReservation);
+
+        Reservation result = reservationService.getReservationImminente(reservations);
+        assertNotNull(result);
+        assertEquals(imminentReservation, result);
     }
 }

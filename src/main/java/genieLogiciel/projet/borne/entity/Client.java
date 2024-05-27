@@ -55,4 +55,5 @@ public class Client {
     }
 
     // Les autres getters et setters
+
 }

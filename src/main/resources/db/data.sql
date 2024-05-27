@@ -10,7 +10,6 @@ VALUES ('disponible');
 INSERT INTO reservation (client_id, vehicule_id, borne_id, heure_debut, heure_fin_prevue, etat_res)
 VALUES (1, 1, 1, '2020-01-01 00:00:00', '2020-01-01 01:00:00', 'disponible');
 
-
 INSERT INTO facture (reservation_id, montant)
 VALUES (1, 100.00);
 

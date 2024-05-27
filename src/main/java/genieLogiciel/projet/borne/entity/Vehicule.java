@@ -23,4 +23,8 @@ public class Vehicule {
     public String getPlaqueImmatriculation() {
         return plaqueImmatriculation;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

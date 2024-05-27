@@ -2,6 +2,7 @@ package genieLogiciel.projet.borne.entity;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -61,4 +62,11 @@ public class Reservation {
     }
 
 
+    public LocalDateTime getHeureDebut() {
+        return heureDebut;
+    }
+
+    public void setHeureDebut(final LocalDateTime localDateTime) {
+        this.heureDebut = localDateTime;
+    }
 }
