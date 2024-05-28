@@ -78,7 +78,7 @@ public class ConnectedMenu {
         System.out.println("1. Ajouter une plaque d'immatriculation");
         System.out.println("2. Consulter mon profil");
         System.out.println("3. Modifier mon profil");
-        System.out.println("4. Accéder à ma réservation");
+        System.out.println("4. Accéder à ma réservation avec mon numéro de réservation");
         System.out.println("5. Consulter mes réservations");
         System.out.println("6. Réserver un créneau");
         System.out.println("7. Retour menu principal");
