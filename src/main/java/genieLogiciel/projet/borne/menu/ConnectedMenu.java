@@ -8,7 +8,6 @@ import genieLogiciel.projet.borne.service.ReservationService;
 import genieLogiciel.projet.borne.service.VehiculeService;
 import genieLogiciel.projet.borne.util.CompteValidator;
 import genieLogiciel.projet.borne.util.LicencePlateValidator;
-import genieLogiciel.projet.borne.util.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import java.util.Scanner;
 public class ConnectedMenu {
 
     Scanner scanner = new Scanner(System.in);
-    ;
+
     @Autowired
     private ClientService clientService;
     @Autowired
@@ -58,7 +57,8 @@ public class ConnectedMenu {
                     }
                     break;
                 case "2":
-                    running = MenuUtil.menuPrincipal();
+                    mainMenu.displayMainMenu();
+                    running = false;
                     break;
                 default:
                     System.out.println("Option invalide, veuillez réessayer.");
