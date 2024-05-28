@@ -33,16 +33,6 @@ public class Client {
     @Column(name = "mot_de_passe")
     private String motDePasse;
 
-    public void setMotDePasse(final String motDePasse) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.motDePasse = passwordEncoder.encode(motDePasse);
-    }
-
-    public void setNumeroDebit(final String numeroDebit) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.numeroDebit = encoder.encode(numeroDebit);
-    }
-
     public void setAdresse(final String adresse) {
         this.adresse = adresse;
     }
@@ -67,11 +57,25 @@ public class Client {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getMotDePasse() {
         return motDePasse;
     }
 
+    public void setMotDePasse(final String motDePasse) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.motDePasse = passwordEncoder.encode(motDePasse);
+    }
+
     public String getNumeroDebit() {
         return numeroDebit;
+    }
+
+    public void setNumeroDebit(final String numeroDebit) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.numeroDebit = encoder.encode(numeroDebit);
     }
 }
