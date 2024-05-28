@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
@@ -36,9 +35,10 @@ public class ReservationServiceTests {
     }
 
     @Test
+    @DisplayName("Test getReservationById - réservation trouvée")
     public void testGetReservationById() {
         Reservation reservation = new Reservation();
-        reservation.setId(1);
+        reservation.setId(1L);
 
         when(reservationRepository.findById(1)).thenReturn(Optional.of(reservation));
 
@@ -48,6 +48,7 @@ public class ReservationServiceTests {
     }
 
     @Test
+    @DisplayName("Test getReservationById - réservation non trouvée")
     public void testGetReservationById_NotFound() {
         when(reservationRepository.findById(2)).thenReturn(Optional.empty());
 
@@ -55,6 +56,8 @@ public class ReservationServiceTests {
         assertNull(retrievedReservation);
     }
 
+    @Test
+    @DisplayName("Aucune réservation")
     public void testGetReservationImminente_NoReservation() {
         List<Reservation> reservations = new ArrayList<>();
         Reservation imminentReservation = reservationService.getReservationImminente(reservations);
@@ -104,5 +107,39 @@ public class ReservationServiceTests {
         Reservation result = reservationService.getReservationImminente(reservations);
         assertNotNull(result);
         assertEquals(imminentReservation, result);
+    }
+
+    @Test
+    @DisplayName("Plusieurs réservations, aucune imminente")
+    public void testGetReservationImminente_MultipleReservationsNotImminent() {
+        Reservation reservation1 = new Reservation();
+        reservation1.setHeureDebut(now.plusMinutes(15));
+
+        Reservation reservation2 = new Reservation();
+        reservation2.setHeureDebut(now.plusMinutes(20));
+
+        List<Reservation> reservations = new ArrayList<>();
+        reservations.add(reservation1);
+        reservations.add(reservation2);
+
+        Reservation result = reservationService.getReservationImminente(reservations);
+        assertNull(result);
+    }
+
+    @Test
+    @DisplayName("Test getReservationsByVehiculeId - vehicule id présent")
+    public void testGetReservationsByVehiculeIdPresent() {
+        long vehiculeId = 1L;
+        List<Reservation> reservations = new ArrayList<>();
+        when(reservationRepository.findByvehiculeId(vehiculeId)).thenReturn(reservations);
+        assertEquals(reservations, reservationService.getReservationsByVehiculeId(vehiculeId), "Les réservations devraient être renvoyées");
+    }
+
+    @Test
+    @DisplayName("Test getReservationsByVehiculeId - vehicule id absent")
+    public void testGetReservationsByVehiculeIdAbsent() {
+        long vehiculeId = 1L;
+        when(reservationRepository.findByvehiculeId(vehiculeId)).thenReturn(new ArrayList<>());
+        assertTrue(reservationService.getReservationsByVehiculeId(vehiculeId).isEmpty(), "Aucune réservation ne devrait être renvoyée");
     }
 }

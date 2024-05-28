@@ -1,6 +1,7 @@
 package genieLogiciel.projet.borne.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "client") // Spécifie le nom de la table dans la base de données
@@ -29,31 +30,52 @@ public class Client {
     @Column(name = "numero_tel")
     private String numeroTel;
 
-    // Getters et setters
-    public Long getId() {
-        return id;
+    @Column(name = "mot_de_passe")
+    private String motDePasse;
+
+    public void setAdresse(final String adresse) {
+        this.adresse = adresse;
     }
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
+    public void setMail(final String mail) {
+        this.mail = mail;
     }
 
     public void setNom(final String nom) {
         this.nom = nom;
     }
 
-    public String getMail() {
-        return mail;
+    public void setNumeroTel(final String numeroTel) {
+        this.numeroTel = numeroTel;
     }
 
-    public void setMail(final String email) {
-        this.mail = email;
+    public void setPrenom(final String prenom) {
+        this.prenom = prenom;
     }
 
-    // Les autres getters et setters
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(final String motDePasse) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.motDePasse = passwordEncoder.encode(motDePasse);
+    }
+
+    public String getNumeroDebit() {
+        return numeroDebit;
+    }
+
+    public void setNumeroDebit(final String numeroDebit) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.numeroDebit = encoder.encode(numeroDebit);
+    }
 }
