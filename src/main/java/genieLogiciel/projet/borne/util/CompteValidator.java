@@ -12,7 +12,7 @@ public class CompteValidator {
     public static String saisirNom() {
         System.out.println("Saisir le nom : ");
         String nom = scanner.nextLine();
-        while (StringValidator.isNom(nom)) {
+        while (!StringValidator.isNom(nom)) {
             System.out.println("Le nom doit être une chaîne de caractères alphabétiques et ne doit pas dépasser 50 caractères.");
             System.out.println("Saisir le nom : ");
             nom = scanner.nextLine();
@@ -23,7 +23,7 @@ public class CompteValidator {
     public static String saisirPrenom() {
         System.out.println("Saisir le prénom : ");
         String prenom = scanner.nextLine();
-        while (StringValidator.isNom(prenom)) {
+        while (!StringValidator.isNom(prenom)) {
             System.out.println("Le prénom doit être une chaîne de caractères alphabétiques et ne doit pas dépasser 50 caractères.");
             System.out.println("Saisir le prénom : ");
             prenom = scanner.nextLine();
