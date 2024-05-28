@@ -10,7 +10,6 @@ import genieLogiciel.projet.borne.util.CompteValidator;
 import genieLogiciel.projet.borne.util.LicencePlateValidator;
 import genieLogiciel.projet.borne.util.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -19,7 +18,7 @@ import java.util.Scanner;
 public class ConnectedMenu {
 
     Scanner scanner = new Scanner(System.in);
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    ;
     @Autowired
     private ClientService clientService;
     @Autowired
