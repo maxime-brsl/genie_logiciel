@@ -2,7 +2,6 @@ package genieLogiciel.projet.borne.entity;
 
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -13,7 +12,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reservation")
-    private long id;
+    private Long id;
 
     @Column(name = "client_id", nullable = false)
     private Integer clientId;

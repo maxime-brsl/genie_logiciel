@@ -18,7 +18,7 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public void addClient(Client client) {
+    public void addClient(final Client client) {
         clientRepository.save(client);
     }
 
@@ -26,7 +26,7 @@ public class ClientService {
         return clientRepository.findBynumeroTel(phoneNumber).isPresent();
     }
 
-    public boolean verifierMotDePasse(String phoneNumber, String motDePasseUtilisateur) {
+    public boolean verifierMotDePasse(final String phoneNumber, final String motDePasseUtilisateur) {
         Client client = clientRepository.findBynumeroTel(phoneNumber).orElse(null);
         if (client == null) {
             return false;

@@ -24,23 +24,23 @@ public class Vehicule {
         return plaqueImmatriculation;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setPlaqueImmatriculation(String plaqueImmatriculation) {
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setPlaqueImmatriculation(final String plaqueImmatriculation) {
         this.plaqueImmatriculation = plaqueImmatriculation;
     }
 
-    public void setClientId(long clientId) {
+    public void setClientId(final Long clientId) {
         this.clientId = clientId;
     }
 
-    public void setLoue(Boolean loue) {
+    public void setLoue(final Boolean loue) {
         this.loue = loue;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

@@ -46,7 +46,7 @@ public class CompteValidator {
         System.out.println("Saisir l'adresse (NUMERO RUE, CODE_POSTAL VILLE, PAYS): ");
         String adresse = scanner.nextLine();
         while (!StringValidator.isAdresse(adresse)) {
-            System.out.println("L'adresse doit est invalide.");
+            System.out.println("L'adresse est invalide.");
             System.out.println("Format de l'adresse : 13 rue Michel Ney, 54000 Nancy, France");
             System.out.println("Saisir l'adresse : ");
             adresse = scanner.nextLine();
@@ -67,7 +67,7 @@ public class CompteValidator {
     }
 
     public static String saisirTelephone() {
-        System.out.println("Saisir le numéro de téléphone (avec prefix): ");
+        System.out.println("Saisir le numéro de téléphone (avec prefixe): ");
         String telephone = scanner.nextLine();
         while (!PhoneNumberValidator.isValidPhoneNumber(telephone)) {
             System.out.println("Le numéro de téléphone est invalide.");
@@ -82,7 +82,7 @@ public class CompteValidator {
         System.out.println("Saisir le mot de passe : ");
         String motDePasse = scanner.nextLine();
         while (!StringValidator.isMotDePasse(motDePasse)) {
-            System.out.println("Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial parmis (@#$%^&+=().;,:!?*).");
+            System.out.println("Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial parmi (@#$%^&+=().;,:!?*).");
             System.out.println("Saisir le mot de passe : ");
             motDePasse = scanner.nextLine();
         }
