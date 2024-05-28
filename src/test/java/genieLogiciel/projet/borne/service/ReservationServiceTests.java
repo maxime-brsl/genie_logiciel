@@ -38,7 +38,7 @@ public class ReservationServiceTests {
     @DisplayName("Test getReservationById - réservation trouvée")
     public void testGetReservationById() {
         Reservation reservation = new Reservation();
-        reservation.setId(1);
+        reservation.setId(1L);
 
         when(reservationRepository.findById(1)).thenReturn(Optional.of(reservation));
 

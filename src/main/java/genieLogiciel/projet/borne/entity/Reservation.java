@@ -18,7 +18,7 @@ public class Reservation {
     private Integer clientId;
 
     @Column(name = "vehicule_id", nullable = false)
-    private Integer vehiculeId;
+    private Long vehiculeId;
 
     @Column(name = "borne_id", nullable = false)
     private Integer borneId;
@@ -56,7 +56,7 @@ public class Reservation {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -67,5 +67,9 @@ public class Reservation {
 
     public void setHeureDebut(final LocalDateTime localDateTime) {
         this.heureDebut = localDateTime;
+    }
+
+    public void setVehiculeId(final Long vehiculeId) {
+        this.vehiculeId = vehiculeId;
     }
 }
