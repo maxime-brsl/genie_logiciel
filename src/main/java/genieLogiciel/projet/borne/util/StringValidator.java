@@ -11,7 +11,7 @@ public class StringValidator {
     private static final String REGEX_NOM = "[a-zA-Z-]+";
     private static final String REGEX_ADRESSE = "^[0-9]+[a-zA-Z]?(?:TER|BIS)? [\\p{L}0-9' -]+, [0-9]{5} [\\p{L} -]+, [\\p{L} -]+$";
     private static final String REGEX_CARTE_CREDIT = "^\\d{16}\\s\\d{3}\\s(0[1-9]|1[0-2])/\\d{2}$";
-    private static final String REGEX_MOT_DE_PASSE = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.;,:!?*])(?=\\S+$).{8,}$";
+    private static final String REGEX_MOT_DE_PASSE = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=().;,:!?*])(?=\\S+$).{8,}$";
 
 
     /**
@@ -19,7 +19,7 @@ public class StringValidator {
      *
      * @param input le nom à vérifier
      * @return true si le nom est valide, false sinon
-    */
+     */
     public static boolean isNom(final String input) {
         return input != null && input.matches(REGEX_NOM) && !isMaxLength(input, MAX_LENGTH_NOM);
     }

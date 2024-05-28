@@ -53,21 +53,21 @@ public class Client {
         this.prenom = prenom;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getMotDePasse() {
-        return motDePasse;
+    public Long getId() {
+        return id;
     }
 
     public void setMotDePasse(final String motDePasse) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.motDePasse = passwordEncoder.encode(motDePasse);
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
     }
 
     public String getNumeroDebit() {
@@ -77,5 +77,13 @@ public class Client {
     public void setNumeroDebit(final String numeroDebit) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.numeroDebit = encoder.encode(numeroDebit);
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public String getNom() {
+        return nom;
     }
 }

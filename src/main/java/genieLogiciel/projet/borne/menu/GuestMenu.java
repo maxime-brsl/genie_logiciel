@@ -8,6 +8,7 @@ import genieLogiciel.projet.borne.util.LicencePlateValidator;
 import genieLogiciel.projet.borne.util.PhoneNumberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -62,7 +63,7 @@ public class GuestMenu {
                 case "2":
                     System.out.println("Saisir le numéro d'immatriculation : ");
                     String licensePlate = scanner.nextLine();
-                    if (handleLicensePlate()) {
+                    if (handleLicensePlate(licensePlate)) {
                         Long vehiculeId = vehiculeService.getVehiculeIdByLicensePlate(licensePlate);
                         List<Reservation> reservations = reservationService.getReservationsByVehiculeId(vehiculeId);
                         //Vérifier si une réservation est imminente
@@ -70,9 +71,9 @@ public class GuestMenu {
                         if (imminentReservation == null) {
                             System.out.println("Aucune réservation imminente pour le véhicule " + licensePlate);
                             //TODO : Vérifier si une borne est disponible
-                                    //TODO : Proposer de réserver
-                                        //faire un switch pour oui/non
-                                        //si oui, menu de réservation
+                            //TODO : Proposer de réserver
+                            //faire un switch pour oui/non
+                            //si oui, menu de réservation
                         } else {
                             //Afficher la réservation imminente
                             System.out.println(imminentReservation + "\n");
@@ -82,21 +83,21 @@ public class GuestMenu {
                     } else {
                         System.out.println("Entrez votre numéro de téléphone (avec le préfixe) :");
                         String phoneNumber = scanner.nextLine();
-                            if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
-                                //Vérifier si le numéro de téléphone est dans la base de données
-                                if (clientService.isPhoneNumberInDatabase(phoneNumber)){
-                                    //TODO : Vérifier si une est borne disponible
-                                    //TODO : Proposer de réserver directement ou en différé
-                                } else {
-                                    System.out.println("Numéro de téléphone inconnu.");
-                                    System.out.println("Veuillez vous inscrire : ");
-                                    inscriptionMenu.displayInscriptionMenu();
-                                }
+                        if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
+                            //Vérifier si le numéro de téléphone est dans la base de données
+                            if (clientService.isPhoneNumberInDatabase(phoneNumber)) {
+                                //TODO : Vérifier si une est borne disponible
+                                //TODO : Proposer de réserver directement ou en différé
                             } else {
-                                System.out.println("Numéro de téléphone invalide.");
-                                break;
+                                System.out.println("Numéro de téléphone inconnu.");
+                                System.out.println("Veuillez vous inscrire : ");
+                                inscriptionMenu.displayInscriptionMenu();
                             }
+                        } else {
+                            System.out.println("Numéro de téléphone invalide.");
+                            break;
                         }
+                    }
                     break;
                 case "3":
                     mainMenu.displayMainMenu();
@@ -117,9 +118,7 @@ public class GuestMenu {
         System.out.println("3. Retour au menu principal");
     }
 
-    private boolean handleLicensePlate(){
-        System.out.println("Saisir le numéro d'immatriculation : ");
-        String licensePlate = scanner.nextLine();
+    private boolean handleLicensePlate(String licensePlate) {
         if (LicencePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicensePlateInDatabase(licensePlate)) {
             return true;
         } else {

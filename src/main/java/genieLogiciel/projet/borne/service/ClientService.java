@@ -34,4 +34,8 @@ public class ClientService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(motDePasseUtilisateur, client.getMotDePasse());
     }
+
+    public Client getClientByPhoneNumber(final String phoneNumber) {
+        return clientRepository.findBynumeroTel(phoneNumber).orElse(null);
+    }
 }

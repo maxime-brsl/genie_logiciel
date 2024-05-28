@@ -63,7 +63,7 @@ public class InscriptionMenu {
                         System.out.println("Saisir le numéro d'immatriculation : ");
                         String licensePlate = scanner.nextLine();
                         while (!LicencePlateValidator.isValidLicensePlate(licensePlate)) {
-                            System.out.println("Le numéro d'immatriculation doit être valide.");
+                            System.out.println("Le numéro d'immatriculation n'est pas valide.");
                             System.out.println("Saisir le numéro d'immatriculation : ");
                             licensePlate = scanner.nextLine();
                         }
@@ -87,6 +87,6 @@ public class InscriptionMenu {
     public void displayOptions() {
         System.out.println("------ Menu inscription ------");
         System.out.println("1. Inscription");
-        System.out.println("2. Retour");
+        System.out.println("2. Retour au menu principal");
     }
 }

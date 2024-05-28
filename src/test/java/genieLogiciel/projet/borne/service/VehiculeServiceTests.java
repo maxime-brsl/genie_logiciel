@@ -63,7 +63,7 @@ public class VehiculeServiceTests {
     }
 
     @Test
-    @DisplayName("Test addVehicule")
+    @DisplayName("Test addVehicule - ajout d'un véhicule")
     void testAddVehicule() {
         Vehicule vehicule = new Vehicule();
         vehiculeService.addVehicule(vehicule);
