@@ -1,9 +1,18 @@
 package genieLogiciel.projet.borne.enums;
 
-public class EtatReservation {
+public enum EtatReservation {
+    EN_ATTENTE("en attente"),
+    EN_COURS("en cours"),
+    TERMINEE("terminée");
 
-    public static final String DISPONIBLE = "disponible";
-    public static final String INDISPONIBLE = "indisponible";
-    public static final String OCCUPEE = "occupée";
-    public static final String RESERVE = "réservée";
+    private final String value;
+
+    EtatReservation(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }

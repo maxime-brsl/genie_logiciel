@@ -1,5 +1,6 @@
 package genieLogiciel.projet.borne.entity;
 
+import genieLogiciel.projet.borne.enums.EtatReservation;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -15,16 +16,16 @@ public class Reservation {
     private Long id;
 
     @Column(name = "client_id", nullable = false)
-    private Integer clientId;
+    private Long clientId;
 
     @Column(name = "vehicule_id", nullable = false)
     private Long vehiculeId;
 
     @Column(name = "borne_id", nullable = false)
-    private Integer borneId;
+    private Long borneId;
 
     @Column(name = "facture_id")
-    private Integer factureId;
+    private Long factureId;
 
     @Column(name = "heure_debut", nullable = false)
     private LocalDateTime heureDebut;
@@ -35,8 +36,9 @@ public class Reservation {
     @Column(name = "heure_fin_reelle")
     private LocalDateTime heureFinReelle;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "etat_res", nullable = false)
-    private String etatReservation;
+    private EtatReservation etatReservation;
 
     @ManyToOne
     @JoinColumn(name = "vehicule_id", insertable = false, updatable = false)
@@ -52,7 +54,7 @@ public class Reservation {
                 "\nEtat de la reservation : " + etatReservation;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -71,5 +73,9 @@ public class Reservation {
 
     public void setVehiculeId(final Long vehiculeId) {
         this.vehiculeId = vehiculeId;
+    }
+
+    public void setClientId(Long id) {
+        this.clientId = id;
     }
 }
