@@ -1,6 +1,5 @@
 package genieLogiciel.projet.borne.menu;
 
-import genieLogiciel.projet.borne.entity.Borne;
 import genieLogiciel.projet.borne.entity.Reservation;
 import genieLogiciel.projet.borne.enums.EtatBorne;
 import genieLogiciel.projet.borne.enums.EtatReservation;
@@ -11,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
+/**
+ * Menu de validation de réservation
+ */
 @Service
 public class ValidationReservationMenu {
 
@@ -25,6 +27,10 @@ public class ValidationReservationMenu {
 
     Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Afficher le menu de validation de réservation
+     * @param reservation la réservation à valider
+     */
     public void displayValidateReservationMenu(Reservation reservation) {
         boolean running = true;
         while (running) {

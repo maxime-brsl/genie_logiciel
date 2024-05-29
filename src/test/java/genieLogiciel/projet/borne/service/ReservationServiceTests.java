@@ -180,4 +180,22 @@ public class ReservationServiceTests {
 
         assertFalse(reservationService.isReservationImminente(reservation));
     }
+
+    @Test
+    @DisplayName("Test isPeriodAttente - période d'attente")
+    public void testIsPeriodAttente() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now);
+
+        assertTrue(reservationService.isPeriodAttente(reservation));
+    }
+
+    @Test
+    @DisplayName("Test isPeriodAttente - pas dans la période d'attente")
+    public void testIsPeriodAttente_NotInPeriod() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(15));
+
+        assertFalse(reservationService.isPeriodAttente(reservation));
+    }
 }

@@ -10,7 +10,7 @@ public class VehiculeService {
     @Autowired
     private VehiculeRepository vehiculeRepository;
 
-    public boolean isLicensePlateInDatabase(String licensePlate) {
+    public boolean isLicensePlateInDatabase(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate).isPresent();
     }
 

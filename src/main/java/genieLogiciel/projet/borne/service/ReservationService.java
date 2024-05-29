@@ -36,20 +36,35 @@ public class ReservationService {
         return imminentReservation;
     }
 
+    /**
+     * Vérifier si une réservation est imminente
+     * @param reservations la liste des réservations
+     * @return true si une réservation est imminente, false sinon
+     */
     public boolean isReservationImminente(final Reservation reservations) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime imminentTime = now.plusMinutes(10);
         return reservations.getHeureDebut().isAfter(now) && reservations.getHeureDebut().isBefore(imminentTime) && reservations.getEtatReservation().equals(EtatReservation.EN_ATTENTE);
     }
 
-    public void changeReservationState(Reservation reservation, EtatReservation newState) {
+    /**
+     * Changer l'état d'une réservation
+     * @param reservation la réservation à modifier
+     * @param newState le nouvel état de la réservation
+     */
+    public void changeReservationState(final Reservation reservation, final EtatReservation newState) {
         reservation.setEtatReservation(newState);
         reservationRepository.save(reservation);
     }
 
+    /**
+     * Vérifier si la réservation est dans la période d'attente
+     * @param reservation la réservation à vérifier
+     * @return true si la réservation est dans la période d'attente, false sinon
+     */
     public boolean isPeriodAttente(final Reservation reservation){
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime imminentTime = now.plusMinutes(10);
-        return reservation.getHeureDebut().isAfter(now) && reservation.getHeureDebut().isBefore(imminentTime);
+        LocalDateTime attenteTime = reservation.getHeureDebut().plusMinutes(10);
+        return now.isAfter(reservation.getHeureDebut()) && now.isBefore(attenteTime);
     }
 }

@@ -1,5 +1,8 @@
 package genieLogiciel.projet.borne.enums;
 
+/**
+ * Enumération des états possibles d'une Borne
+ */
 public enum EtatReservation {
     EN_ATTENTE("EN_ATTENTE"),
     EN_COURS("EN_COURS"),

@@ -22,7 +22,7 @@ public class Borne {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -30,7 +30,7 @@ public class Borne {
         return etatBorne;
     }
 
-    public void setEtatBorne(EtatBorne etatBorne) {
+    public void setEtatBorne(final EtatBorne etatBorne) {
         this.etatBorne = etatBorne;
     }
 

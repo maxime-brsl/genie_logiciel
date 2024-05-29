@@ -1,5 +1,8 @@
 package genieLogiciel.projet.borne.enums;
 
+/**
+ * Enumération des états possibles d'une Borne
+ */
 public enum EtatBorne {
     DISPONIBLE("DISPONIBLE"),
     INDISPONIBLE("INDISPONIBLE"),
