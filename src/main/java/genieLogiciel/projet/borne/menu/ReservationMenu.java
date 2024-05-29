@@ -1,12 +1,10 @@
 package genieLogiciel.projet.borne.menu;
 
 import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.enums.EtatReservation;
 import genieLogiciel.projet.borne.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 @Service
@@ -14,6 +12,9 @@ public class ReservationMenu {
 
     @Autowired
     private MainMenu mainMenu;
+
+    @Autowired
+    private ValidationReservationMenu validationReservationMenu;
 
     @Autowired
     private ReservationService reservationService;
@@ -33,8 +34,7 @@ public class ReservationMenu {
                     break;
                 case "2":
                     if (reservationService.isReservationImminente(reservation)) {
-                        reservationService.changeReservationState(reservation, EtatReservation.EN_COURS);
-                        System.out.println("Votre présence a été validée.");
+                        validationReservationMenu.displayValidateReservationMenu(reservation);
                     } else {
                         mainMenu.displayMainMenu();
                         running = false;
