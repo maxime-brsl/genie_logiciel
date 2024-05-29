@@ -64,14 +64,11 @@ public class GuestMenu {
                         if (reservations.isEmpty()) {
                             System.out.println("Aucune réservation pour le véhicule " + licensePlate);
                             System.out.println("Voulez-vous vous connecter pour réserver un créneau ? (O/N)");
-                            switch (scanner.nextLine().toUpperCase()) {
-                                case "O":
-                                    connectedMenu.displayConnectedMenu();
-                                    break;
-                                case "N":
-                                    break;
-                                default:
-                                    System.out.println("Option invalide, veuillez réessayer.");
+                            if (scanner.nextLine().toUpperCase().equals("O")) {
+                                connectedMenu.displayConnectedMenu();
+                            } else {
+                                System.out.println("Option invalide, veuillez réessayer.");
+                                break;
                             }
                         }
                         //Vérifier si une réservation est imminente
