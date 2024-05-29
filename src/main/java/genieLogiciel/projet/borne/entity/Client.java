@@ -33,6 +33,17 @@ public class Client {
     @Column(name = "mot_de_passe")
     private String motDePasse;
 
+    public String toString() {
+        return "\n--------Client n°" + id + "----------" +
+                "\nNom : " + nom +
+                "\nPrénom : " + prenom +
+                "\nMail : " + mail +
+                "\nAdresse : " + adresse +
+                "\nNuméro de débit : XXXX-XXXX-XXXX" +
+                "\nNuméro de téléphone : " + numeroTel;
+    }
+
+
     public void setAdresse(final String adresse) {
         this.adresse = adresse;
     }
@@ -41,33 +52,25 @@ public class Client {
         this.mail = mail;
     }
 
-    public void setNom(final String nom) {
-        this.nom = nom;
-    }
-
     public void setNumeroTel(final String numeroTel) {
         this.numeroTel = numeroTel;
-    }
-
-    public void setPrenom(final String prenom) {
-        this.prenom = prenom;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setMotDePasse(final String motDePasse) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.motDePasse = passwordEncoder.encode(motDePasse);
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMotDePasse() {
         return motDePasse;
+    }
+
+    public void setMotDePasse(final String motDePasse) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.motDePasse = passwordEncoder.encode(motDePasse);
     }
 
     public String getNumeroDebit() {
@@ -83,7 +86,16 @@ public class Client {
         return prenom;
     }
 
+    public void setPrenom(final String prenom) {
+        this.prenom = prenom;
+    }
+
     public String getNom() {
         return nom;
     }
+
+    public void setNom(final String nom) {
+        this.nom = nom;
+    }
+
 }

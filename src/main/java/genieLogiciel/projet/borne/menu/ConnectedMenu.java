@@ -30,6 +30,8 @@ public class ConnectedMenu {
     private InscriptionMenu inscriptionMenu;
     @Autowired
     private ReservationMenu reservationMenu;
+    @Autowired
+    private CreateReservationMenu createReservationMenu;
 
     public void displayConnectedMenu() {
         boolean running = true;
@@ -102,7 +104,7 @@ public class ConnectedMenu {
                 vehiculeService.addVehicule(vehicule);
                 break;
             case "2":
-                // TODO US-009 JULIE
+                System.out.println(client.toString());
                 break;
             case "3":
                 // TODO US-010

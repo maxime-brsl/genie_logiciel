@@ -15,26 +15,21 @@ import java.util.Scanner;
 @Service
 public class GuestMenu {
 
+    Scanner scanner = new Scanner(System.in);
     @Autowired
     private MainMenu mainMenu;
-
     @Autowired
     private ReservationMenu reservationMenu;
-
     @Autowired
     private ReservationService reservationService;
-
     @Autowired
     private VehiculeService vehiculeService;
-
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private InscriptionMenu inscriptionMenu;
-
-
-    Scanner scanner = new Scanner(System.in);
+    @Autowired
+    private ConnectedMenu connectedMenu;
 
     public void displayGuestMenu() {
         boolean running = true;
@@ -66,6 +61,16 @@ public class GuestMenu {
                     if (handleLicensePlate(licensePlate)) {
                         Long vehiculeId = vehiculeService.getVehiculeIdByLicensePlate(licensePlate);
                         List<Reservation> reservations = reservationService.getReservationsByVehiculeId(vehiculeId);
+                        if (reservations.isEmpty()) {
+                            System.out.println("Aucune réservation pour le véhicule " + licensePlate);
+                            System.out.println("Voulez-vous vous connecter pour réserver un créneau ? (O/N)");
+                            if (scanner.nextLine().toUpperCase().equals("O")) {
+                                connectedMenu.displayConnectedMenu();
+                            } else {
+                                System.out.println("Option invalide, veuillez réessayer.");
+                                break;
+                            }
+                        }
                         //Vérifier si une réservation est imminente
                         Reservation imminentReservation = reservationService.getReservationImminente(reservations);
                         if (imminentReservation == null) {
