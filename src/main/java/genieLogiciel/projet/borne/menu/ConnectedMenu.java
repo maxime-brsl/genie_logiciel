@@ -30,8 +30,6 @@ public class ConnectedMenu {
     private InscriptionMenu inscriptionMenu;
     @Autowired
     private ReservationMenu reservationMenu;
-    @Autowired
-    private CreateReservationMenu createReservationMenu;
 
     public void displayConnectedMenu() {
         boolean running = true;

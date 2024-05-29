@@ -1,6 +1,7 @@
 package genieLogiciel.projet.borne.service;
 
 import genieLogiciel.projet.borne.entity.Reservation;
+import genieLogiciel.projet.borne.enums.EtatReservation;
 import genieLogiciel.projet.borne.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -82,6 +83,7 @@ public class ReservationServiceTests {
     public void testGetReservationImminente_SingleReservationImminent() {
         Reservation reservation = new Reservation();
         reservation.setHeureDebut(now.plusMinutes(5));
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
 
         List<Reservation> reservations = new ArrayList<>();
         reservations.add(reservation);
@@ -96,9 +98,11 @@ public class ReservationServiceTests {
     public void testGetReservationImminente_MultipleReservationsImminent() {
         Reservation imminentReservation = new Reservation();
         imminentReservation.setHeureDebut(now.plusMinutes(5));
+        imminentReservation.setEtatReservation(EtatReservation.EN_ATTENTE);
 
         Reservation nonImminentReservation = new Reservation();
         nonImminentReservation.setHeureDebut(now.plusMinutes(15));
+        nonImminentReservation.setEtatReservation(EtatReservation.EN_ATTENTE);
 
         List<Reservation> reservations = new ArrayList<>();
         reservations.add(imminentReservation);
@@ -141,5 +145,39 @@ public class ReservationServiceTests {
         long vehiculeId = 1L;
         when(reservationRepository.findByvehiculeId(vehiculeId)).thenReturn(new ArrayList<>());
         assertTrue(reservationService.getReservationsByVehiculeId(vehiculeId).isEmpty(), "Aucune réservation ne devrait être renvoyée");
+    }
+
+    @Test
+    @DisplayName("Test changeReservationState")
+    public void testChangeReservationState() {
+        Reservation reservation = new Reservation();
+        reservation.setId(1L);
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
+
+        EtatReservation newState = EtatReservation.EN_COURS;
+
+        reservationService.changeReservationState(reservation, newState);
+
+        assertEquals(newState, reservation.getEtatReservation());
+    }
+
+    @Test
+    @DisplayName("Test isReservationImminente - réservation imminente")
+    public void testIsReservationImminente() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(5));
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
+
+        assertTrue(reservationService.isReservationImminente(reservation));
+    }
+
+    @Test
+    @DisplayName("Test isReservationImminente - réservation non imminente")
+    public void testIsReservationImminente_NotImminent() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(15));
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
+
+        assertFalse(reservationService.isReservationImminente(reservation));
     }
 }

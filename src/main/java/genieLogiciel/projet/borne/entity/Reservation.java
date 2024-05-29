@@ -78,4 +78,16 @@ public class Reservation {
     public void setClientId(Long id) {
         this.clientId = id;
     }
+
+    public void setEtatReservation(EtatReservation etatReservation) {
+        this.etatReservation = etatReservation;
+    }
+
+    public EtatReservation getEtatReservation() {
+        return etatReservation;
+    }
+
+    public Long getBorneId() {
+        return borneId;
+    }
 }

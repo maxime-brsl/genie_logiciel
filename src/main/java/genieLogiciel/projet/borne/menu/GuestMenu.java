@@ -64,7 +64,7 @@ public class GuestMenu {
                         if (reservations.isEmpty()) {
                             System.out.println("Aucune réservation pour le véhicule " + licensePlate);
                             System.out.println("Voulez-vous vous connecter pour réserver un créneau ? (O/N)");
-                            if (scanner.nextLine().toUpperCase().equals("O")) {
+                            if (scanner.nextLine().equalsIgnoreCase("O")) {
                                 connectedMenu.displayConnectedMenu();
                             } else {
                                 System.out.println("Option invalide, veuillez réessayer.");
@@ -82,8 +82,11 @@ public class GuestMenu {
                         } else {
                             //Afficher la réservation imminente
                             System.out.println(imminentReservation + "\n");
-                            System.out.println("Voulez-vous valider la présence pour cette réservation ?");
-                            //TODO : Valider la présence
+                            System.out.println("Voulez-vous valider la présence pour cette réservation ? O/N");
+                            String choice2 = scanner.nextLine();
+                            if (choice2.equalsIgnoreCase("O")) {
+                                validationReservationMenu.displayValidateReservationMenu(imminentReservation);
+                            }
                         }
                     } else {
                         System.out.println("Entrez votre numéro de téléphone (avec le préfixe) :");
@@ -114,6 +117,9 @@ public class GuestMenu {
         }
         scanner.close();
     }
+
+    @Autowired
+    private ValidationReservationMenu validationReservationMenu;
 
 
     private void displayOptions() {

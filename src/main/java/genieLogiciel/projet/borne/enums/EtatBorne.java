@@ -1,13 +1,13 @@
 package genieLogiciel.projet.borne.enums;
 
-public enum EtatReservation {
-    EN_ATTENTE("EN_ATTENTE"),
-    EN_COURS("EN_COURS"),
-    TERMINEE("TERMINEE"),;
-
+public enum EtatBorne {
+    DISPONIBLE("DISPONIBLE"),
+    INDISPONIBLE("INDISPONIBLE"),
+    OCCUPEE("OCCUPEE"),
+    RESERVEE("RESERVEE");
     private final String value;
 
-    EtatReservation(String value) {
+    EtatBorne(String value) {
         this.value = value;
     }
 

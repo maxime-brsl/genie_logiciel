@@ -4,12 +4,6 @@ DROP TABLE IF EXISTS reservation CASCADE;
 DROP TABLE IF EXISTS borne CASCADE;
 DROP TABLE IF EXISTS facture CASCADE;
 
-DROP TYPE IF EXISTS enum_reservation;
-DROP TYPE IF EXISTS enum_borne;
-
-CREATE TYPE enum_reservation AS ENUM ('EN_ATTENTE', 'EN_COURS', 'TERMINEE');
-CREATE TYPE enum_borne AS ENUM ('DISPONIBLE', 'INDISPONIBLE', 'OCCUPEE', 'RESERVEE');
-
 CREATE TABLE client
 (
     id_client    SERIAL PRIMARY KEY,
@@ -34,7 +28,7 @@ CREATE TABLE borne
 (
     id_borne       SERIAL PRIMARY KEY,
     reservation_id INTEGER    NULL,
-    etat_borne     enum_borne NOT NULL
+    etat_borne     varchar(50) NOT NULL
 );
 
 
@@ -48,7 +42,7 @@ CREATE TABLE reservation
     heure_debut      TIMESTAMP        NOT NULL,
     heure_fin_prevue TIMESTAMP        NOT NULL,
     heure_fin_reelle TIMESTAMP,
-    etat_res         enum_reservation NOT NULL
+    etat_res         varchar(50) NOT NULL
 );
 
 CREATE TABLE facture
