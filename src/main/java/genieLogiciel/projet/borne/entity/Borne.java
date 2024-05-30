@@ -15,6 +15,7 @@ public class Borne {
     @Column(name = "reservation_id", nullable = false)
     private Integer reservationId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "etat_borne", nullable = false)
     private EtatBorne etatBorne;
 

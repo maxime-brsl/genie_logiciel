@@ -24,7 +24,11 @@ public class ReservationService {
         return reservationRepository.findByvehiculeId(vehiculeId);
     }
 
-    public Reservation getReservationImminente(final List<Reservation> reservations){
+    public List<Reservation> getReservationsByBorneId(Long borneId) {
+        return reservationRepository.findByBorneId(borneId);
+    }
+
+    public Reservation getReservationImminente(final List<Reservation> reservations) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime imminentTime = now.plusMinutes(10);
         Reservation imminentReservation = null;
@@ -67,4 +71,8 @@ public class ReservationService {
         LocalDateTime attenteTime = reservation.getHeureDebut().plusMinutes(10);
         return now.isAfter(reservation.getHeureDebut()) && now.isBefore(attenteTime);
     }
+    public void addReservation(final Reservation reservation) {
+        reservationRepository.save(reservation);
+    }
+
 }

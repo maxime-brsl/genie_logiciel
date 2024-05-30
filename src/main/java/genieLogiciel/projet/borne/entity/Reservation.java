@@ -62,7 +62,6 @@ public class Reservation {
         this.id = id;
     }
 
-
     public LocalDateTime getHeureDebut() {
         return heureDebut;
     }
@@ -79,15 +78,27 @@ public class Reservation {
         this.clientId = id;
     }
 
-    public void setEtatReservation(EtatReservation etatReservation) {
-        this.etatReservation = etatReservation;
-    }
-
     public EtatReservation getEtatReservation() {
         return etatReservation;
     }
 
+    public void setEtatReservation(EtatReservation etatReservation) {
+        this.etatReservation = etatReservation;
+    }
+
     public Long getBorneId() {
         return borneId;
+    }
+
+    public void setBorneId(Long borneId) {
+        this.borneId = borneId;
+    }
+
+    public LocalDateTime getHeureFinP() {
+        return heureFinPrevue;
+    }
+
+    public void setHeureFinP(LocalDateTime localDateTime) {
+        this.heureFinPrevue = localDateTime;
     }
 }

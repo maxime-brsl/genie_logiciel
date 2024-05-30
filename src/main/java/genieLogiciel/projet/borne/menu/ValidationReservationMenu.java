@@ -1,7 +1,6 @@
 package genieLogiciel.projet.borne.menu;
 
 import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.enums.EtatBorne;
 import genieLogiciel.projet.borne.enums.EtatReservation;
 import genieLogiciel.projet.borne.service.BorneService;
 import genieLogiciel.projet.borne.service.ReservationService;
@@ -16,19 +15,17 @@ import java.util.Scanner;
 @Service
 public class ValidationReservationMenu {
 
+    Scanner scanner = new Scanner(System.in);
     @Autowired
     private MainMenu mainMenu;
-
     @Autowired
     private ReservationService reservationService;
-
     @Autowired
     private BorneService borneService;
 
-    Scanner scanner = new Scanner(System.in);
-
     /**
      * Afficher le menu de validation de réservation
+     *
      * @param reservation la réservation à valider
      */
     public void displayValidateReservationMenu(Reservation reservation) {
@@ -46,7 +43,7 @@ public class ValidationReservationMenu {
                         //TODO US-012
                     }
                     long idBorne = reservation.getBorneId();
-                    borneService.changeBorneStateWithId(idBorne, EtatBorne.OCCUPEE);
+                    //borneService.changeBorneStateWithId(idBorne, EtatBorne.OCCUPEE);
                     System.out.println("Votre présence a été validée.");
                     mainMenu.displayMainMenu();
                     break;
@@ -60,6 +57,7 @@ public class ValidationReservationMenu {
         }
         scanner.close();
     }
+
     public void displayOptions() {
         System.out.println("------ Validation réservation ------");
         System.out.println("1. Valider ma présence");
