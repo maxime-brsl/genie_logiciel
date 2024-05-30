@@ -4,7 +4,7 @@ import genieLogiciel.projet.borne.entity.Reservation;
 import genieLogiciel.projet.borne.service.ClientService;
 import genieLogiciel.projet.borne.service.ReservationService;
 import genieLogiciel.projet.borne.service.VehiculeService;
-import genieLogiciel.projet.borne.util.LicencePlateValidator;
+import genieLogiciel.projet.borne.util.LicensePlateValidator;
 import genieLogiciel.projet.borne.util.PhoneNumberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,8 @@ public class GuestMenu {
     private InscriptionMenu inscriptionMenu;
     @Autowired
     private ConnectedMenu connectedMenu;
+    @Autowired
+    private ValidationReservationMenu validationReservationMenu;
 
     public void displayGuestMenu() {
         boolean running = true;
@@ -118,10 +120,6 @@ public class GuestMenu {
         scanner.close();
     }
 
-    @Autowired
-    private ValidationReservationMenu validationReservationMenu;
-
-
     private void displayOptions() {
         System.out.println("------ Menu invité ------");
         System.out.println("1. Entrer le numéro de réservation");
@@ -130,7 +128,7 @@ public class GuestMenu {
     }
 
     private boolean handleLicensePlate(String licensePlate) {
-        if (LicencePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicensePlateInDatabase(licensePlate)) {
+        if (LicensePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicensePlateInDatabase(licensePlate)) {
             return true;
         } else {
             System.out.println("La plaque n'est pas reconnue.");

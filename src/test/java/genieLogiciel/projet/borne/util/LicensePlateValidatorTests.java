@@ -8,35 +8,35 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LicencePlateValidatorTests {
+public class LicensePlateValidatorTests {
 
     @Test
     public void testIsValidLicensePlate_ValidPlate() {
         String validPlate = "AB123CD";
-        assertTrue(LicencePlateValidator.isValidLicensePlate(validPlate));
+        assertTrue(LicensePlateValidator.isValidLicensePlate(validPlate));
     }
 
     @Test
     public void testIsValidLicensePlate_InvalidPlate() {
         String invalidPlate = "Invalid";
-        assertFalse(LicencePlateValidator.isValidLicensePlate(invalidPlate));
+        assertFalse(LicensePlateValidator.isValidLicensePlate(invalidPlate));
     }
 
     @Test
     public void testIsValidLicensePlate_NullPlate() {
-        assertFalse(LicencePlateValidator.isValidLicensePlate(null));
+        assertFalse(LicensePlateValidator.isValidLicensePlate(null));
     }
 
     @Test
     public void testIsValidLicensePlate_EmptyPlate() {
         String emptyPlate = "";
-        assertFalse(LicencePlateValidator.isValidLicensePlate(emptyPlate));
+        assertFalse(LicensePlateValidator.isValidLicensePlate(emptyPlate));
     }
 
     @Test
     public void testIsValidLicensePlate_LowerCasePlate() {
         String lowerCasePlate = "ab123cd";
-        assertTrue(LicencePlateValidator.isValidLicensePlate(lowerCasePlate));
+        assertTrue(LicensePlateValidator.isValidLicensePlate(lowerCasePlate));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class LicencePlateValidatorTests {
         };
 
         for (String plate : nonLatinCharacters) {
-            assertFalse(LicencePlateValidator.isValidLicensePlate(plate));
+            assertFalse(LicensePlateValidator.isValidLicensePlate(plate));
         }
     }
 
@@ -98,7 +98,7 @@ public class LicencePlateValidatorTests {
         specialCharacters.add("AB123CD`");
 
         for (String plate : specialCharacters) {
-            assertFalse(LicencePlateValidator.isValidLicensePlate(plate));
+            assertFalse(LicensePlateValidator.isValidLicensePlate(plate));
         }
     }
 }

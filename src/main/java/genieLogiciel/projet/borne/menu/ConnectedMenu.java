@@ -7,7 +7,7 @@ import genieLogiciel.projet.borne.service.ClientService;
 import genieLogiciel.projet.borne.service.ReservationService;
 import genieLogiciel.projet.borne.service.VehiculeService;
 import genieLogiciel.projet.borne.util.CompteValidator;
-import genieLogiciel.projet.borne.util.LicencePlateValidator;
+import genieLogiciel.projet.borne.util.LicensePlateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,8 @@ public class ConnectedMenu {
     private InscriptionMenu inscriptionMenu;
     @Autowired
     private ReservationMenu reservationMenu;
+    @Autowired
+    private CreateReservationMenu createReservationMenu;
 
     public void displayConnectedMenu() {
         boolean running = true;
@@ -90,7 +92,7 @@ public class ConnectedMenu {
                 Vehicule vehicule = new Vehicule();
                 System.out.println("Saisir le numéro d'immatriculation : ");
                 String licensePlate = scanner.nextLine();
-                while (!LicencePlateValidator.isValidLicensePlate(licensePlate)) {
+                while (!LicensePlateValidator.isValidLicensePlate(licensePlate)) {
                     System.out.println("Le numéro d'immatriculation n'est pas valide.");
                     System.out.println("Saisir le numéro d'immatriculation : ");
                     licensePlate = scanner.nextLine();
@@ -117,7 +119,7 @@ public class ConnectedMenu {
                 // TODO US-018
                 break;
             case "6":
-                // TODO US-007
+                createReservationMenu.displayCreateReservationMenu(client);
                 break;
             case "7":
                 mainMenu.displayMainMenu();
