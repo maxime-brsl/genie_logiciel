@@ -3,7 +3,6 @@ package genieLogiciel.projet.borne.menu;
 import genieLogiciel.projet.borne.entity.Borne;
 import genieLogiciel.projet.borne.entity.Client;
 import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.enums.EtatReservation;
 import genieLogiciel.projet.borne.service.BorneService;
 import genieLogiciel.projet.borne.service.ReservationService;
 import genieLogiciel.projet.borne.service.VehiculeService;
@@ -44,7 +43,8 @@ public class CreateReservationMenu {
             switch (choice) {
                 case "1":
                     LocalDateTime chosenDateStart = chooseTimeSlot();
-                    Map<LocalDateTime, List<Long>> creneaux = findAvailableReservations(chosenDateStart, bornes);
+                    Map<LocalDateTime, List<Long>> creneaux = borneService.findAvailableDates(chosenDateStart, bornes);
+
                     chooseReservation(creneaux, client);
                     break;
                 case "2":
@@ -68,7 +68,6 @@ public class CreateReservationMenu {
      * Choisir un créneau horaire pour la réservation
      * on affiche les jours à la semaine et on divise en deux par plage horaire pour limiter l'affichage
      *
-     * @return
      */
     public LocalDateTime chooseTimeSlot() {
         LocalDateTime today = LocalDateTime.now();
@@ -103,35 +102,6 @@ public class CreateReservationMenu {
     }
 
     /**
-     * Trouver les créneaux disponibles pour une date donnée
-     *
-     * @param start  Date de début
-     * @param bornes Liste des bornes qui seront dispo à cette date
-     * @return
-     */
-    public Map<LocalDateTime, List<Long>> findAvailableReservations(LocalDateTime start, List<Borne> bornes) {
-        //Création de la plage horaire pour afficher les créneaux disponibles
-        LocalDateTime end = start.plusHours(12);
-        System.out.println("Créneaux disponibles pour le " + start.format(DateTimeFormatter.ofPattern("EEEE dd MMM")) + " :");
-
-        Map<LocalDateTime, List<Long>> creneaux = new HashMap<>();
-
-        // Parcours des heures entre dateDebut et dateFin
-        for (LocalDateTime current = start; !current.isAfter(end); current = current.plusHours(1)) {
-            List<Long> bornesAvailable = new ArrayList<>();
-
-            // Vérification de la disponibilité des bornes pour l'heure actuelle
-            for (Borne borne : bornes) {
-                if (!borneService.hasReservationAtCurrentTime(borne.getId(), current)) {
-                    bornesAvailable.add(borne.getId());
-                }
-            }
-            creneaux.put(current, bornesAvailable);
-        }
-        return creneaux;
-    }
-
-    /**
      * Choisir une réservation parmi les créneaux disponibles
      *
      * @param creneaux Map des créneaux disponibles : date + bornes dispo à cette date
@@ -153,6 +123,7 @@ public class CreateReservationMenu {
 
         System.out.println("Entrez le nombre du créneau que vous souhaitez réserver : ");
         System.out.println("Entrez un autre chiffre pour annuler.");
+        Scanner scanner = new Scanner(System.in);
         int choice = -1;
         if (scanner.hasNextInt()) {
             choice = scanner.nextInt();
@@ -163,11 +134,34 @@ public class CreateReservationMenu {
             scanner.next();
             return;
         }
+        Map.Entry<LocalDateTime, List<Long>> chosenEntry = new ArrayList<>(creneaux.entrySet()).get(choice);
+        String LicensePlate = inputLicensePlate(client);
+        Reservation reservation = addReservation(client, LicensePlate, chosenEntry);
+        reservationService.addReservation(reservation);
+        System.out.println("Créneau réservé avec succès !");
+        System.out.println(reservation);
+        reserveAdditionalHour(reservation);
+    }
 
-        Map.Entry<LocalDateTime, List<Long>> chosenEntry = creneauxList.get(choice);
+    private void reserveAdditionalHour(Reservation reservation) {
+        System.out.println("Voulez-vous réserver une heure supplémentaire ? (O/N)");
+        while (scanner.nextLine().equalsIgnoreCase("O")) {
+            System.out.println("Nous regardons si la borne est disponible pour le créneau suivant.");
+            if (borneService.hasReservationAtCurrentTime(reservation.getBorneId(), reservation.getHeureFinP().plusHours(1))) {
+                System.out.println("Aucune borne disponible pour le créneau suivant.");
+                return;
+            } else {
+                reservation.setHeureFinP(reservation.getHeureFinP().plusHours(1));
+                System.out.println("Créneau réservé avec succès !");
+                System.out.println(reservation);
+            }
+            System.out.println("Voulez-vous réserver une heure supplémentaire ? (O/N)");
+        }
+    }
 
+    private String inputLicensePlate(Client client) {
         System.out.println("Saisir le numéro d'immatriculation pour la réservation : ");
-        scanner.nextLine(); // Clear buffer
+        scanner.nextLine();
         String licensePlate = scanner.nextLine();
 
         while (!LicensePlateValidator.isValidLicensePlate(licensePlate)) {
@@ -183,53 +177,17 @@ public class CreateReservationMenu {
                 vehiculeService.addLicensePlateToVehicule(licensePlate, client);
             }
         }
+        return licensePlate;
+    }
+
+    private Reservation addReservation(Client client, String LicensePlate, Map.Entry<LocalDateTime, List<Long>> chosenEntry) {
         Long idClient = client.getId();
-        Long idVehicule = vehiculeService.getVehiculeIdByLicensePlate(licensePlate);
+        Long idVehicule = vehiculeService.getVehiculeIdByLicensePlate(LicensePlate);
         Long idBorne = borneService.getBorneIdOptimal(chosenEntry.getValue(), chosenEntry.getKey());
         LocalDateTime startReservation = chosenEntry.getKey();
 
-        Reservation reservation = createReservation(idClient, idVehicule, idBorne, startReservation);
+        Reservation reservation = new Reservation(idClient, idVehicule, idBorne, startReservation);
         reservationService.addReservation(reservation);
-        System.out.println("Créneau réservé avec succès !");
-        System.out.println(reservation);
-
-
-        //Gérer un créneau de + d'une heure
-        System.out.println("Voulez-vous réserver une heure supplémentaire ? (O/N)");
-
-        while (scanner.nextLine().equalsIgnoreCase("O")) {
-            System.out.println("Nous regardons si la borne est disponible pour le créneau suivant.");
-            if (borneService.hasReservationAtCurrentTime(idBorne, startReservation.plusHours(1))) {
-                System.out.println("Aucune borne disponible pour le créneau suivant.");
-                return;
-            } else {
-                reservation.setHeureFinP(reservation.getHeureFinP().plusHours(1));
-                System.out.println("Créneau réservé avec succès !");
-                System.out.println(reservation);
-            }
-            System.out.println("Voulez-vous réserver une heure supplémentaire ? (O/N)");
-        }
-    }
-
-    /**
-     * Créer une réservation
-     *
-     * @param clientId   Id du client
-     * @param vehiculeId Id du véhicule
-     * @param borneId    Id de la borne
-     * @param start      Date de début de la réservation
-     */
-    private Reservation createReservation(Long clientId, Long vehiculeId, Long borneId, LocalDateTime start) {
-        Reservation reservation = new Reservation();
-        reservation.setClientId(clientId);
-        reservation.setVehiculeId(vehiculeId);
-        reservation.setBorneId(borneId);
-        reservation.setHeureDebut(start);
-        reservation.setHeureFinP(start.plusHours(1));
-        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
-
         return reservation;
     }
-
-
 }

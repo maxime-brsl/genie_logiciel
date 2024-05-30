@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class BorneService {
@@ -81,16 +81,15 @@ public class BorneService {
     public int calculateGapNextReservation(Long borneId, LocalDateTime start) {
         List<Reservation> reservations = reservationRepository.findByBorneId(borneId);
 
-        // Trier les réservations par heureDebut
         List<Reservation> sortedReservations = reservations.stream()
                 .sorted(Comparator.comparing(Reservation::getHeureDebut))
                 .toList();
 
-        int gap = Integer.MAX_VALUE; // Initialiser à -1 pour indiquer qu'aucune réservation n'a été trouvée
+        int gap = Integer.MAX_VALUE;
         for (Reservation reservation : sortedReservations) {
             if (reservation.getHeureDebut().isAfter(start)) {
                 gap = reservation.getHeureDebut().getHour() - start.getHour();
-                break; // Sortir de la boucle une fois que la prochaine réservation est trouvée
+                break;
             }
         }
         return gap;
@@ -119,5 +118,31 @@ public class BorneService {
             }
         }
         return borneIdOptimal;
+    }
+
+    /**
+     * Trouver les créneaux disponibles pour une date donnée
+     *
+     * @param start  Date de début
+     * @param bornes Liste des bornes qui seront dispo à cette date
+     * @return Map des créneaux disponibles : date + bornes dispo à cette date
+     */
+    public Map<LocalDateTime, List<Long>> findAvailableDates(LocalDateTime start, List<Borne> bornes) {
+        LocalDateTime end = start.plusHours(12);
+        System.out.println("Créneaux disponibles pour le " + start.format(DateTimeFormatter.ofPattern("EEEE dd MMM")) + " :");
+
+        Map<LocalDateTime, List<Long>> creneaux = new HashMap<>();
+
+        for (LocalDateTime current = start; !current.isAfter(end); current = current.plusHours(1)) {
+            List<Long> bornesAvailable = new ArrayList<>();
+
+            for (Borne borne : bornes) {
+                if (!hasReservationAtCurrentTime(borne.getId(), current)) {
+                    bornesAvailable.add(borne.getId());
+                }
+            }
+            creneaux.put(current, bornesAvailable);
+        }
+        return creneaux;
     }
 }

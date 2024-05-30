@@ -69,8 +69,9 @@ public class ReservationService {
     public boolean isPeriodAttente(final Reservation reservation){
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime attenteTime = reservation.getHeureDebut().plusMinutes(10);
-        return now.isAfter(reservation.getHeureDebut()) && now.isBefore(attenteTime);
+        return now.isEqual(reservation.getHeureDebut()) || (now.isAfter(reservation.getHeureDebut()) && now.isBefore(attenteTime));
     }
+
     public void addReservation(final Reservation reservation) {
         reservationRepository.save(reservation);
     }

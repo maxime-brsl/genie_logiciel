@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class BorneServiceTests {
+public class BorneServiceTests {
 
     @Mock
     private BorneRepository borneRepository;

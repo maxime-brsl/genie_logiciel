@@ -44,6 +44,19 @@ public class Reservation {
     @JoinColumn(name = "vehicule_id", insertable = false, updatable = false)
     private Vehicule vehicule;
 
+    public Reservation(Long clientId, Long vehiculeId, Long borneId, LocalDateTime start) {
+        setClientId(clientId);
+        setVehiculeId(vehiculeId);
+        setBorneId(borneId);
+        setHeureDebut(start);
+        setHeureFinP(start.plusHours(1));
+        setEtatReservation(EtatReservation.EN_ATTENTE);
+    }
+
+    public Reservation() {
+
+    }
+
     public String toString() {
         return "--------Reservation n°" + id + "----------" +
                 "\nPlaque de la voiture : " + (vehicule != null ? vehicule.getPlaqueImmatriculation() : "Non spécifiée") +

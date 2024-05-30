@@ -185,6 +185,7 @@ public class ReservationServiceTests {
     @DisplayName("Test isPeriodAttente - période d'attente")
     public void testIsPeriodAttente() {
         Reservation reservation = new Reservation();
+        LocalDateTime now = LocalDateTime.now();
         reservation.setHeureDebut(now);
 
         assertTrue(reservationService.isPeriodAttente(reservation));
