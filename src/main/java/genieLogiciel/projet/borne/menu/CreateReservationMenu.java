@@ -33,7 +33,11 @@ public class CreateReservationMenu {
     private ReservationService reservationService;
 
     public void displayCreateReservationMenu(final Client client) {
-        List<Borne> bornes = borneService.getAllBornes();
+        List<Borne> bornesTmp = borneService.getAllBornes();
+        List<Long> bornes = new ArrayList<>();
+        for (Borne borne : bornesTmp) {
+            bornes.add(borne.getId());
+        }
         boolean running = true;
         while (running) {
             displayOptions();
@@ -43,7 +47,7 @@ public class CreateReservationMenu {
             switch (choice) {
                 case "1":
                     LocalDateTime chosenDateStart = chooseTimeSlot();
-                    Map<LocalDateTime, List<Long>> creneaux = borneService.findAvailableDates(chosenDateStart, bornes);
+                    Map<LocalDateTime, List<Long>> creneaux = borneService.findAvailableDates(chosenDateStart, chosenDateStart.plusHours(12), bornes);
 
                     chooseReservation(creneaux, client);
                     break;
@@ -67,7 +71,6 @@ public class CreateReservationMenu {
     /**
      * Choisir un créneau horaire pour la réservation
      * on affiche les jours à la semaine et on divise en deux par plage horaire pour limiter l'affichage
-     *
      */
     public LocalDateTime chooseTimeSlot() {
         LocalDateTime today = LocalDateTime.now();
@@ -108,8 +111,9 @@ public class CreateReservationMenu {
      * @param client   Client qui fait la réservation
      */
     public void chooseReservation(Map<LocalDateTime, List<Long>> creneaux, Client client) {
+        List<Integer> impossible = new ArrayList<>();
         if (creneaux.isEmpty()) {
-            System.out.println("Aucune borne disponible pour ce créneau.");
+            System.out.println("Aucune borne disponible pour cette plage horaire.");
             return;
         }
         Map<LocalDateTime, List<Long>> sortedCreneaux = new TreeMap<>(creneaux);
@@ -118,7 +122,12 @@ public class CreateReservationMenu {
             Map.Entry<LocalDateTime, List<Long>> entry = creneauxList.get(i);
             System.out.println(i + ".");
             System.out.println("Créneau : " + entry.getKey().format(DateTimeFormatter.ofPattern("EEEE dd MMM HH:mm")));
-            System.out.println("Bornes disponibles : " + entry.getValue());
+            if (entry.getValue().isEmpty()) {
+                System.out.println("Aucune borne disponible.");
+                impossible.add(i);
+            } else {
+                System.out.println("Bornes disponibles : " + entry.getValue());
+            }
         }
 
         System.out.println("Entrez le nombre du créneau que vous souhaitez réserver : ");
@@ -127,16 +136,20 @@ public class CreateReservationMenu {
         int choice = -1;
         if (scanner.hasNextInt()) {
             choice = scanner.nextInt();
-            if (!(choice >= 0 && choice < creneaux.size())) {
+            if (!(choice >= 0 && choice < creneauxList.size())) {
+                return;
+            }
+            if (impossible.contains(choice)) {
+                System.out.println("Créneau impossible à réserver.");
                 return;
             }
         } else {
             scanner.next();
             return;
         }
-        Map.Entry<LocalDateTime, List<Long>> chosenEntry = new ArrayList<>(creneaux.entrySet()).get(choice);
+        Map.Entry<LocalDateTime, List<Long>> chosenEntry = creneauxList.get(choice);
         String LicensePlate = inputLicensePlate(client);
-        Reservation reservation = addReservation(client, LicensePlate, chosenEntry);
+        Reservation reservation = addReservationWithLicencePlate(client, LicensePlate, chosenEntry);
         reservationService.addReservation(reservation);
         System.out.println("Créneau réservé avec succès !");
         System.out.println(reservation);
@@ -180,7 +193,7 @@ public class CreateReservationMenu {
         return licensePlate;
     }
 
-    private Reservation addReservation(Client client, String LicensePlate, Map.Entry<LocalDateTime, List<Long>> chosenEntry) {
+    private Reservation addReservationWithLicencePlate(Client client, String LicensePlate, Map.Entry<LocalDateTime, List<Long>> chosenEntry) {
         Long idClient = client.getId();
         Long idVehicule = vehiculeService.getVehiculeIdByLicensePlate(LicensePlate);
         Long idBorne = borneService.getBorneIdOptimal(chosenEntry.getValue(), chosenEntry.getKey());

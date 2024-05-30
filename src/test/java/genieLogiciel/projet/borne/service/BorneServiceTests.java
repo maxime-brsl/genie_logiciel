@@ -13,10 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,6 +28,9 @@ public class BorneServiceTests {
 
     @InjectMocks
     private BorneService borneService;
+
+    @InjectMocks
+    private ReservationService reservationService;
 
 
     @BeforeEach
@@ -150,7 +150,7 @@ public class BorneServiceTests {
         assertEquals(1, gapBorne1);
         assertEquals(2, gapBorne2);
     }
-    
+
     @Test
     @DisplayName("Test calculateGapNextReservation - plusieurs bornes avec réservations et une sans réservation")
     void testCalculateGapNextReservationMultipleBornesWithAndWithoutReservations() {
@@ -216,5 +216,33 @@ public class BorneServiceTests {
         Long optimalBorneId = borneService.getBorneIdOptimal(bornes, start);
 
         assertEquals(borneId2, optimalBorneId);
+    }
+
+    @Test
+    @DisplayName("La fonction renvoie une map vide si la liste de bornes est vide")
+    public void testFindAvailableDatesWithEmptyBornes() {
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = LocalDateTime.now().plusHours(12);
+        List<Long> bornes = new ArrayList<>();
+        Map<LocalDateTime, List<Long>> result = borneService.findAvailableDates(start, end, bornes);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    @DisplayName("La fonction renvoie les bons créneaux disponibles pour une date et une liste de bornes données")
+    public void testFindAvailableDates() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 15, 8, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 15, 12, 0);
+        long borneId1 = 1L;
+        long borneId2 = 2L;
+        List<Long> bornes = List.of(borneId1, borneId2);
+        Map<LocalDateTime, List<Long>> expected = new HashMap<>();
+        expected.put(LocalDateTime.of(2022, 12, 15, 8, 0), Arrays.asList(1L, 2L));
+        expected.put(LocalDateTime.of(2022, 12, 15, 9, 0), Arrays.asList(1L, 2L));
+        expected.put(LocalDateTime.of(2022, 12, 15, 10, 0), Arrays.asList(1L, 2L));
+        expected.put(LocalDateTime.of(2022, 12, 15, 11, 0), Arrays.asList(1L, 2L));
+        expected.put(LocalDateTime.of(2022, 12, 15, 12, 0), Arrays.asList(1L, 2L));
+        Map<LocalDateTime, List<Long>> result = borneService.findAvailableDates(start, end, bornes);
+        assertEquals(expected, result);
     }
 }

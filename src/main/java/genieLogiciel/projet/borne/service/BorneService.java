@@ -50,7 +50,7 @@ public class BorneService {
      * @param borneId id de la Borne
      * @return
      */
-    public Borne getBorneById(Long borneId) {
+    public Borne getBorneById(final Long borneId) {
         return borneRepository.findById(borneId).orElse(null);
     }
 
@@ -61,7 +61,7 @@ public class BorneService {
      * @param current date actuelle
      * @return
      */
-    public boolean hasReservationAtCurrentTime(Long borneId, LocalDateTime current) {
+    public boolean hasReservationAtCurrentTime(final Long borneId, final LocalDateTime current) {
         List<Reservation> reservations = reservationRepository.findByBorneId(borneId);
         for (Reservation reservation : reservations) {
             if (reservation.getHeureDebut().isEqual(current)) {
@@ -78,7 +78,7 @@ public class BorneService {
      * @param start   date de début de la réservation
      * @return
      */
-    public int calculateGapNextReservation(Long borneId, LocalDateTime start) {
+    public int calculateGapNextReservation(final Long borneId, final LocalDateTime start) {
         List<Reservation> reservations = reservationRepository.findByBorneId(borneId);
 
         List<Reservation> sortedReservations = reservations.stream()
@@ -102,7 +102,7 @@ public class BorneService {
      * @param start  date de début de la réservation
      * @return
      */
-    public Long getBorneIdOptimal(List<Long> bornes, LocalDateTime start) {
+    public Long getBorneIdOptimal(final List<Long> bornes, final LocalDateTime start) {
         if (bornes.size() == 1) {
             return bornes.getFirst();
         }
@@ -121,24 +121,29 @@ public class BorneService {
     }
 
     /**
-     * Trouver les créneaux disponibles pour une date donnée
+     * Trouver les créneaux disponibles pour une plage horaire donnée
      *
-     * @param start  Date de début
-     * @param bornes Liste des bornes qui seront dispo à cette date
+     * @param start  Début de la plage horaire
+     * @param end    Fin de la plage horaire
+     * @param bornes Liste des bornes qui seront dispo à cette période
      * @return Map des créneaux disponibles : date + bornes dispo à cette date
      */
-    public Map<LocalDateTime, List<Long>> findAvailableDates(LocalDateTime start, List<Borne> bornes) {
-        LocalDateTime end = start.plusHours(12);
+    public Map<LocalDateTime, List<Long>> findAvailableDates(final LocalDateTime start, final LocalDateTime end, final List<Long> bornes) {
         System.out.println("Créneaux disponibles pour le " + start.format(DateTimeFormatter.ofPattern("EEEE dd MMM")) + " :");
 
+        if (bornes.isEmpty()) {
+            System.out.println("Aucune borne disponible pour cette plage horaire.");
+            return new HashMap<>();
+        }
+        
         Map<LocalDateTime, List<Long>> creneaux = new HashMap<>();
 
         for (LocalDateTime current = start; !current.isAfter(end); current = current.plusHours(1)) {
             List<Long> bornesAvailable = new ArrayList<>();
 
-            for (Borne borne : bornes) {
-                if (!hasReservationAtCurrentTime(borne.getId(), current)) {
-                    bornesAvailable.add(borne.getId());
+            for (Long borne : bornes) {
+                if (!hasReservationAtCurrentTime(borne, current)) {
+                    bornesAvailable.add(borne);
                 }
             }
             creneaux.put(current, bornesAvailable);
