@@ -110,7 +110,7 @@ public class CreateReservationMenu {
      * @param creneaux Map des créneaux disponibles : date + bornes dispo à cette date
      * @param client   Client qui fait la réservation
      */
-    public void chooseReservation(Map<LocalDateTime, List<Long>> creneaux, Client client) {
+    public void chooseReservation(final Map<LocalDateTime, List<Long>> creneaux, final Client client) {
         List<Integer> impossible = new ArrayList<>();
         if (creneaux.isEmpty()) {
             System.out.println("Aucune borne disponible pour cette plage horaire.");
@@ -156,7 +156,7 @@ public class CreateReservationMenu {
         reserveAdditionalHour(reservation);
     }
 
-    private void reserveAdditionalHour(Reservation reservation) {
+    private void reserveAdditionalHour(final Reservation reservation) {
         System.out.println("Voulez-vous réserver une heure supplémentaire ? (O/N)");
         while (scanner.nextLine().equalsIgnoreCase("O")) {
             System.out.println("Nous regardons si la borne est disponible pour le créneau suivant.");
@@ -172,7 +172,7 @@ public class CreateReservationMenu {
         }
     }
 
-    private String inputLicensePlate(Client client) {
+    private String inputLicensePlate(final Client client) {
         System.out.println("Saisir le numéro d'immatriculation pour la réservation : ");
         scanner.nextLine();
         String licensePlate = scanner.nextLine();
@@ -193,7 +193,7 @@ public class CreateReservationMenu {
         return licensePlate;
     }
 
-    private Reservation addReservationWithLicencePlate(Client client, String LicensePlate, Map.Entry<LocalDateTime, List<Long>> chosenEntry) {
+    private Reservation addReservationWithLicencePlate(final Client client, final String LicensePlate, final Map.Entry<LocalDateTime, List<Long>> chosenEntry) {
         Long idClient = client.getId();
         Long idVehicule = vehiculeService.getVehiculeIdByLicensePlate(LicensePlate);
         Long idBorne = borneService.getBorneIdOptimal(chosenEntry.getValue(), chosenEntry.getKey());

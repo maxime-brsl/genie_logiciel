@@ -26,7 +26,7 @@ public class VehiculeService {
                 .orElse(null);
     }
 
-    public void addVehicule(Vehicule vehicule) {
+    public void addVehicule(final Vehicule vehicule) {
         vehiculeRepository.save(vehicule);
     }
 
@@ -43,7 +43,7 @@ public class VehiculeService {
         }
 
         vehicule.setPlaqueImmatriculation(licensePlate);
-        long idClient = client.getId();
+        Long idClient = client.getId();
         vehicule.setClientId(idClient);
         System.out.println("Ce véhicule est-il loué ? (O/N)");
         if (scanner.nextLine().equalsIgnoreCase("O")) {

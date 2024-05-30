@@ -16,7 +16,7 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
 
 
-    public Reservation getReservationById(int reservationId) {
+    public Reservation getReservationById(final int reservationId) {
         return reservationRepository.findById(reservationId).orElse(null);
     }
 
@@ -24,7 +24,7 @@ public class ReservationService {
         return reservationRepository.findByvehiculeId(vehiculeId);
     }
 
-    public List<Reservation> getReservationsByBorneId(Long borneId) {
+    public List<Reservation> getReservationsByBorneId(final Long borneId) {
         return reservationRepository.findByBorneId(borneId);
     }
 
@@ -42,6 +42,7 @@ public class ReservationService {
 
     /**
      * Vérifier si une réservation est imminente
+     *
      * @param reservations la liste des réservations
      * @return true si une réservation est imminente, false sinon
      */
@@ -53,8 +54,9 @@ public class ReservationService {
 
     /**
      * Changer l'état d'une réservation
+     *
      * @param reservation la réservation à modifier
-     * @param newState le nouvel état de la réservation
+     * @param newState    le nouvel état de la réservation
      */
     public void changeReservationState(final Reservation reservation, final EtatReservation newState) {
         reservation.setEtatReservation(newState);
@@ -63,10 +65,11 @@ public class ReservationService {
 
     /**
      * Vérifier si la réservation est dans la période d'attente
+     *
      * @param reservation la réservation à vérifier
      * @return true si la réservation est dans la période d'attente, false sinon
      */
-    public boolean isPeriodAttente(final Reservation reservation){
+    public boolean isPeriodAttente(final Reservation reservation) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime attenteTime = reservation.getHeureDebut().plusMinutes(10);
         return now.isEqual(reservation.getHeureDebut()) || (now.isAfter(reservation.getHeureDebut()) && now.isBefore(attenteTime));
