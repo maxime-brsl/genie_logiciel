@@ -30,7 +30,7 @@ public class MainMenu {
                     ConnectedMenu.displayConnectedMenu();
                     break;
                 case "3":
-                    LOG.info("Merci d'avoir utilisé nos borne !");
+                    LOG.info("Merci d'avoir utilisé nos bornes !");
                     running = false;
                     break;
                 default:

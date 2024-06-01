@@ -64,10 +64,10 @@ public class Reservation {
                 --------Reservation n°%d----------
                 Plaque de la voiture : %s
                 Numéro de la borne : %d
-                Heure de debut : %s
-                Heure de fin prevue : %s
-                Heure de fin reelle : %s
-                Etat de la reservation : %s
+                Heure de début : %s
+                Heure de fin prévue : %s
+                Heure de fin réelle : %s
+                État de la reservation : %s
                 """.formatted(
                 id,
                 vehicule != null ? vehicule.getPlaqueImmatriculation() : "Non spécifiée",
