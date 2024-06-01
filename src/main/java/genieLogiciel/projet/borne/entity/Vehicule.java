@@ -1,4 +1,4 @@
-package genieLogiciel.projet.borne.entity;
+package genielogiciel.projet.borne.entity;
 
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package genieLogiciel.projet.borne;
+package genielogiciel.projet.borne;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -8,8 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Launcher implements CommandLineRunner {
 
+	private final Application application;
+
 	@Autowired
-	private Application application;
+	public Launcher(Application application) {
+		this.application = application;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Launcher.class, args);

@@ -1,6 +1,6 @@
-package genieLogiciel.projet.borne.repository;
+package genielogiciel.projet.borne.repository;
 
-import genieLogiciel.projet.borne.entity.Client;
+import genielogiciel.projet.borne.entity.Client;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ClientRepositoryTests {
+class ClientRepositoryTests {
 
     @Mock
     private ClientRepository clientRepository;

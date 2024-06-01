@@ -1,6 +1,6 @@
-package genieLogiciel.projet.borne.entity;
+package genielogiciel.projet.borne.entity;
 
-import genieLogiciel.projet.borne.enums.EtatReservation;
+import genielogiciel.projet.borne.enums.EtatReservation;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Table(name = "reservation")
 public class Reservation {
+
+    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,13 +60,23 @@ public class Reservation {
     }
 
     public String toString() {
-        return "--------Reservation n°" + id + "----------" +
-                "\nPlaque de la voiture : " + (vehicule != null ? vehicule.getPlaqueImmatriculation() : "Non spécifiée") +
-                "\nNuméro de la borne : " + borneId +
-                "\nHeure de debut : " + heureDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +
-                "\nHeure de fin prevue : " + heureFinPrevue.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +
-                "\nHeure de fin reelle : " + (heureFinReelle != null ? heureFinReelle.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "Non spécifiée") +
-                "\nEtat de la reservation : " + etatReservation;
+        return """
+                --------Reservation n°%d----------
+                Plaque de la voiture : %s
+                Numéro de la borne : %d
+                Heure de début : %s
+                Heure de fin prévue : %s
+                Heure de fin réelle : %s
+                État de la reservation : %s
+                """.formatted(
+                id,
+                vehicule != null ? vehicule.getPlaqueImmatriculation() : "Non spécifiée",
+                borneId,
+                heureDebut.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                heureFinPrevue.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                heureFinReelle != null ? heureFinReelle.format(DateTimeFormatter.ofPattern(DATE_FORMAT)) : "Non spécifiée",
+                etatReservation
+        );
     }
 
     public Long getId() {

@@ -1,10 +1,10 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Borne;
-import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.enums.EtatBorne;
-import genieLogiciel.projet.borne.repository.BorneRepository;
-import genieLogiciel.projet.borne.repository.ReservationRepository;
+import genielogiciel.projet.borne.entity.Borne;
+import genielogiciel.projet.borne.entity.Reservation;
+import genielogiciel.projet.borne.enums.EtatBorne;
+import genielogiciel.projet.borne.repository.BorneRepository;
+import genielogiciel.projet.borne.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class BorneServiceTests {
+class BorneServiceTests {
 
     @Mock
     private BorneRepository borneRepository;
@@ -220,7 +220,7 @@ public class BorneServiceTests {
 
     @Test
     @DisplayName("La fonction renvoie une map vide si la liste de bornes est vide")
-    public void testFindAvailableDatesWithEmptyBornes() {
+    void testFindAvailableDatesWithEmptyBornes() {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end = LocalDateTime.now().plusHours(12);
         List<Long> bornes = new ArrayList<>();
@@ -230,7 +230,7 @@ public class BorneServiceTests {
 
     @Test
     @DisplayName("La fonction renvoie les bons créneaux disponibles pour une date et une liste de bornes données")
-    public void testFindAvailableDates() {
+    void testFindAvailableDates() {
         LocalDateTime start = LocalDateTime.of(2022, 12, 15, 8, 0);
         LocalDateTime end = LocalDateTime.of(2022, 12, 15, 12, 0);
         long borneId1 = 1L;

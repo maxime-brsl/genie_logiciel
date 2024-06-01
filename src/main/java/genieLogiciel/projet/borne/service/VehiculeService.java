@@ -1,20 +1,28 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Client;
-import genieLogiciel.projet.borne.entity.Vehicule;
-import genieLogiciel.projet.borne.repository.VehiculeRepository;
-import genieLogiciel.projet.borne.util.LicensePlateValidator;
+import genielogiciel.projet.borne.entity.Client;
+import genielogiciel.projet.borne.entity.Vehicule;
+import genielogiciel.projet.borne.repository.VehiculeRepository;
+import genielogiciel.projet.borne.util.LicensePlateValidator;
+import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @Service
 public class VehiculeService {
-    Scanner scanner = new Scanner(System.in);
+
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger LOG = Logger.getLogger(String.valueOf(VehiculeService.class));
+
+    private final VehiculeRepository vehiculeRepository;
 
     @Autowired
-    private VehiculeRepository vehiculeRepository;
+    public VehiculeService(VehiculeRepository vehiculeRepository) {
+        this.vehiculeRepository = vehiculeRepository;
+    }
 
     public boolean isLicensePlateInDatabase(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate).isPresent();
@@ -22,7 +30,7 @@ public class VehiculeService {
 
     public Long getVehiculeIdByLicensePlate(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate)
-                .map(vehicule -> vehicule.getId())
+                .map(Vehicule::getId)
                 .orElse(null);
     }
 
@@ -33,11 +41,11 @@ public class VehiculeService {
     public void addLicensePlateToVehicule(String licensePlate, final Client client) {
         Vehicule vehicule = new Vehicule();
         if (licensePlate == null) {
-            System.out.println("Saisir le numéro d'immatriculation : ");
+            LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
             licensePlate = scanner.nextLine();
             while (!LicensePlateValidator.isValidLicensePlate(licensePlate)) {
-                System.out.println("Le numéro d'immatriculation n'est pas valide.");
-                System.out.println("Saisir le numéro d'immatriculation : ");
+                LOG.info(TextMenu.IMMATRICULATION_INVALIDE);
+                LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
                 licensePlate = scanner.nextLine();
             }
         }
@@ -45,13 +53,9 @@ public class VehiculeService {
         vehicule.setPlaqueImmatriculation(licensePlate);
         Long idClient = client.getId();
         vehicule.setClientId(idClient);
-        System.out.println("Ce véhicule est-il loué ? (O/N)");
-        if (scanner.nextLine().equalsIgnoreCase("O")) {
-            vehicule.setLoue(true);
-        } else {
-            vehicule.setLoue(false);
-        }
+        LOG.info("Ce véhicule est-il loué ? (O/N)");
+        vehicule.setLoue(scanner.nextLine().equalsIgnoreCase("O"));
         addVehicule(vehicule);
-        System.out.println("Véhicule ajouté avec succès !");
+        LOG.info("Véhicule ajouté avec succès !");
     }
 }

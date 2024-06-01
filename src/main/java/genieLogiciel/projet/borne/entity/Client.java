@@ -1,4 +1,4 @@
-package genieLogiciel.projet.borne.entity;
+package genielogiciel.projet.borne.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,13 +34,16 @@ public class Client {
     private String motDePasse;
 
     public String toString() {
-        return "\n--------Client n°" + id + "----------" +
-                "\nNom : " + nom +
-                "\nPrénom : " + prenom +
-                "\nMail : " + mail +
-                "\nAdresse : " + adresse +
-                "\nNuméro de débit : XXXX-XXXX-XXXX" +
-                "\nNuméro de téléphone : " + numeroTel;
+        return """
+                                
+                --------Client n°%d----------
+                Nom : %s
+                Prénom : %s
+                Mail : %s
+                Adresse : %s
+                Numéro de débit : XXXX-XXXX-XXXX
+                Numéro de téléphone : %s
+                """.formatted(id, nom, prenom, mail, adresse, numeroTel);
     }
 
 

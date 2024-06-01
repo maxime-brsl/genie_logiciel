@@ -1,53 +1,54 @@
-package genieLogiciel.projet.borne.menu;
+package genielogiciel.projet.borne.menu;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @Service
 public class MainMenu {
 
-    @Autowired
-    private GuestMenu guestMenu;
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger LOG = Logger.getLogger(String.valueOf(MainMenu.class));
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    MainMenu() {
+    }
 
-    Scanner scanner = new Scanner(System.in);
-    @Autowired
-    private ConnectedMenu connectedMenu;
-
-    public void displayMainMenu() {
+    public static void displayMainMenu() {
         boolean running = true;
         while (running) {
             displayOptions();
-            System.out.println("Choisissez une option : ");
+            LOG.info(TextMenu.CHOISIR_UNE_OPTION);
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    guestMenu.displayGuestMenu();
+                    GuestMenu.displayGuestMenu();
                     break;
                 case "2":
-                    connectedMenu.displayConnectedMenu();
+                    ConnectedMenu.displayConnectedMenu();
                     break;
                 case "3":
-                    System.out.println("Merci d'avoir utilisé nos borne !");
+                    LOG.info("Merci d'avoir utilisé nos bornes !");
                     running = false;
                     break;
                 default:
-                    System.out.println("Option invalide, veuillez réessayer.");
+                    LOG.info(TextMenu.OPTION_INVALIDE);
             }
         }
         scanner.close();
         System.exit(0);
     }
 
-    public void displayOptions() {
-        System.out.println("------ Menu principal ------");
-        System.out.println("1. Se connecter en tant qu'invité");
-        System.out.println("2. Se connecter");
-        System.out.println("3. Quitter");
+    public static void displayOptions() {
+        String menu = """
+
+                ------ Menu principal ------
+                1. Se connecter en tant qu'invité
+                2. Se connecter
+                3. Quitter
+                """;
+        LOG.info(menu);
     }
 }

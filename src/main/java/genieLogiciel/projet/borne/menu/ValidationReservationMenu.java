@@ -1,13 +1,16 @@
-package genieLogiciel.projet.borne.menu;
+package genielogiciel.projet.borne.menu;
 
-import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.enums.EtatReservation;
-import genieLogiciel.projet.borne.service.BorneService;
-import genieLogiciel.projet.borne.service.ReservationService;
+import genielogiciel.projet.borne.entity.Reservation;
+import genielogiciel.projet.borne.enums.EtatBorne;
+import genielogiciel.projet.borne.enums.EtatReservation;
+import genielogiciel.projet.borne.service.BorneService;
+import genielogiciel.projet.borne.service.ReservationService;
+import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  * Menu de validation de réservation
@@ -15,24 +18,27 @@ import java.util.Scanner;
 @Service
 public class ValidationReservationMenu {
 
-    Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger LOG = Logger.getLogger(String.valueOf(ValidationReservationMenu.class));
+    private static ReservationService reservationService;
+    private static BorneService borneService;
+
     @Autowired
-    private MainMenu mainMenu;
-    @Autowired
-    private ReservationService reservationService;
-    @Autowired
-    private BorneService borneService;
+    private ValidationReservationMenu(ReservationService reservationService, BorneService borneService) {
+        ValidationReservationMenu.reservationService = reservationService;
+        ValidationReservationMenu.borneService = borneService;
+    }
 
     /**
      * Afficher le menu de validation de réservation
      *
      * @param reservation la réservation à valider
      */
-    public void displayValidateReservationMenu(Reservation reservation) {
+    public static void displayValidateReservationMenu(Reservation reservation) {
         boolean running = true;
         while (running) {
             displayOptions();
-            System.out.println("Choisissez une option : ");
+            LOG.info(TextMenu.CHOISIR_UNE_OPTION);
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -43,24 +49,28 @@ public class ValidationReservationMenu {
                         //TODO US-012
                     }
                     long idBorne = reservation.getBorneId();
-                    //borneService.changeBorneStateWithId(idBorne, EtatBorne.OCCUPEE);
-                    System.out.println("Votre présence a été validée.");
-                    mainMenu.displayMainMenu();
+                    borneService.changeBorneStateWithId(idBorne, EtatBorne.OCCUPEE);
+                    LOG.info("Votre présence a été validée.");
+                    MainMenu.displayMainMenu();
                     break;
                 case "2":
-                    mainMenu.displayMainMenu();
+                    MainMenu.displayMainMenu();
                     running = false;
                     break;
                 default:
-                    System.out.println("Option invalide, veuillez réessayer.");
+                    LOG.info(TextMenu.OPTION_INVALIDE);
             }
         }
         scanner.close();
     }
 
-    public void displayOptions() {
-        System.out.println("------ Validation réservation ------");
-        System.out.println("1. Valider ma présence");
-        System.out.println("2. Retour au menu principal");
+    public static void displayOptions() {
+        String menu = """
+                               
+                 ------ Validation réservation ------
+                 1. Valider ma présence
+                 2.  %s
+                \s""".formatted(TextMenu.RETOUR_MENU_PRINCIPAL);
+        LOG.info(menu);
     }
 }

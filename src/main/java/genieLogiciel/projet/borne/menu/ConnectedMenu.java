@@ -1,43 +1,42 @@
-package genieLogiciel.projet.borne.menu;
+package genielogiciel.projet.borne.menu;
 
-import genieLogiciel.projet.borne.entity.Client;
-import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.entity.Vehicule;
-import genieLogiciel.projet.borne.service.ClientService;
-import genieLogiciel.projet.borne.service.ReservationService;
-import genieLogiciel.projet.borne.service.VehiculeService;
-import genieLogiciel.projet.borne.util.CompteValidator;
-import genieLogiciel.projet.borne.util.LicensePlateValidator;
+import genielogiciel.projet.borne.entity.Client;
+import genielogiciel.projet.borne.entity.Reservation;
+import genielogiciel.projet.borne.entity.Vehicule;
+import genielogiciel.projet.borne.service.ClientService;
+import genielogiciel.projet.borne.service.ReservationService;
+import genielogiciel.projet.borne.service.VehiculeService;
+import genielogiciel.projet.borne.util.CompteValidator;
+import genielogiciel.projet.borne.util.LicensePlateValidator;
+import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class ConnectedMenu {
 
-    Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger logger = Logger.getLogger(String.valueOf(ConnectedMenu.class));
+    private static ClientService clientService;
+    private static VehiculeService vehiculeService;
+    private static ReservationService reservationService;
 
     @Autowired
-    private ClientService clientService;
-    @Autowired
-    private VehiculeService vehiculeService;
-    @Autowired
-    private ReservationService reservationService;
-    @Autowired
-    private MainMenu mainMenu;
-    @Autowired
-    private InscriptionMenu inscriptionMenu;
-    @Autowired
-    private ReservationMenu reservationMenu;
-    @Autowired
-    private CreateReservationMenu createReservationMenu;
+    private ConnectedMenu(ClientService clientService, VehiculeService vehiculeService, ReservationService reservationService) {
+        ConnectedMenu.clientService = clientService;
+        ConnectedMenu.vehiculeService = vehiculeService;
+        ConnectedMenu.reservationService = reservationService;
+    }
 
-    public void displayConnectedMenu() {
+    public static void displayConnectedMenu() {
         boolean running = true;
         while (running) {
             displayOptions();
-            System.out.println("Choisissez une option : ");
+            logger.info(TextMenu.CHOISIR_UNE_OPTION);
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -47,54 +46,60 @@ public class ConnectedMenu {
                     boolean test = clientService.verifierMotDePasse(numeroTelephone, motDePasse);
                     if (test) {
                         Client client = clientService.getClientByPhoneNumber(numeroTelephone);
-                        System.out.println("Connexion réussie !");
+                        logger.info("Connexion réussie !");
                         displayOptionsConnected(client.getPrenom(), client.getNom());
                         running = choiceOptionsConnected(scanner.nextLine(), client);
                     } else {
-                        System.out.println("Identifiants incorrects, voulez-vous vous inscrire ? (O/N)");
+                        logger.info("Identifiants incorrects, voulez-vous vous inscrire ? (O/N)");
                         String inscription = scanner.nextLine();
                         if (inscription.equalsIgnoreCase("O")) {
-                            inscriptionMenu.displayInscriptionMenu();
+                            InscriptionMenu.displayInscriptionMenu();
                         }
                     }
                     break;
                 case "2":
-                    mainMenu.displayMainMenu();
+                    MainMenu.displayMainMenu();
                     running = false;
                     break;
                 default:
-                    System.out.println("Option invalide, veuillez réessayer.");
+                    logger.info(TextMenu.OPTION_INVALIDE);
             }
         }
         scanner.close();
     }
 
-    private void displayOptions() {
-        System.out.println("------ Menu de connexion ------");
-        System.out.println("1. Se connecter");
-        System.out.println("2. Retour menu principal");
+    private static void displayOptions() {
+        String menu = """
+                                
+                ------ Menu de connexion ------
+                1. Se connecter
+                2. Retour menu principal
+                """;
+        logger.info(menu);
     }
 
-    private void displayOptionsConnected(final String prenom, final String nom) {
-        System.out.println("------ Bienvenue " + prenom + " " + nom + " ! ------");
-        System.out.println("1. Ajouter une plaque d'immatriculation");
-        System.out.println("2. Consulter mon profil");
-        System.out.println("3. Modifier mon profil");
-        System.out.println("4. Accéder à ma réservation avec mon numéro de réservation");
-        System.out.println("5. Consulter mes réservations");
-        System.out.println("6. Réserver un créneau");
-        System.out.println("7. Retour menu principal");
+    private static void displayOptionsConnected(final String prenom, final String nom) {
+        String menu = """
+                ------ Bienvenue %s %s ! ------
+                1. Ajouter une plaque d'immatriculation
+                2. Consulter mon profil
+                3. Modifier mon profil
+                4. Accéder à ma réservation avec mon numéro de réservation
+                5. Consulter mes réservations
+                6. Réserver un créneau
+                7. Retour menu principal
+                """.formatted(prenom, nom);
+        logger.info(menu);
     }
 
-    private boolean choiceOptionsConnected(final String choice, final Client client) {
+    private static boolean choiceOptionsConnected(final String choice, final Client client) {
         switch (choice) {
             case "1":
                 Vehicule vehicule = new Vehicule();
-                System.out.println("Saisir le numéro d'immatriculation : ");
+                logger.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
                 String licensePlate = scanner.nextLine();
                 while (!LicensePlateValidator.isValidLicensePlate(licensePlate)) {
-                    System.out.println("Le numéro d'immatriculation n'est pas valide.");
-                    System.out.println("Saisir le numéro d'immatriculation : ");
+                    logger.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
                     licensePlate = scanner.nextLine();
                 }
                 vehicule.setPlaqueImmatriculation(licensePlate);
@@ -104,28 +109,35 @@ public class ConnectedMenu {
                 vehiculeService.addVehicule(vehicule);
                 break;
             case "2":
-                System.out.println(client.toString());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(client.toString());
+                }
                 break;
             case "3":
                 // TODO US-010
                 break;
             case "4":
-                System.out.println("Saisir le numéro de réservation : ");
-                int idReservation = scanner.nextInt();
-                Reservation reservation = reservationService.getReservationById(idReservation);
-                reservationMenu.displayReservationMenu(reservation);
+                logger.info(TextMenu.SAISIR_NUMERO_RESERVATION);
+                if (!scanner.hasNextInt()) {
+                    logger.info(TextMenu.RESERVATION_INVALIDE);
+                } else {
+                    int reservationId = scanner.nextInt();
+                    scanner.nextLine();
+                    Reservation reservation = reservationService.getReservationById(reservationId);
+                    ReservationMenu.displayReservationMenu(reservation);
+                }
                 break;
             case "5":
                 // TODO US-018
                 break;
             case "6":
-                createReservationMenu.displayCreateReservationMenu(client);
+                CreateReservationMenu.displayCreateReservationMenu(client);
                 break;
             case "7":
-                mainMenu.displayMainMenu();
+                MainMenu.displayMainMenu();
                 return false;
             default:
-                System.out.println("Option invalide, veuillez réessayer.");
+                logger.info(TextMenu.OPTION_INVALIDE);
         }
         return true;
     }

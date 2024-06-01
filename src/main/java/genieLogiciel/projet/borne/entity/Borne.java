@@ -1,6 +1,6 @@
-package genieLogiciel.projet.borne.entity;
+package genielogiciel.projet.borne.entity;
 
-import genieLogiciel.projet.borne.enums.EtatBorne;
+import genielogiciel.projet.borne.enums.EtatBorne;
 import jakarta.persistence.*;
 
 @Entity
