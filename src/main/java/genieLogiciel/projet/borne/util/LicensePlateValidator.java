@@ -1,54 +1,54 @@
-package genieLogiciel.projet.borne.util;
+package genielogiciel.projet.borne.util;
 
 public class LicensePlateValidator {
-    // Regex pour les plaques d'immatriculation de différents pays européens
-    final static String REGEX_ALBANIE = "[A-Z]{2}[0-9]{2}[A-Z]{1,2}";
-    final static String REGEX_ALLEMAGNE = "[A-Z]{1,3}-[A-Z]{1,2}-[0-9]{1,4}";
-    final static String REGEX_ANDORRE = "[0-9]{4}\\s[A-Z]{3}";
-    final static String REGEX_AUTRICHE = "[A-Z]{1,3}\\s[0-9]{1,4}";
-    final static String REGEX_BELGIQUE = "[0-9]{1,3}-[A-Z]{3}-[0-9]{3}";
-    final static String REGEX_BIELORUSSIE = "[0-9]{4}\\s[A-Z]{2}-[0-9]{1}";
-    final static String REGEX_BOSNIE_HERZEGOVINE = "[A-Z]{2}-[0-9]{1}-[A-Z]{2}-[0-9]{4}";
-    final static String REGEX_BULGARIE = "[A-Z]{2}\\s[0-9]{4}-[A-Z]{1,2}";
-    final static String REGEX_CHYPRE = "[A-Z]{3}\\s[0-9]{4}";
-    final static String REGEX_CROATIE = "[A-Z]{2}-[0-9]{2,3}-[A-Z]{1,2}";
-    final static String REGEX_DANEMARK = "[A-Z]{2}\\s[0-9]{2}\\s[0-9]{2}";
-    final static String REGEX_ESPAGNE = "[0-9]{4}\\s[A-Z]{3}";
-    final static String REGEX_ESTONIE = "[0-9]{3}-[A-Z]{3}";
-    final static String REGEX_FINLANDE = "[A-Z]{3}-[0-9]{3}";
-    final static String REGEX_FRANCE = "[A-Z]{2}-[0-9]{3}-[A-Z]{2}";
-    final static String REGEX_GRECE = "[A-Z]{2}-[0-9]{3}-[A-Z]{2}";
-    final static String REGEX_HONGRIE = "[A-Z]{3}-[0-9]{3}";
-    final static String REGEX_IRELANDE = "[0-9]{2}-[A-Z]{1,2}-[0-9]{1,4}";
-    final static String REGEX_ISLANDE = "[A-Z]{2}\\s[0-9]{3}";
-    final static String REGEX_ITALIE = "[A-Z]{2}[0-9]{3}[A-Z]{2}";
-    final static String REGEX_LETTONIE = "[A-Z]{2}-[0-9]{4}";
-    final static String REGEX_LIECHTENSTEIN = "[A-Z]{2}\\s[0-9]{4}";
-    final static String REGEX_LITUANIE = "[A-Z]{3}-[0-9]{3}";
-    final static String REGEX_LUXEMBOURG = "[0-9]{4}\\s[A-Z]{1,2}";
-    final static String REGEX_MACEDOINE = "[A-Z]{2}-[0-9]{3}-[A-Z]{2}";
-    final static String REGEX_MALTE = "[A-Z]{3}-[0-9]{4}";
-    final static String REGEX_MOLDAVIE = "[A-Z]{2}-[0-9]{3}-[A-Z]{2}";
-    final static String REGEX_MONACO = "[0-9]{2}\\s[A-Z]{1,2}\\s[0-9]{2}";
-    final static String REGEX_MONTENEGRO = "[A-Z]{2}-[0-9]{5}-[A-Z]{1,2}";
-    final static String REGEX_NORVEGE = "[A-Z]{2}\\s[0-9]{5}";
-    final static String REGEX_PAYS_BAS = "[0-9]{2}-[A-Z]{2}-[0-9]{2}";
-    final static String REGEX_POLOGNE = "[A-Z]{3}\\s[0-9]{4}";
-    final static String REGEX_PORTUGAL = "[0-9]{2}-[0-9]{2}-[A-Z]{2}-[0-9]{1}";
-    final static String REGEX_REP_TCHEQUE = "[0-9]{2}[A-Z]{2}\\s[0-9]{4}";
-    final static String REGEX_ROUMANIE = "[A-Z]{2}-[0-9]{3}-[A-Z]{3}";
-    final static String REGEX_ROYAUME_UNI = "[A-Z]{2}[0-9]{2}\\s[A-Z]{3}";
-    final static String REGEX_RUSSIE = "[0-9]{3}\\s[0-9]{3}";
-    final static String REGEX_SAINT_MARIN = "[A-Z]{1,2}\\s[0-9]{3}";
-    final static String REGEX_SERBIE = "[A-Z]{2}-[0-9]{3}-[A-Z]{2}";
-    final static String REGEX_SLOVAQUIE = "[A-Z]{2}[0-9]{2}[A-Z]{1,2}";
-    final static String REGEX_SLOVENIE = "[A-Z]{2}-[0-9]{2}-[A-Z]{2}";
-    final static String REGEX_SUEDE = "[A-Z]{3}\\s[0-9]{2}\\s[A-Z]{1}";
-    final static String REGEX_SUISSE = "[A-Z]{2}\\s[0-9]{4}";
-    final static String REGEX_UKRAINE = "[0-9]{2}-[0-9]{4}[A-Z]{2}";
-    final static String REGEX_VATICAN = "[0-9]{1,2}-[A-Z]{1,3}-[0-9]{1,2}";
 
-    final static String REGEX_EUROPE_PLATES =
+    // Regex pour les plaques d'immatriculation de différents pays européens
+    static final String REGEX_ALBANIE = "[A-Z]{2}\\d{2}[A-Z]{1,2}";
+    static final String REGEX_ALLEMAGNE = "[A-Z]{1,3}-[A-Z]{1,2}-\\d{1,4}";
+    static final String REGEX_ANDORRE = "\\d{4}\\s[A-Z]{3}";
+    static final String REGEX_AUTRICHE = "[A-Z]{1,3}\\s\\d{1,4}";
+    static final String REGEX_BELGIQUE = "\\d{1,3}-[A-Z]{3}-\\d{3}";
+    static final String REGEX_BIELORUSSIE = "\\d{4}\\s[A-Z]{2}-\\d";
+    static final String REGEX_BOSNIE_HERZEGOVINE = "[A-Z]{2}-\\d-[A-Z]{2}-\\d{4}";
+    static final String REGEX_BULGARIE = "[A-Z]{2}\\s\\d{4}-[A-Z]{1,2}";
+    static final String REGEX_CHYPRE = "[A-Z]{3}\\s\\d{4}";
+    static final String REGEX_CROATIE = "[A-Z]{2}-\\d{2,3}-[A-Z]{1,2}";
+    static final String REGEX_DANEMARK = "[A-Z]{2}\\s\\d{2}\\s\\d{2}";
+    static final String REGEX_ESPAGNE = "\\d{4}\\s[A-Z]{3}";
+    static final String REGEX_ESTONIE = "\\d{3}-[A-Z]{3}";
+    static final String REGEX_FINLANDE = "[A-Z]{3}-\\d{3}";
+    static final String REGEX_FRANCE = "[A-Z]{2}-\\d{3}-[A-Z]{2}";
+    static final String REGEX_GRECE = "[A-Z]{2}-\\d{3}-[A-Z]{2}";
+    static final String REGEX_HONGRIE = "[A-Z]{3}-\\d{3}";
+    static final String REGEX_IRELANDE = "\\d{2}-[A-Z]{1,2}-\\d{1,4}";
+    static final String REGEX_ISLANDE = "[A-Z]{2}\\s\\d{3}";
+    static final String REGEX_ITALIE = "[A-Z]{2}\\d{3}[A-Z]{2}";
+    static final String REGEX_LETTONIE = "[A-Z]{2}-\\d{4}";
+    static final String REGEX_LIECHTENSTEIN = "[A-Z]{2}\\s\\d{4}";
+    static final String REGEX_LITUANIE = "[A-Z]{3}-\\d{3}";
+    static final String REGEX_LUXEMBOURG = "\\d{4}\\s[A-Z]{1,2}";
+    static final String REGEX_MACEDOINE = "[A-Z]{2}-\\d{3}-[A-Z]{2}";
+    static final String REGEX_MALTE = "[A-Z]{3}-\\d{4}";
+    static final String REGEX_MOLDAVIE = "[A-Z]{2}-\\d{3}-[A-Z]{2}";
+    static final String REGEX_MONACO = "\\d{2}\\s[A-Z]{1,2}\\s\\d{2}";
+    static final String REGEX_MONTENEGRO = "[A-Z]{2}-\\d{5}-[A-Z]{1,2}";
+    static final String REGEX_NORVEGE = "[A-Z]{2}\\s\\d{5}";
+    static final String REGEX_PAYS_BAS = "\\d{2}-[A-Z]{2}-\\d{2}";
+    static final String REGEX_POLOGNE = "[A-Z]{3}\\s\\d{4}";
+    static final String REGEX_PORTUGAL = "\\d{2}-\\d{2}-[A-Z]{2}-\\d";
+    static final String REGEX_REP_TCHEQUE = "\\d{2}[A-Z]{2}\\s\\d{4}";
+    static final String REGEX_ROUMANIE = "[A-Z]{2}-\\d{3}-[A-Z]{3}";
+    static final String REGEX_ROYAUME_UNI = "[A-Z]{2}\\d{2}\\s[A-Z]{3}";
+    static final String REGEX_RUSSIE = "\\d{3}\\s\\d{3}";
+    static final String REGEX_SAINT_MARIN = "[A-Z]{1,2}\\s\\d{3}";
+    static final String REGEX_SERBIE = "[A-Z]{2}-\\d{3}-[A-Z]{2}";
+    static final String REGEX_SLOVAQUIE = "[A-Z]{2}\\d{2}[A-Z]{1,2}";
+    static final String REGEX_SLOVENIE = "[A-Z]{2}-\\d{2}-[A-Z]{2}";
+    static final String REGEX_SUEDE = "[A-Z]{3}\\s\\d{2}\\s[A-Z]";
+    static final String REGEX_SUISSE = "[A-Z]{2}\\s\\d{4}";
+    static final String REGEX_UKRAINE = "\\d{2}-\\d{4}[A-Z]{2}";
+    static final String REGEX_VATICAN = "\\d{1,2}-[A-Z]{1,3}-\\d{1,2}";
+    static final String REGEX_EUROPE_PLATES =
             REGEX_ALBANIE + "|" +
                     REGEX_ALLEMAGNE + "|" +
                     REGEX_ANDORRE + "|" +
@@ -94,6 +94,9 @@ public class LicensePlateValidator {
                     REGEX_SUISSE + "|" +
                     REGEX_UKRAINE + "|" +
                     REGEX_VATICAN;
+
+    private LicensePlateValidator() {
+    }
 
     public static boolean isValidLicensePlate(String licensePlate) {
         if (licensePlate == null || licensePlate.isEmpty()) {

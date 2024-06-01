@@ -1,4 +1,4 @@
-package genieLogiciel.projet.borne.enums;
+package genielogiciel.projet.borne.enums;
 
 /**
  * Enumération des états possibles d'une Borne

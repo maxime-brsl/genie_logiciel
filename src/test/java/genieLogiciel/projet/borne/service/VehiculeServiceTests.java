@@ -1,7 +1,7 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Vehicule;
-import genieLogiciel.projet.borne.repository.VehiculeRepository;
+import genielogiciel.projet.borne.entity.Vehicule;
+import genielogiciel.projet.borne.repository.VehiculeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class VehiculeServiceTests {
+class VehiculeServiceTests {
 
     @Mock
     private VehiculeRepository vehiculeRepository;

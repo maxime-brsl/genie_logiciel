@@ -1,11 +1,15 @@
-package genieLogiciel.projet.borne.util;
+package genielogiciel.projet.borne.util;
+
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber.*;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 public class PhoneNumberValidator {
 
     private static final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+
+    private PhoneNumberValidator() {
+    }
 
     public static boolean isValidPhoneNumber(String phoneNumber) {
         try {

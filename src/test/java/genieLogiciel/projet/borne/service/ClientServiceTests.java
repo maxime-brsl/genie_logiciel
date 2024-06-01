@@ -1,7 +1,7 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Client;
-import genieLogiciel.projet.borne.repository.ClientRepository;
+import genielogiciel.projet.borne.entity.Client;
+import genielogiciel.projet.borne.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ClientServiceTests {
+class ClientServiceTests {
 
     @Mock
     private ClientRepository clientRepository;

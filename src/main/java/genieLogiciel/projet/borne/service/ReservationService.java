@@ -1,8 +1,8 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.enums.EtatReservation;
-import genieLogiciel.projet.borne.repository.ReservationRepository;
+import genielogiciel.projet.borne.entity.Reservation;
+import genielogiciel.projet.borne.enums.EtatReservation;
+import genielogiciel.projet.borne.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,12 @@ import java.util.List;
 @Service
 public class ReservationService {
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
+    @Autowired
+    public ReservationService(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     public Reservation getReservationById(final int reservationId) {
         return reservationRepository.findById(reservationId).orElse(null);
