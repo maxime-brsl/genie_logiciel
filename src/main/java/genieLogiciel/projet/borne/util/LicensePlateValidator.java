@@ -1,6 +1,6 @@
 package genieLogiciel.projet.borne.util;
 
-public class LicencePlateValidator {
+public class LicensePlateValidator {
     // Regex pour les plaques d'immatriculation de différents pays européens
     final static String REGEX_ALBANIE = "[A-Z]{2}[0-9]{2}[A-Z]{1,2}";
     final static String REGEX_ALLEMAGNE = "[A-Z]{1,3}-[A-Z]{1,2}-[0-9]{1,4}";
@@ -94,6 +94,7 @@ public class LicencePlateValidator {
                     REGEX_SUISSE + "|" +
                     REGEX_UKRAINE + "|" +
                     REGEX_VATICAN;
+
     public static boolean isValidLicensePlate(String licensePlate) {
         if (licensePlate == null || licensePlate.isEmpty()) {
             return false;
