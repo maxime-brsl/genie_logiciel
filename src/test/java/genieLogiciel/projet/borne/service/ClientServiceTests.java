@@ -1,7 +1,7 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Client;
-import genieLogiciel.projet.borne.repository.ClientRepository;
+import genielogiciel.projet.borne.entity.Client;
+import genielogiciel.projet.borne.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ClientServiceTests {
+class ClientServiceTests {
 
     @Mock
     private ClientRepository clientRepository;
@@ -133,5 +133,34 @@ public class ClientServiceTests {
         Client client = new Client();
         client.setNumeroDebit(numeroDebit);
         assertFalse(encoder.matches("wrongnumber", client.getNumeroDebit()), "Le numéro de débit ne devrait pas être correctement encodé");
+    }
+
+    @Test
+    @DisplayName("Test getClientByPhoneNumber - numéro de téléphone présent")
+    void testGetClientByPhoneNumberPresent() {
+        String phoneNumber = "+33680702581";
+        Client client = new Client();
+        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.of(client));
+        assertEquals(client, clientService.getClientByPhoneNumber(phoneNumber), "Le client devrait être trouvé");
+    }
+
+    @Test
+    @DisplayName("Test getClientByPhoneNumber - numéro de téléphone absent")
+    void testGetClientByPhoneNumberAbsent() {
+        String phoneNumber = "+33680702581";
+        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.empty());
+        assertNull(clientService.getClientByPhoneNumber(phoneNumber), "Le client ne devrait pas être trouvé");
+    }
+
+    @Test
+    @DisplayName("Test getClientByPhoneNumber - numéro de téléphone null")
+    void testGetClientByPhoneNumberNull() {
+        assertNull(clientService.getClientByPhoneNumber(null), "Le client ne devrait pas être trouvé");
+    }
+
+    @Test
+    @DisplayName("Test getClientByPhoneNumber - numéro de téléphone mauvais format")
+    void testGetClientByPhoneNumberMauvaisFormat() {
+        assertNull(clientService.getClientByPhoneNumber("abcde"), "Le client ne devrait pas être trouvé");
     }
 }

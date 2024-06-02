@@ -1,4 +1,4 @@
-package genieLogiciel.projet.borne.entity;
+package genielogiciel.projet.borne.entity;
 
 import jakarta.persistence.*;
 
@@ -24,16 +24,16 @@ public class Vehicule {
         return plaqueImmatriculation;
     }
 
+    public void setPlaqueImmatriculation(final String plaqueImmatriculation) {
+        this.plaqueImmatriculation = plaqueImmatriculation;
+    }
+
     public long getId() {
         return id;
     }
 
     public void setId(final Long id) {
         this.id = id;
-    }
-
-    public void setPlaqueImmatriculation(final String plaqueImmatriculation) {
-        this.plaqueImmatriculation = plaqueImmatriculation;
     }
 
     public void setClientId(final Long clientId) {

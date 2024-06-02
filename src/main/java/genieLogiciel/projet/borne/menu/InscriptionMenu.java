@@ -1,35 +1,35 @@
-package genieLogiciel.projet.borne.menu;
+package genielogiciel.projet.borne.menu;
 
-import genieLogiciel.projet.borne.entity.Client;
-import genieLogiciel.projet.borne.entity.Vehicule;
-import genieLogiciel.projet.borne.service.ClientService;
-import genieLogiciel.projet.borne.service.VehiculeService;
-import genieLogiciel.projet.borne.util.CompteValidator;
-import genieLogiciel.projet.borne.util.LicencePlateValidator;
+import genielogiciel.projet.borne.entity.Client;
+import genielogiciel.projet.borne.service.ClientService;
+import genielogiciel.projet.borne.service.VehiculeService;
+import genielogiciel.projet.borne.util.CompteValidator;
+import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @Service
 public class InscriptionMenu {
 
-    @Autowired
-    private MainMenu mainMenu;
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger LOG = Logger.getLogger(String.valueOf(InscriptionMenu.class));
+    private static ClientService clientService;
+    private static VehiculeService vehiculeService;
 
     @Autowired
-    private ClientService clientService;
+    private InscriptionMenu(ClientService clientService, VehiculeService vehiculeService) {
+        InscriptionMenu.clientService = clientService;
+        InscriptionMenu.vehiculeService = vehiculeService;
+    }
 
-    @Autowired
-    private VehiculeService vehiculeService;
-
-    Scanner scanner = new Scanner(System.in);
-
-    public void displayInscriptionMenu() {
+    public static void displayInscriptionMenu() {
         boolean running = true;
         while (running) {
             displayOptions();
-            System.out.println("Choisissez une option : ");
+            LOG.info(TextMenu.CHOISIR_UNE_OPTION);
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -40,8 +40,8 @@ public class InscriptionMenu {
                     String adresse = CompteValidator.saisirAdresse();
                     String numeroCarteCredit = CompteValidator.saisirNumeroCarteCredit();
                     String telephone = CompteValidator.saisirTelephone();
-                    while (clientService.isPhoneNumberInDatabase(telephone)){
-                        System.out.println("Le numéro de téléphone est déjà utilisé.");
+                    while (clientService.isPhoneNumberInDatabase(telephone)) {
+                        LOG.info("Le numéro de téléphone est déjà utilisé.");
                         telephone = CompteValidator.saisirTelephone();
                     }
                     String motDePasse = CompteValidator.saisirMotDePasse();
@@ -55,38 +55,31 @@ public class InscriptionMenu {
                     client.setMotDePasse(motDePasse);
 
                     clientService.addClient(client);
-                    System.out.println("Inscription réussie !");
-                    System.out.println("Voulez-vous ajouter une plaque d'immatriculation ? (O/N)");
+                    LOG.info("Inscription réussie !");
+                    LOG.info("Voulez-vous ajouter une plaque d'immatriculation ? (O/N)");
                     String addLicensePlate = scanner.nextLine();
                     if (addLicensePlate.equalsIgnoreCase("O")) {
-                        Vehicule vehicule = new Vehicule();
-                        System.out.println("Saisir le numéro d'immatriculation : ");
-                        String licensePlate = scanner.nextLine();
-                        while (!LicencePlateValidator.isValidLicensePlate(licensePlate)) {
-                            System.out.println("Le numéro d'immatriculation doit être valide.");
-                            System.out.println("Saisir le numéro d'immatriculation : ");
-                            licensePlate = scanner.nextLine();
-                        }
-                        vehicule.setPlaqueImmatriculation(licensePlate);
-                        long idClient = client.getId();
-                        vehicule.setClientId(idClient);
-                        vehicule.setLoue(false);
-                        vehiculeService.addVehicule(vehicule);
+                        vehiculeService.addLicensePlateToVehicule(null, client);
                     }
                     break;
                 case "2":
-                    mainMenu.displayMainMenu();
+                    MainMenu.displayMainMenu();
                     running = false;
                     break;
                 default:
-                    System.out.println("Option invalide, veuillez réessayer.");
+                    LOG.info(TextMenu.OPTION_INVALIDE);
             }
         }
         scanner.close();
     }
-    public void displayOptions() {
-        System.out.println("------ Menu inscription ------");
-        System.out.println("1. Inscription");
-        System.out.println("2. Retour");
+
+    public static void displayOptions() {
+        String menu = """
+                                
+                ------ Menu inscription ------
+                1. Inscription
+                2. %s
+                """.formatted(TextMenu.RETOUR_MENU_PRINCIPAL);
+        LOG.info(menu);
     }
 }

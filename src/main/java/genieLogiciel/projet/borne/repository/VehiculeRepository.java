@@ -1,6 +1,6 @@
-package genieLogiciel.projet.borne.repository;
+package genielogiciel.projet.borne.repository;
 
-import genieLogiciel.projet.borne.entity.Vehicule;
+import genielogiciel.projet.borne.entity.Vehicule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

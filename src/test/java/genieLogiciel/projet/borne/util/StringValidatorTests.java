@@ -1,10 +1,12 @@
-package genieLogiciel.projet.borne.util;
+package genielogiciel.projet.borne.util;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-public class StringValidatorTests {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class StringValidatorTests {
 
     @Test
     @DisplayName("Test de validation du nom - valide")

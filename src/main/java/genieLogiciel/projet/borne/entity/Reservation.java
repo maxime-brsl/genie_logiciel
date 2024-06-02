@@ -1,5 +1,6 @@
-package genieLogiciel.projet.borne.entity;
+package genielogiciel.projet.borne.entity;
 
+import genielogiciel.projet.borne.enums.EtatReservation;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -9,22 +10,24 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "reservation")
 public class Reservation {
 
+    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reservation")
     private Long id;
 
     @Column(name = "client_id", nullable = false)
-    private Integer clientId;
+    private Long clientId;
 
     @Column(name = "vehicule_id", nullable = false)
     private Long vehiculeId;
 
     @Column(name = "borne_id", nullable = false)
-    private Integer borneId;
+    private Long borneId;
 
     @Column(name = "facture_id")
-    private Integer factureId;
+    private Long factureId;
 
     @Column(name = "heure_debut", nullable = false)
     private LocalDateTime heureDebut;
@@ -35,31 +38,54 @@ public class Reservation {
     @Column(name = "heure_fin_reelle")
     private LocalDateTime heureFinReelle;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "etat_res", nullable = false)
-    private String etatReservation;
+    private EtatReservation etatReservation;
 
     @ManyToOne
     @JoinColumn(name = "vehicule_id", insertable = false, updatable = false)
     private Vehicule vehicule;
 
-    public String toString() {
-        return "--------Reservation n°" + id + "----------" +
-                "\nPlaque de la voiture : " + (vehicule != null ? vehicule.getPlaqueImmatriculation() : "Non spécifiée") +
-                "\nNuméro de la borne : " + borneId +
-                "\nHeure de debut : " + heureDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +
-                "\nHeure de fin prevue : " + heureFinPrevue.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +
-                "\nHeure de fin reelle : " + (heureFinReelle != null ? heureFinReelle.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "Non spécifiée") +
-                "\nEtat de la reservation : " + etatReservation;
+    public Reservation(Long clientId, Long vehiculeId, Long borneId, LocalDateTime start) {
+        setClientId(clientId);
+        setVehiculeId(vehiculeId);
+        setBorneId(borneId);
+        setHeureDebut(start);
+        setHeureFinP(start.plusHours(1));
+        setEtatReservation(EtatReservation.EN_ATTENTE);
     }
 
-    public long getId() {
+    public Reservation() {
+
+    }
+
+    public String toString() {
+        return """
+                --------Reservation n°%d----------
+                Plaque de la voiture : %s
+                Numéro de la borne : %d
+                Heure de début : %s
+                Heure de fin prévue : %s
+                Heure de fin réelle : %s
+                État de la reservation : %s
+                """.formatted(
+                id,
+                vehicule != null ? vehicule.getPlaqueImmatriculation() : "Non spécifiée",
+                borneId,
+                heureDebut.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                heureFinPrevue.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                heureFinReelle != null ? heureFinReelle.format(DateTimeFormatter.ofPattern(DATE_FORMAT)) : "Non spécifiée",
+                etatReservation
+        );
+    }
+
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public LocalDateTime getHeureDebut() {
         return heureDebut;
@@ -71,5 +97,33 @@ public class Reservation {
 
     public void setVehiculeId(final Long vehiculeId) {
         this.vehiculeId = vehiculeId;
+    }
+
+    public void setClientId(Long id) {
+        this.clientId = id;
+    }
+
+    public EtatReservation getEtatReservation() {
+        return etatReservation;
+    }
+
+    public void setEtatReservation(EtatReservation etatReservation) {
+        this.etatReservation = etatReservation;
+    }
+
+    public Long getBorneId() {
+        return borneId;
+    }
+
+    public void setBorneId(Long borneId) {
+        this.borneId = borneId;
+    }
+
+    public LocalDateTime getHeureFinP() {
+        return heureFinPrevue;
+    }
+
+    public void setHeureFinP(LocalDateTime localDateTime) {
+        this.heureFinPrevue = localDateTime;
     }
 }

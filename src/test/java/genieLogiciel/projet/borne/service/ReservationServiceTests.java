@@ -1,7 +1,9 @@
-package genieLogiciel.projet.borne.service;
+package genielogiciel.projet.borne.service;
 
-import genieLogiciel.projet.borne.entity.Reservation;
-import genieLogiciel.projet.borne.repository.ReservationRepository;
+import genielogiciel.projet.borne.entity.Reservation;
+import genielogiciel.projet.borne.enums.EtatReservation;
+import genielogiciel.projet.borne.repository.ReservationRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReservationServiceTests {
+class ReservationServiceTests {
 
     @Mock
     private ReservationRepository reservationRepository;
@@ -30,13 +32,13 @@ public class ReservationServiceTests {
     private LocalDateTime now;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         now = LocalDateTime.now();
     }
 
     @Test
     @DisplayName("Test getReservationById - réservation trouvée")
-    public void testGetReservationById() {
+    void testGetReservationById() {
         Reservation reservation = new Reservation();
         reservation.setId(1L);
 
@@ -49,7 +51,7 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Test getReservationById - réservation non trouvée")
-    public void testGetReservationById_NotFound() {
+    void testGetReservationById_NotFound() {
         when(reservationRepository.findById(2)).thenReturn(Optional.empty());
 
         Reservation retrievedReservation = reservationService.getReservationById(2);
@@ -58,7 +60,7 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Aucune réservation")
-    public void testGetReservationImminente_NoReservation() {
+    void testGetReservationImminente_NoReservation() {
         List<Reservation> reservations = new ArrayList<>();
         Reservation imminentReservation = reservationService.getReservationImminente(reservations);
         assertNull(imminentReservation);
@@ -66,7 +68,7 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Une seule réservation, pas imminente")
-    public void testGetReservationImminente_SingleReservationNotImminent() {
+    void testGetReservationImminente_SingleReservationNotImminent() {
         Reservation reservation = new Reservation();
         reservation.setHeureDebut(now.plusMinutes(20));
 
@@ -79,9 +81,10 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Une seule réservation, imminente")
-    public void testGetReservationImminente_SingleReservationImminent() {
+    void testGetReservationImminente_SingleReservationImminent() {
         Reservation reservation = new Reservation();
         reservation.setHeureDebut(now.plusMinutes(5));
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
 
         List<Reservation> reservations = new ArrayList<>();
         reservations.add(reservation);
@@ -93,12 +96,14 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Plusieurs réservations imminentes")
-    public void testGetReservationImminente_MultipleReservationsImminent() {
+    void testGetReservationImminente_MultipleReservationsImminent() {
         Reservation imminentReservation = new Reservation();
         imminentReservation.setHeureDebut(now.plusMinutes(5));
+        imminentReservation.setEtatReservation(EtatReservation.EN_ATTENTE);
 
         Reservation nonImminentReservation = new Reservation();
         nonImminentReservation.setHeureDebut(now.plusMinutes(15));
+        nonImminentReservation.setEtatReservation(EtatReservation.EN_ATTENTE);
 
         List<Reservation> reservations = new ArrayList<>();
         reservations.add(imminentReservation);
@@ -111,7 +116,7 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Plusieurs réservations, aucune imminente")
-    public void testGetReservationImminente_MultipleReservationsNotImminent() {
+    void testGetReservationImminente_MultipleReservationsNotImminent() {
         Reservation reservation1 = new Reservation();
         reservation1.setHeureDebut(now.plusMinutes(15));
 
@@ -128,7 +133,7 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Test getReservationsByVehiculeId - vehicule id présent")
-    public void testGetReservationsByVehiculeIdPresent() {
+    void testGetReservationsByVehiculeIdPresent() {
         long vehiculeId = 1L;
         List<Reservation> reservations = new ArrayList<>();
         when(reservationRepository.findByvehiculeId(vehiculeId)).thenReturn(reservations);
@@ -137,9 +142,62 @@ public class ReservationServiceTests {
 
     @Test
     @DisplayName("Test getReservationsByVehiculeId - vehicule id absent")
-    public void testGetReservationsByVehiculeIdAbsent() {
+    void testGetReservationsByVehiculeIdAbsent() {
         long vehiculeId = 1L;
         when(reservationRepository.findByvehiculeId(vehiculeId)).thenReturn(new ArrayList<>());
         assertTrue(reservationService.getReservationsByVehiculeId(vehiculeId).isEmpty(), "Aucune réservation ne devrait être renvoyée");
+    }
+
+    @Test
+    @DisplayName("Test changeReservationState")
+    void testChangeReservationState() {
+        Reservation reservation = new Reservation();
+        reservation.setId(1L);
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
+
+        EtatReservation newState = EtatReservation.EN_COURS;
+
+        reservationService.changeReservationState(reservation, newState);
+
+        Assertions.assertEquals(newState, reservation.getEtatReservation());
+    }
+
+    @Test
+    @DisplayName("Test isReservationImminente - réservation imminente")
+    void testIsReservationImminente() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(5));
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
+
+        assertTrue(reservationService.isReservationImminente(reservation));
+    }
+
+    @Test
+    @DisplayName("Test isReservationImminente - réservation non imminente")
+    void testIsReservationImminente_NotImminent() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(15));
+        reservation.setEtatReservation(EtatReservation.EN_ATTENTE);
+
+        assertFalse(reservationService.isReservationImminente(reservation));
+    }
+
+    @Test
+    @DisplayName("Test isPeriodAttente - période d'attente")
+    void testIsPeriodAttente() {
+        Reservation reservation = new Reservation();
+        LocalDateTime now = LocalDateTime.now();
+        reservation.setHeureDebut(now);
+
+        assertTrue(reservationService.isPeriodAttente(reservation));
+    }
+
+    @Test
+    @DisplayName("Test isPeriodAttente - pas dans la période d'attente")
+    void testIsPeriodAttente_NotInPeriod() {
+        Reservation reservation = new Reservation();
+        reservation.setHeureDebut(now.plusMinutes(15));
+
+        assertFalse(reservationService.isPeriodAttente(reservation));
     }
 }
