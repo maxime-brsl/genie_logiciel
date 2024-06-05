@@ -3,7 +3,7 @@
 ## Organisation globale
 
 - [Trello](https://trello.com/invite/espacedetravail99567008/ATTI49bfb43e7e76600b48407b52b617bc83340B516E)
-- [Bruntdown Chart des sprints](https://docs.google.com/spreadsheets/d/12kLXkiJ2ryTRIxXRqjjd3rBuwMot19uwSo-VC-IIk34/edit?usp=sharing)
+- [Brundown Chart des sprints](https://docs.google.com/spreadsheets/d/12kLXkiJ2ryTRIxXRqjjd3rBuwMot19uwSo-VC-IIk34/edit?usp=sharing)
 
 - Pour planifier les sprints, nous avons choisi de travailler avec la méthode Scrum. Nous avons donc décidé de faire 3 sprints de 1 semaine. Nous avons décidé de faire 3 sprints pour ce projet.
 - Le troisième sprint concerne les demandes qui n'ont pas pu être réalisées lors des deux premiers sprints (il n'y aura donc pas de release pour le sprint 3).
