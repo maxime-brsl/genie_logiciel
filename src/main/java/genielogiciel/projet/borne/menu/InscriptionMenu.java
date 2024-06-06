@@ -43,7 +43,7 @@ public class InscriptionMenu {
                     String adresse = CompteValidator.saisirAdresse();
                     String numeroCarteCredit = CompteValidator.saisirNumeroCarteCredit();
                     String numeroTelephone = CompteValidator.saisirTelephone();
-                    while (clientService.isPhoneNumberExist(numeroTelephone)) {
+                    while (clientService.isPhoneNumberExists(numeroTelephone)) {
                         LOG.info("Le numéro de téléphone est déjà utilisé.");
                         numeroTelephone = CompteValidator.saisirTelephone();
                     }

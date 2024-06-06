@@ -52,9 +52,9 @@ public class CreateReservationMenu {
             switch (choice) {
                 case "1":
                     LocalDateTime chosenDateStart = chooseTimeSlot();
-                    Map<LocalDateTime, List<Long>> crenauxDisponible = borneService.findAvailableDates(chosenDateStart, chosenDateStart.plusHours(12), listBornes);
+                    Map<LocalDateTime, List<Long>> creneauxDisponible = borneService.findAvailableDates(chosenDateStart, chosenDateStart.plusHours(12), listBornes);
 
-                    chooseReservation(crenauxDisponible, client);
+                    chooseReservation(creneauxDisponible, client);
                     break;
                 case "2":
                     MainMenu.displayMainMenu();
@@ -197,7 +197,7 @@ public class CreateReservationMenu {
             LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
             licensePlate = scanner.nextLine();
         }
-        if (!vehiculeService.isLicenseplateExist(licensePlate)) {
+        if (!vehiculeService.isLicenseplateExists(licensePlate)) {
             LOG.info("Le numéro d'immatriculation n'est pas enregistré.");
             LOG.info("Voulez-vous l'ajouter ? (O/N)");
             String choiceAdd = scanner.nextLine();

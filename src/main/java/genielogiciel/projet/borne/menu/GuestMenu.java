@@ -79,7 +79,7 @@ public class GuestMenu {
      * @return true si la plaque est valide et dans la base de données, false sinon
      */
     private static boolean handleLicensePlate(String licensePlate) {
-        if (LicensePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicenseplateExist(licensePlate)) {
+        if (LicensePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicenseplateExists(licensePlate)) {
             return true;
         } else {
             LOG.info("La plaque n'est pas reconnue.");
@@ -162,7 +162,7 @@ public class GuestMenu {
         String phoneNumber = scanner.nextLine();
         if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
             //Vérifier si le numéro de téléphone est dans la base de données
-            if (clientService.isPhoneNumberExist(phoneNumber)) {
+            if (clientService.isPhoneNumberExists(phoneNumber)) {
                 //TODO : Vérifier si une est borne disponible
                 //TODO : Proposer de réserver directement ou en différé
             } else {

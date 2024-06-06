@@ -29,18 +29,18 @@ class VehiculeServiceTests {
 
     @Test
     @DisplayName("Test isLicensePlateInDatabase - plaque d'immatriculation présente")
-    void testIsLicenseplateExistPresent() {
+    void testIsLicenseplateExistsPresent() {
         String licensePlate = "AA-123-BB";
         when(vehiculeRepository.findByplaqueImmatriculation(licensePlate)).thenReturn(Optional.of(new Vehicule()));
-        assertTrue(vehiculeService.isLicenseplateExist(licensePlate), "La plaque d'immatriculation devrait être présente dans la base de données");
+        assertTrue(vehiculeService.isLicenseplateExists(licensePlate), "La plaque d'immatriculation devrait être présente dans la base de données");
     }
 
     @Test
     @DisplayName("Test isLicensePlateInDatabase - plaque d'immatriculation absente")
-    void testIsLicenseplateExistAbsent() {
+    void testIsLicenseplateExistsAbsent() {
         String licensePlate = "AA-123-BB";
         when(vehiculeRepository.findByplaqueImmatriculation(licensePlate)).thenReturn(Optional.empty());
-        assertFalse(vehiculeService.isLicenseplateExist(licensePlate), "La plaque d'immatriculation devrait être absente de la base de données");
+        assertFalse(vehiculeService.isLicenseplateExists(licensePlate), "La plaque d'immatriculation devrait être absente de la base de données");
     }
 
     @Test

@@ -30,7 +30,7 @@ public class VehiculeService {
      * @param licensePlate plaque d'immatriculation
      * @return true si la plaque d'immatriculation existe, false sinon
      */
-    public boolean isLicenseplateExist(final String licensePlate) {
+    public boolean isLicenseplateExists(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate).isPresent();
     }
 

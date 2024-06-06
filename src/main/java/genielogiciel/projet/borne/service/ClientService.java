@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ClientService {
 
@@ -33,7 +31,7 @@ public class ClientService {
      * @param phoneNumber le numéro de téléphone
      * @return true si le numéro de téléphone existe, false sinon
      */
-    public boolean isPhoneNumberExist(final String phoneNumber) {
+    public boolean isPhoneNumberExists(final String phoneNumber) {
         return clientRepository.findBynumeroTelephone(phoneNumber).isPresent();
     }
 

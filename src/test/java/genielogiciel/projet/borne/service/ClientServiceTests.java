@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,30 +40,30 @@ class ClientServiceTests {
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone présent")
-    void testIsPhoneNumberExistPresent() {
+    void testIsPhoneNumberExistsPresent() {
         String phoneNumber = "1234567890";
         when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.of(new Client()));
-        assertTrue(clientService.isPhoneNumberExist(phoneNumber), "Le numéro de téléphone devrait être présent dans la base de données");
+        assertTrue(clientService.isPhoneNumberExists(phoneNumber), "Le numéro de téléphone devrait être présent dans la base de données");
     }
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone absent")
-    void testIsPhoneNumberExistAbsent() {
+    void testIsPhoneNumberExistsAbsent() {
         String phoneNumber = "1234567890";
         when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.empty());
-        assertFalse(clientService.isPhoneNumberExist(phoneNumber), "Le numéro de téléphone devrait être absent de la base de données");
+        assertFalse(clientService.isPhoneNumberExists(phoneNumber), "Le numéro de téléphone devrait être absent de la base de données");
     }
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone null")
-    void testIsPhoneNumberExistNull() {
-        assertFalse(clientService.isPhoneNumberExist(null), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
+    void testIsPhoneNumberExistsNull() {
+        assertFalse(clientService.isPhoneNumberExists(null), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
     }
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone mauvais format")
-    void testIsPhoneNumberExistMauvaisFormat() {
-        assertFalse(clientService.isPhoneNumberExist("abcde"), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
+    void testIsPhoneNumberExistsMauvaisFormat() {
+        assertFalse(clientService.isPhoneNumberExists("abcde"), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
     }
 
     @Test
