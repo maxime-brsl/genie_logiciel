@@ -18,10 +18,6 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
-    }
-
     /**
      * Ajouter un client
      *

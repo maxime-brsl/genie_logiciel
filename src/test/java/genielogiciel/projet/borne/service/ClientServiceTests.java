@@ -33,24 +33,6 @@ class ClientServiceTests {
     }
 
     @Test
-    @DisplayName("Test getAllClients - aucun client")
-    void testGetAllClientsAucunClient() {
-        when(clientRepository.findAll()).thenReturn(new ArrayList<>());
-        List<Client> clients = clientService.getAllClients();
-        assertTrue(clients.isEmpty(), "La liste des clients devrait être vide");
-    }
-
-    @Test
-    @DisplayName("Test getAllClients - un client")
-    void testGetAllClientsUnClient() {
-        List<Client> clients = new ArrayList<>();
-        clients.add(new Client());
-        when(clientRepository.findAll()).thenReturn(clients);
-        List<Client> retrievedClients = clientService.getAllClients();
-        assertEquals(1, retrievedClients.size(), "La liste des clients devrait contenir un client");
-    }
-
-    @Test
     @DisplayName("Test addClient")
     void testAddClient() {
         Client client = new Client();
