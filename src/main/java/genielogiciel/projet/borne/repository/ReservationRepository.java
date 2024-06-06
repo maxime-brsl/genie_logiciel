@@ -12,5 +12,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     List<Reservation> findByBorneId(final Long borneId);
 
-    List<Reservation> findByClientId(Long clientId);
+    List<Reservation> findByClientId(final Long clientId);
 }

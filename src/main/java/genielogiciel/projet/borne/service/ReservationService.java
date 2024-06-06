@@ -27,7 +27,7 @@ public class ReservationService {
         return reservationRepository.findByvehiculeId(vehiculeId);
     }
 
-    public List<Reservation> getReservationsByClientId(Long clientId) {
+    public List<Reservation> getReservationsByClientId(final Long clientId) {
         return reservationRepository.findByClientId(clientId);
     }
 
