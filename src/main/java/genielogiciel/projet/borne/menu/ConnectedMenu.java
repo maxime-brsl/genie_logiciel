@@ -12,6 +12,7 @@ import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -128,7 +129,14 @@ public class ConnectedMenu {
                 }
                 break;
             case "5":
-                // TODO US-018
+                List<Reservation> reservations = reservationService.getReservationsByClientId(client.getId());
+                if (reservations.isEmpty()) {
+                    logger.info("Vous n'avez aucune réservation.");
+                } else {
+                    for (Reservation reservation : reservations) {
+                        logger.info(reservation.toString());
+                    }
+                }
                 break;
             case "6":
                 CreateReservationMenu.displayCreateReservationMenu(client);
