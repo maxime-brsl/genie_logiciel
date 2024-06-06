@@ -151,10 +151,10 @@ public class ConnectedMenu {
             case "5":
                 List<Reservation> reservations = reservationService.getReservationsByClientId(client.getId());
                 if (reservations.isEmpty()) {
-                    logger.info("Vous n'avez aucune réservation.");
+                    LOG.info("Vous n'avez aucune réservation.");
                 } else {
                     for (Reservation reservation : reservations) {
-                        logger.info(reservation.toString());
+                        LOG.info(reservation.toString());
                     }
                 }
                 break;
