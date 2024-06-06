@@ -7,7 +7,7 @@ import genielogiciel.projet.borne.service.BorneService;
 import genielogiciel.projet.borne.service.ReservationService;
 import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * Menu de validation de réservation
  */
-@Service
+@Component
 public class ValidationReservationMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -64,9 +64,12 @@ public class ValidationReservationMenu {
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu de validation de réservation
+     */
     public static void displayOptions() {
         String menu = """
-                               
+                
                  ------ Validation réservation ------
                  1. Valider ma présence
                  2.  %s

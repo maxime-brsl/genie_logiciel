@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,24 +31,6 @@ class ClientServiceTests {
     }
 
     @Test
-    @DisplayName("Test getAllClients - aucun client")
-    void testGetAllClientsAucunClient() {
-        when(clientRepository.findAll()).thenReturn(new ArrayList<>());
-        List<Client> clients = clientService.getAllClients();
-        assertTrue(clients.isEmpty(), "La liste des clients devrait être vide");
-    }
-
-    @Test
-    @DisplayName("Test getAllClients - un client")
-    void testGetAllClientsUnClient() {
-        List<Client> clients = new ArrayList<>();
-        clients.add(new Client());
-        when(clientRepository.findAll()).thenReturn(clients);
-        List<Client> retrievedClients = clientService.getAllClients();
-        assertEquals(1, retrievedClients.size(), "La liste des clients devrait contenir un client");
-    }
-
-    @Test
     @DisplayName("Test addClient")
     void testAddClient() {
         Client client = new Client();
@@ -60,30 +40,30 @@ class ClientServiceTests {
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone présent")
-    void testIsPhoneNumberInDatabasePresent() {
+    void testIsPhoneNumberExistsPresent() {
         String phoneNumber = "1234567890";
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.of(new Client()));
-        assertTrue(clientService.isPhoneNumberInDatabase(phoneNumber), "Le numéro de téléphone devrait être présent dans la base de données");
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.of(new Client()));
+        assertTrue(clientService.isPhoneNumberExists(phoneNumber), "Le numéro de téléphone devrait être présent dans la base de données");
     }
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone absent")
-    void testIsPhoneNumberInDatabaseAbsent() {
+    void testIsPhoneNumberExistsAbsent() {
         String phoneNumber = "1234567890";
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.empty());
-        assertFalse(clientService.isPhoneNumberInDatabase(phoneNumber), "Le numéro de téléphone devrait être absent de la base de données");
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.empty());
+        assertFalse(clientService.isPhoneNumberExists(phoneNumber), "Le numéro de téléphone devrait être absent de la base de données");
     }
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone null")
-    void testIsPhoneNumberInDatabaseNull() {
-        assertFalse(clientService.isPhoneNumberInDatabase(null), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
+    void testIsPhoneNumberExistsNull() {
+        assertFalse(clientService.isPhoneNumberExists(null), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
     }
 
     @Test
     @DisplayName("Test isPhoneNumberInDatabase - numéro de téléphone mauvais format")
-    void testIsPhoneNumberInDatabaseMauvaisFormat() {
-        assertFalse(clientService.isPhoneNumberInDatabase("abcde"), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
+    void testIsPhoneNumberExistsMauvaisFormat() {
+        assertFalse(clientService.isPhoneNumberExists("abcde"), "Le numéro de téléphone ne devrait pas être présent dans la base de données");
     }
 
     @Test
@@ -93,7 +73,7 @@ class ClientServiceTests {
         String motDePasse = "password";
         Client client = new Client();
         client.setMotDePasse(motDePasse);
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.of(client));
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.of(client));
         assertTrue(clientService.verifierMotDePasse(phoneNumber, motDePasse), "Le mot de passe devrait être correct");
     }
 
@@ -102,7 +82,7 @@ class ClientServiceTests {
     void testVerifierMotDePasseNumeroNonTrouve() {
         String phoneNumber = "1234567890";
         String motDePasse = "password";
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.empty());
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.empty());
         assertFalse(clientService.verifierMotDePasse(phoneNumber, motDePasse), "Le numéro de téléphone ne devrait pas être trouvé");
     }
 
@@ -113,7 +93,7 @@ class ClientServiceTests {
         String motDePasse = "password";
         Client client = new Client();
         client.setMotDePasse("wrongpassword");
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.of(client));
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.of(client));
         assertFalse(clientService.verifierMotDePasse(phoneNumber, motDePasse), "Le mot de passe devrait être incorrect");
     }
 
@@ -140,7 +120,7 @@ class ClientServiceTests {
     void testGetClientByPhoneNumberPresent() {
         String phoneNumber = "+33680702581";
         Client client = new Client();
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.of(client));
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.of(client));
         assertEquals(client, clientService.getClientByPhoneNumber(phoneNumber), "Le client devrait être trouvé");
     }
 
@@ -148,7 +128,7 @@ class ClientServiceTests {
     @DisplayName("Test getClientByPhoneNumber - numéro de téléphone absent")
     void testGetClientByPhoneNumberAbsent() {
         String phoneNumber = "+33680702581";
-        when(clientRepository.findBynumeroTel(phoneNumber)).thenReturn(Optional.empty());
+        when(clientRepository.findBynumeroTelephone(phoneNumber)).thenReturn(Optional.empty());
         assertNull(clientService.getClientByPhoneNumber(phoneNumber), "Le client ne devrait pas être trouvé");
     }
 

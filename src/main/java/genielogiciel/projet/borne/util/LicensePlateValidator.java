@@ -98,6 +98,12 @@ public class LicensePlateValidator {
     private LicensePlateValidator() {
     }
 
+    /**
+     * Vérifier si une plaque d'immatriculation est valide
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @return true si la plaque d'immatriculation est valide, false sinon
+     */
     public static boolean isValidLicensePlate(String licensePlate) {
         if (licensePlate == null || licensePlate.isEmpty()) {
             return false;

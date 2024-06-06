@@ -8,13 +8,13 @@ import genielogiciel.projet.borne.util.LicensePlateValidator;
 import genielogiciel.projet.borne.util.PhoneNumberValidator;
 import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-@Service
+@Component
 public class GuestMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -30,6 +30,9 @@ public class GuestMenu {
         GuestMenu.clientService = clientService;
     }
 
+    /**
+     * Afficher le menu invité
+     */
     public static void displayGuestMenu() {
         boolean running = true;
         while (running) {
@@ -55,9 +58,12 @@ public class GuestMenu {
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu invité
+     */
     private static void displayOptions() {
         String menu = """
-                                
+                
                 ------ Menu invité ------
                 1. Entrer le numéro de réservation
                 2. Entrer le numéro d'immatriculation
@@ -66,8 +72,14 @@ public class GuestMenu {
         LOG.info(menu);
     }
 
+    /**
+     * Vérifier si la plaque d'immatriculation est valide et si elle est dans la base de données
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @return true si la plaque est valide et dans la base de données, false sinon
+     */
     private static boolean handleLicensePlate(String licensePlate) {
-        if (LicensePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicensePlateInDatabase(licensePlate)) {
+        if (LicensePlateValidator.isValidLicensePlate(licensePlate) && vehiculeService.isLicenseplateExists(licensePlate)) {
             return true;
         } else {
             LOG.info("La plaque n'est pas reconnue.");
@@ -75,6 +87,9 @@ public class GuestMenu {
         }
     }
 
+    /**
+     * Gérer l'option de saisie du numéro de réservation
+     */
     private static void handleReservationOption() {
         LOG.info(TextMenu.SAISIR_NUMERO_RESERVATION);
         if (!scanner.hasNextInt()) {
@@ -91,6 +106,9 @@ public class GuestMenu {
         }
     }
 
+    /**
+     * Gérer l'option de saisie du numéro d'immatriculation
+     */
     private static void handleLicensePlateOption() {
         LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
         String licensePlate = scanner.nextLine();
@@ -113,6 +131,12 @@ public class GuestMenu {
         }
     }
 
+    /**
+     * Vérifier si une réservation est imminente
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @param reservations liste des réservations
+     */
     private static void checkReservationImmente(String licensePlate, List<Reservation> reservations) {
         //Vérifier si une réservation est imminente
         Reservation imminentReservation = reservationService.getReservationImminente(reservations);
@@ -138,7 +162,7 @@ public class GuestMenu {
         String phoneNumber = scanner.nextLine();
         if (PhoneNumberValidator.isValidPhoneNumber(phoneNumber)) {
             //Vérifier si le numéro de téléphone est dans la base de données
-            if (clientService.isPhoneNumberInDatabase(phoneNumber)) {
+            if (clientService.isPhoneNumberExists(phoneNumber)) {
                 //TODO : Vérifier si une est borne disponible
                 //TODO : Proposer de réserver directement ou en différé
             } else {

@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-@Table(name = "client") // Spécifie le nom de la table dans la base de données
+@Table(name = "client")
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_client") // Spécifie le nom de la colonne dans la table
+    @Column(name = "id_client")
     private Long id;
 
     @Column(name = "nom")
@@ -28,14 +28,14 @@ public class Client {
     private String numeroDebit;
 
     @Column(name = "numero_tel")
-    private String numeroTel;
+    private String numeroTelephone;
 
     @Column(name = "mot_de_passe")
     private String motDePasse;
 
     public String toString() {
         return """
-                                
+                
                 --------Client n°%d----------
                 Nom : %s
                 Prénom : %s
@@ -43,7 +43,7 @@ public class Client {
                 Adresse : %s
                 Numéro de débit : XXXX-XXXX-XXXX
                 Numéro de téléphone : %s
-                """.formatted(id, nom, prenom, mail, adresse, numeroTel);
+                """.formatted(id, nom, prenom, mail, adresse, numeroTelephone);
     }
 
 
@@ -55,8 +55,8 @@ public class Client {
         this.mail = mail;
     }
 
-    public void setNumeroTel(final String numeroTel) {
-        this.numeroTel = numeroTel;
+    public void setNumeroTelephone(final String numeroTel) {
+        this.numeroTelephone = numeroTel;
     }
 
     public Long getId() {
