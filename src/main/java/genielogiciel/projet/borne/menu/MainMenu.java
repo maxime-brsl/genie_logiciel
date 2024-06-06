@@ -1,12 +1,12 @@
 package genielogiciel.projet.borne.menu;
 
 import genielogiciel.projet.borne.util.TextMenu;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-@Service
+@Component
 public class MainMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -15,6 +15,9 @@ public class MainMenu {
     MainMenu() {
     }
 
+    /**
+     * Afficher le menu principal
+     */
     public static void displayMainMenu() {
         boolean running = true;
         while (running) {
@@ -41,6 +44,9 @@ public class MainMenu {
         System.exit(0);
     }
 
+    /**
+     * Afficher les options du menu principal
+     */
     public static void displayOptions() {
         String menu = """
 

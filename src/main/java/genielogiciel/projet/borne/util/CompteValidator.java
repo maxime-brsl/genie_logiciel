@@ -17,6 +17,11 @@ public class CompteValidator {
     private CompteValidator() {
     }
 
+    /**
+     * Saisir un nom
+     *
+     * @return le nom
+     */
     public static String saisirNom() {
         LOG.info(TextMenu.SAISIR_NOM);
         String nom = scanner.nextLine();
@@ -28,6 +33,11 @@ public class CompteValidator {
         return nom;
     }
 
+    /**
+     * Saisir un prénom
+     *
+     * @return le prénom
+     */
     public static String saisirPrenom() {
         LOG.info(TextMenu.SAISIR_PRENOM);
         String prenom = scanner.nextLine();
@@ -39,6 +49,11 @@ public class CompteValidator {
         return prenom;
     }
 
+    /**
+     * Saisir un email
+     *
+     * @return l'email
+     */
     public static String saisirEmail() {
         LOG.info(TextMenu.SAISIR_EMAIL);
         String mail = scanner.nextLine();
@@ -50,6 +65,11 @@ public class CompteValidator {
         return mail;
     }
 
+    /**
+     * Saisir une adresse
+     *
+     * @return l'adresse
+     */
     public static String saisirAdresse() {
         LOG.info(TextMenu.SAISIR_ADRESSE);
         String adresse = scanner.nextLine();
@@ -62,6 +82,11 @@ public class CompteValidator {
         return adresse;
     }
 
+    /**
+     * Saisir un code postal
+     *
+     * @return le code postal
+     */
     public static String saisirNumeroCarteCredit() {
         LOG.info(TextMenu.SAISIR_CARTE_CREDIT);
         String numeroCarte = scanner.nextLine();
@@ -74,6 +99,11 @@ public class CompteValidator {
         return numeroCarte;
     }
 
+    /**
+     * Saisir un code postal
+     *
+     * @return le code postal
+     */
     public static String saisirTelephone() {
         LOG.info(TextMenu.SAISIR_TELEPHONE);
         String telephone = scanner.nextLine();
@@ -86,6 +116,11 @@ public class CompteValidator {
         return telephone;
     }
 
+    /**
+     * Saisir un mot de passe
+     *
+     * @return le mot de passe
+     */
     public static String saisirMotDePasse() {
         LOG.info(TextMenu.SAISIR_MOT_DE_PASSE);
         String motDePasse = scanner.nextLine();

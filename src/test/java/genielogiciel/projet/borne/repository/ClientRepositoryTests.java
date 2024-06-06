@@ -21,13 +21,13 @@ class ClientRepositoryTests {
 
     @Test
     @DisplayName("Test findByNumeroTel - client trouvé")
-    void testFindByNumeroTelWhenClientExists() {
+    void testFindByNumeroTelephoneWhenClientExists() {
         Client client = new Client();
         client.setId(1L);
-        client.setNumeroTel("123456789");
-        when(clientRepository.findBynumeroTel("123456789")).thenReturn(Optional.of(client));
+        client.setNumeroTelephone("123456789");
+        when(clientRepository.findBynumeroTelephone("123456789")).thenReturn(Optional.of(client));
 
-        Optional<Client> foundClient = clientRepository.findBynumeroTel("123456789");
+        Optional<Client> foundClient = clientRepository.findBynumeroTelephone("123456789");
 
         assertTrue(foundClient.isPresent());
         assertEquals(client, foundClient.get());
@@ -35,10 +35,10 @@ class ClientRepositoryTests {
 
     @Test
     @DisplayName("Test findByNumeroTel - aucun client trouvé")
-    void testFindByNumeroTelWhenNoClientExists() {
-        when(clientRepository.findBynumeroTel("987654321")).thenReturn(Optional.empty());
+    void testFindByNumeroTelephoneWhenNoClientExists() {
+        when(clientRepository.findBynumeroTelephone("987654321")).thenReturn(Optional.empty());
 
-        Optional<Client> foundClient = clientRepository.findBynumeroTel("987654321");
+        Optional<Client> foundClient = clientRepository.findBynumeroTelephone("987654321");
 
         assertTrue(foundClient.isEmpty());
     }

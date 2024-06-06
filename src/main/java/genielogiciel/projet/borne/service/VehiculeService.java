@@ -24,21 +24,44 @@ public class VehiculeService {
         this.vehiculeRepository = vehiculeRepository;
     }
 
-    public boolean isLicensePlateInDatabase(final String licensePlate) {
+    /**
+     * Vérifier si une plaque d'immatriculation existe
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @return true si la plaque d'immatriculation existe, false sinon
+     */
+    public boolean isLicenseplateExists(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate).isPresent();
     }
 
+    /**
+     * Récupérer l'id d'un véhicule par sa plaque d'immatriculation
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @return l'id du véhicule
+     */
     public Long getVehiculeIdByLicensePlate(final String licensePlate) {
         return vehiculeRepository.findByplaqueImmatriculation(licensePlate)
                 .map(Vehicule::getId)
                 .orElse(null);
     }
 
+    /**
+     * Ajouter un véhicule
+     *
+     * @param vehicule le véhicule
+     */
     public void addVehicule(final Vehicule vehicule) {
         vehiculeRepository.save(vehicule);
     }
 
-    public void addLicensePlateToVehicule(String licensePlate, final Client client) {
+    /**
+     * Ajouter un véhicule à un client
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @param client       le client
+     */
+    public void addVehiculeToClient(String licensePlate, final Client client) {
         Vehicule vehicule = new Vehicule();
         if (licensePlate == null) {
             LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
@@ -49,12 +72,11 @@ public class VehiculeService {
                 licensePlate = scanner.nextLine();
             }
         }
-
         vehicule.setPlaqueImmatriculation(licensePlate);
         Long idClient = client.getId();
         vehicule.setClientId(idClient);
         LOG.info("Ce véhicule est-il loué ? (O/N)");
-        vehicule.setLoue(scanner.nextLine().equalsIgnoreCase("O"));
+        vehicule.setEstLoue(scanner.nextLine().equalsIgnoreCase("O"));
         addVehicule(vehicule);
         LOG.info("Véhicule ajouté avec succès !");
     }

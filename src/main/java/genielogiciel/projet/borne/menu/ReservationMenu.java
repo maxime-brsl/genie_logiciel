@@ -4,13 +4,13 @@ import genielogiciel.projet.borne.entity.Reservation;
 import genielogiciel.projet.borne.service.ReservationService;
 import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service
+@Component
 public class ReservationMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -22,6 +22,11 @@ public class ReservationMenu {
         ReservationMenu.reservationService = reservationService;
     }
 
+    /**
+     * Afficher le menu de réservation
+     *
+     * @param reservation Réservation concernée
+     */
     public static void displayReservationMenu(final Reservation reservation) {
         boolean running = true;
         while (running) {
@@ -50,6 +55,11 @@ public class ReservationMenu {
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu de réservation
+     *
+     * @param reservation Réservation concernée
+     */
     private static void displayOptions(final Reservation reservation) {
         StringBuilder menu = new StringBuilder();
         menu.append("\n----- Réservation n°").append(reservation.getId()).append(" -----\n")

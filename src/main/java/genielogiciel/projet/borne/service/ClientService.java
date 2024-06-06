@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ClientService {
 
@@ -18,24 +16,38 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
-    }
-
     public void updateClient(final Client client) {
         clientRepository.save(client);
     }
 
+    /**
+     * Ajouter un client
+     *
+     * @param client le client
+     */
     public void addClient(final Client client) {
         clientRepository.save(client);
     }
 
-    public boolean isPhoneNumberInDatabase(final String phoneNumber) {
-        return clientRepository.findBynumeroTel(phoneNumber).isPresent();
+    /**
+     * Vérifier si un numéro de téléphone existe
+     *
+     * @param phoneNumber le numéro de téléphone
+     * @return true si le numéro de téléphone existe, false sinon
+     */
+    public boolean isPhoneNumberExists(final String phoneNumber) {
+        return clientRepository.findBynumeroTelephone(phoneNumber).isPresent();
     }
 
+    /**
+     * Vérifier si un mot de passe est correct
+     *
+     * @param phoneNumber          le numéro de téléphone
+     * @param motDePasseUtilisateur le mot de passe
+     * @return true si le mot de passe est correct, false sinon
+     */
     public boolean verifierMotDePasse(final String phoneNumber, final String motDePasseUtilisateur) {
-        Client client = clientRepository.findBynumeroTel(phoneNumber).orElse(null);
+        Client client = clientRepository.findBynumeroTelephone(phoneNumber).orElse(null);
         if (client == null) {
             return false;
         }
@@ -43,7 +55,13 @@ public class ClientService {
         return passwordEncoder.matches(motDePasseUtilisateur, client.getMotDePasse());
     }
 
+    /**
+     * Récupérer un client par son numéro de téléphone
+     *
+     * @param phoneNumber le numéro de téléphone
+     * @return le client
+     */
     public Client getClientByPhoneNumber(final String phoneNumber) {
-        return clientRepository.findBynumeroTel(phoneNumber).orElse(null);
+        return clientRepository.findBynumeroTelephone(phoneNumber).orElse(null);
     }
 }
