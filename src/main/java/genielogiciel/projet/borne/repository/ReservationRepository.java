@@ -24,4 +24,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
      * @return la réservation
      */
     List<Reservation> findByBorneId(final Long borneId);
+
+    List<Reservation> findByClientId(final Long clientId);
 }

@@ -42,6 +42,10 @@ public class ReservationService {
      *
      * @return la liste de toutes les réservations
      */
+    public List<Reservation> getReservationsByClientId(final Long clientId) {
+        return reservationRepository.findByClientId(clientId);
+    }
+
     public Reservation getReservationImminente(final List<Reservation> reservations) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime imminentTime = now.plusMinutes(10);
@@ -97,4 +101,5 @@ public class ReservationService {
     public void addReservation(final Reservation reservation) {
         reservationRepository.save(reservation);
     }
+
 }
