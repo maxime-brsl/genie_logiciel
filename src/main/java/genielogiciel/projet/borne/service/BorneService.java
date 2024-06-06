@@ -52,16 +52,6 @@ public class BorneService {
     }
 
     /**
-     * Récupérer une Borne par son id
-     *
-     * @param borneId id de la Borne
-     * @return la Borne
-     */
-    public Borne getBorneById(final Long borneId) {
-        return borneRepository.findById(borneId).orElse(null);
-    }
-
-    /**
      * Vérifier si une Borne a une réservation à l'heure actuelle
      *
      * @param borneId id de la Borne
@@ -135,7 +125,7 @@ public class BorneService {
      * @param bornes Liste des bornes qui seront dispo à cette période
      * @return Map des créneaux disponibles : date + bornes dispo à cette date
      */
-    public Map<LocalDateTime, List<Long>> findAvailableDates(final LocalDateTime start, final LocalDateTime end, final List<Long> bornes) {
+    public Map<LocalDateTime, List<Long>> findAvailableDates(final LocalDateTime start, final LocalDateTime end, final List<Borne> bornes) {
         LOG.info("Créneaux disponibles pour le " + start.format(DateTimeFormatter.ofPattern("EEEE dd MMM")) + " :");
 
         if (bornes.isEmpty()) {
@@ -148,9 +138,10 @@ public class BorneService {
         for (LocalDateTime current = start; !current.isAfter(end); current = current.plusHours(1)) {
             List<Long> bornesAvailable = new ArrayList<>();
 
-            for (Long borne : bornes) {
-                if (!hasReservationAtCurrentTime(borne, current)) {
-                    bornesAvailable.add(borne);
+            for (Borne borne : bornes) {
+                Long borneId = borne.getId();
+                if (!hasReservationAtCurrentTime(borneId, current)) {
+                    bornesAvailable.add(borneId);
                 }
             }
             creneaux.put(current, bornesAvailable);

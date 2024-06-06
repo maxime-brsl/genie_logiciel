@@ -29,10 +29,6 @@ class BorneServiceTests {
     @InjectMocks
     private BorneService borneService;
 
-    @InjectMocks
-    private ReservationService reservationService;
-
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -99,7 +95,7 @@ class BorneServiceTests {
         LocalDateTime current = LocalDateTime.now();
         Reservation reservation = new Reservation();
         reservation.setHeureDebut(current);
-        when(reservationRepository.findByBorneId(borneId)).thenReturn(Arrays.asList(reservation));
+        when(reservationRepository.findByBorneId(borneId)).thenReturn(List.of(reservation));
 
         assertTrue(borneService.hasReservationAtCurrentTime(borneId, current));
         verify(reservationRepository, times(1)).findByBorneId(borneId);
@@ -141,8 +137,8 @@ class BorneServiceTests {
         reservation1.setHeureDebut(reservationStart1);
         Reservation reservation2 = new Reservation();
         reservation2.setHeureDebut(reservationStart2);
-        when(reservationRepository.findByBorneId(borneId1)).thenReturn(Arrays.asList(reservation1));
-        when(reservationRepository.findByBorneId(borneId2)).thenReturn(Arrays.asList(reservation2));
+        when(reservationRepository.findByBorneId(borneId1)).thenReturn(List.of(reservation1));
+        when(reservationRepository.findByBorneId(borneId2)).thenReturn(List.of(reservation2));
 
         int gapBorne1 = borneService.calculateGapNextReservation(borneId1, start);
         int gapBorne2 = borneService.calculateGapNextReservation(borneId2, start);
@@ -163,7 +159,7 @@ class BorneServiceTests {
         reservation1.setHeureDebut(reservationStart1);
         Reservation reservation2 = new Reservation();
         reservation2.setHeureDebut(reservationStart2);
-        when(reservationRepository.findByBorneId(borneId1)).thenReturn(Arrays.asList(reservation1));
+        when(reservationRepository.findByBorneId(borneId1)).thenReturn(List.of(reservation1, reservation2));
         when(reservationRepository.findByBorneId(borneId2)).thenReturn(new ArrayList<>()); // Aucune réservation pour cette borne
 
         int gapBorne1 = borneService.calculateGapNextReservation(borneId1, start);
@@ -223,7 +219,7 @@ class BorneServiceTests {
     void testFindAvailableDatesWithEmptyBornes() {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end = LocalDateTime.now().plusHours(12);
-        List<Long> bornes = new ArrayList<>();
+        List<Borne> bornes = new ArrayList<>();
         Map<LocalDateTime, List<Long>> result = borneService.findAvailableDates(start, end, bornes);
         assertTrue(result.isEmpty());
     }
@@ -233,9 +229,11 @@ class BorneServiceTests {
     void testFindAvailableDates() {
         LocalDateTime start = LocalDateTime.of(2022, 12, 15, 8, 0);
         LocalDateTime end = LocalDateTime.of(2022, 12, 15, 12, 0);
-        long borneId1 = 1L;
-        long borneId2 = 2L;
-        List<Long> bornes = List.of(borneId1, borneId2);
+        Borne borne1 = new Borne();
+        Borne borne2 = new Borne();
+        borne1.setId(1L);
+        borne2.setId(2L);
+        List<Borne> bornes = List.of(borne1, borne2);
         Map<LocalDateTime, List<Long>> expected = new HashMap<>();
         expected.put(LocalDateTime.of(2022, 12, 15, 8, 0), Arrays.asList(1L, 2L));
         expected.put(LocalDateTime.of(2022, 12, 15, 9, 0), Arrays.asList(1L, 2L));

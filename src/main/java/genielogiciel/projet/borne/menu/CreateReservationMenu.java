@@ -36,12 +36,13 @@ public class CreateReservationMenu {
         CreateReservationMenu.reservationService = reservationService;
     }
 
+    /**
+     * Afficher le menu de création de réservation
+     *
+     * @param client Client qui fait la réservation
+     */
     public static void displayCreateReservationMenu(final Client client) {
-        List<Borne> bornesTmp = borneService.getAllBornes();
-        List<Long> bornes = new ArrayList<>();
-        for (Borne borne : bornesTmp) {
-            bornes.add(borne.getId());
-        }
+        List<Borne> listBornes = borneService.getAllBornes();
         boolean running = true;
         while (running) {
             displayOptions();
@@ -51,9 +52,9 @@ public class CreateReservationMenu {
             switch (choice) {
                 case "1":
                     LocalDateTime chosenDateStart = chooseTimeSlot();
-                    Map<LocalDateTime, List<Long>> creneaux = borneService.findAvailableDates(chosenDateStart, chosenDateStart.plusHours(12), bornes);
+                    Map<LocalDateTime, List<Long>> creneauxDisponible = borneService.findAvailableDates(chosenDateStart, chosenDateStart.plusHours(12), listBornes);
 
-                    chooseReservation(creneaux, client);
+                    chooseReservation(creneauxDisponible, client);
                     break;
                 case "2":
                     MainMenu.displayMainMenu();
@@ -66,9 +67,12 @@ public class CreateReservationMenu {
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu de réservation
+     */
     private static void displayOptions() {
         String menu = """
-                                
+                
                  ----- Réservation -----
                  1. Faire une réservation
                  2. %s
@@ -104,6 +108,11 @@ public class CreateReservationMenu {
         return chosenDate;
     }
 
+    /**
+     * Afficher les jours de la semaine pour la réservation
+     *
+     * @param today date actuelle
+     */
     private static void choisirDateReservation(LocalDateTime today) {
         LOG.info("Veuillez choisir quel jour vous souhaitez faire une réservation :");
         for (int i = 0; i <= 6; i++) {
@@ -139,7 +148,7 @@ public class CreateReservationMenu {
         }
 
         LOG.info("Entrez le nombre du créneau que vous souhaitez réserver : ");
-        int choice = -1;
+        int choice;
         if (scanner.hasNextInt()) {
             choice = scanner.nextInt();
             if (!(choice >= 0 && choice < creneauxList.size())) {
@@ -188,12 +197,12 @@ public class CreateReservationMenu {
             LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
             licensePlate = scanner.nextLine();
         }
-        if (!vehiculeService.isLicensePlateInDatabase(licensePlate)) {
+        if (!vehiculeService.isLicenseplateExists(licensePlate)) {
             LOG.info("Le numéro d'immatriculation n'est pas enregistré.");
             LOG.info("Voulez-vous l'ajouter ? (O/N)");
             String choiceAdd = scanner.nextLine();
             if (choiceAdd.equalsIgnoreCase("O")) {
-                vehiculeService.addLicensePlateToVehicule(licensePlate, client);
+                vehiculeService.addVehiculeToClient(licensePlate, client);
             }
         }
         return licensePlate;
