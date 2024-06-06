@@ -10,17 +10,17 @@ import genielogiciel.projet.borne.util.CompteValidator;
 import genielogiciel.projet.borne.util.LicensePlateValidator;
 import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service
+@Component
 public class ConnectedMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = Logger.getLogger(String.valueOf(ConnectedMenu.class));
+    private static final Logger LOG = Logger.getLogger(String.valueOf(ConnectedMenu.class));
     private static ClientService clientService;
     private static VehiculeService vehiculeService;
     private static ReservationService reservationService;
@@ -32,25 +32,28 @@ public class ConnectedMenu {
         ConnectedMenu.reservationService = reservationService;
     }
 
+    /**
+     * Afficher le menu de connexion
+     */
     public static void displayConnectedMenu() {
         boolean running = true;
         while (running) {
             displayOptions();
-            logger.info(TextMenu.CHOISIR_UNE_OPTION);
+            LOG.info(TextMenu.CHOISIR_UNE_OPTION);
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
                     String numeroTelephone = CompteValidator.saisirTelephone();
                     String motDePasse = CompteValidator.saisirMotDePasse();
-                    boolean test = clientService.verifierMotDePasse(numeroTelephone, motDePasse);
-                    if (test) {
+                    boolean motDePasseValide = clientService.verifierMotDePasse(numeroTelephone, motDePasse);
+                    if (motDePasseValide) {
                         Client client = clientService.getClientByPhoneNumber(numeroTelephone);
-                        logger.info("Connexion réussie !");
+                        LOG.info("Connexion réussie !");
                         displayOptionsConnected(client.getPrenom(), client.getNom());
                         running = choiceOptionsConnected(scanner.nextLine(), client);
                     } else {
-                        logger.info("Identifiants incorrects, voulez-vous vous inscrire ? (O/N)");
+                        LOG.info("Identifiants incorrects, voulez-vous vous inscrire ? (O/N)");
                         String inscription = scanner.nextLine();
                         if (inscription.equalsIgnoreCase("O")) {
                             InscriptionMenu.displayInscriptionMenu();
@@ -62,22 +65,31 @@ public class ConnectedMenu {
                     running = false;
                     break;
                 default:
-                    logger.info(TextMenu.OPTION_INVALIDE);
+                    LOG.info(TextMenu.OPTION_INVALIDE);
             }
         }
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu de connexion
+     */
     private static void displayOptions() {
         String menu = """
-                                
+                
                 ------ Menu de connexion ------
                 1. Se connecter
                 2. Retour menu principal
                 """;
-        logger.info(menu);
+        LOG.info(menu);
     }
 
+    /**
+     * Afficher les options du menu connecté
+     *
+     * @param prenom prénom du client
+     * @param nom    nom du client
+     */
     private static void displayOptionsConnected(final String prenom, final String nom) {
         String menu = """
                 ------ Bienvenue %s %s ! ------
@@ -89,37 +101,45 @@ public class ConnectedMenu {
                 6. Réserver un créneau
                 7. Retour menu principal
                 """.formatted(prenom, nom);
-        logger.info(menu);
+        LOG.info(menu);
     }
 
+
+    /**
+     * Gérer les options du menu connecté
+     *
+     * @param choice choix de l'utilisateur
+     * @param client client connecté
+     * @return true si l'utilisateur reste connecté, false sinon
+     */
     private static boolean choiceOptionsConnected(final String choice, final Client client) {
         switch (choice) {
             case "1":
                 Vehicule vehicule = new Vehicule();
-                logger.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
+                LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
                 String licensePlate = scanner.nextLine();
                 while (!LicensePlateValidator.isValidLicensePlate(licensePlate)) {
-                    logger.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
+                    LOG.info(TextMenu.SAISIR_NUMERO_IMMATRICULATION);
                     licensePlate = scanner.nextLine();
                 }
                 vehicule.setPlaqueImmatriculation(licensePlate);
                 long idClient = client.getId();
                 vehicule.setClientId(idClient);
-                vehicule.setLoue(false);
+                vehicule.setEstLoue(false);
                 vehiculeService.addVehicule(vehicule);
                 break;
             case "2":
-                if (logger.isLoggable(Level.INFO)) {
-                    logger.info(client.toString());
+                if (LOG.isLoggable(Level.INFO)) {
+                    LOG.info(client.toString());
                 }
                 break;
             case "3":
                 // TODO US-010
                 break;
             case "4":
-                logger.info(TextMenu.SAISIR_NUMERO_RESERVATION);
+                LOG.info(TextMenu.SAISIR_NUMERO_RESERVATION);
                 if (!scanner.hasNextInt()) {
-                    logger.info(TextMenu.RESERVATION_INVALIDE);
+                    LOG.info(TextMenu.RESERVATION_INVALIDE);
                 } else {
                     int reservationId = scanner.nextInt();
                     scanner.nextLine();
@@ -137,7 +157,7 @@ public class ConnectedMenu {
                 MainMenu.displayMainMenu();
                 return false;
             default:
-                logger.info(TextMenu.OPTION_INVALIDE);
+                LOG.info(TextMenu.OPTION_INVALIDE);
         }
         return true;
     }

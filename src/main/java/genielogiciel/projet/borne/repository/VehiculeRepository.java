@@ -8,6 +8,13 @@ import java.util.Optional;
 
 @Repository
 public interface VehiculeRepository extends JpaRepository<Vehicule, Integer> {
+
+    /**
+     * Trouver un véhicule par plaque d'immatriculation
+     *
+     * @param licensePlate plaque d'immatriculation
+     * @return le véhicule
+     */
     Optional<Vehicule> findByplaqueImmatriculation(final String licensePlate);
 
 }

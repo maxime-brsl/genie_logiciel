@@ -6,12 +6,12 @@ import genielogiciel.projet.borne.service.VehiculeService;
 import genielogiciel.projet.borne.util.CompteValidator;
 import genielogiciel.projet.borne.util.TextMenu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-@Service
+@Component
 public class InscriptionMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -25,6 +25,9 @@ public class InscriptionMenu {
         InscriptionMenu.vehiculeService = vehiculeService;
     }
 
+    /**
+     * Afficher le menu d'inscription
+     */
     public static void displayInscriptionMenu() {
         boolean running = true;
         while (running) {
@@ -39,10 +42,10 @@ public class InscriptionMenu {
                     String email = CompteValidator.saisirEmail();
                     String adresse = CompteValidator.saisirAdresse();
                     String numeroCarteCredit = CompteValidator.saisirNumeroCarteCredit();
-                    String telephone = CompteValidator.saisirTelephone();
-                    while (clientService.isPhoneNumberInDatabase(telephone)) {
+                    String numeroTelephone = CompteValidator.saisirTelephone();
+                    while (clientService.isPhoneNumberExist(numeroTelephone)) {
                         LOG.info("Le numéro de téléphone est déjà utilisé.");
-                        telephone = CompteValidator.saisirTelephone();
+                        numeroTelephone = CompteValidator.saisirTelephone();
                     }
                     String motDePasse = CompteValidator.saisirMotDePasse();
                     Client client = new Client();
@@ -51,7 +54,7 @@ public class InscriptionMenu {
                     client.setMail(email);
                     client.setAdresse(adresse);
                     client.setNumeroDebit(numeroCarteCredit);
-                    client.setNumeroTel(telephone);
+                    client.setNumeroTelephone(numeroTelephone);
                     client.setMotDePasse(motDePasse);
 
                     clientService.addClient(client);
@@ -59,7 +62,7 @@ public class InscriptionMenu {
                     LOG.info("Voulez-vous ajouter une plaque d'immatriculation ? (O/N)");
                     String addLicensePlate = scanner.nextLine();
                     if (addLicensePlate.equalsIgnoreCase("O")) {
-                        vehiculeService.addLicensePlateToVehicule(null, client);
+                        vehiculeService.addVehiculeToClient(null, client);
                     }
                     break;
                 case "2":
@@ -73,9 +76,12 @@ public class InscriptionMenu {
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu d'inscription
+     */
     public static void displayOptions() {
         String menu = """
-                                
+                
                 ------ Menu inscription ------
                 1. Inscription
                 2. %s

@@ -18,7 +18,7 @@ public class Vehicule {
     private String plaqueImmatriculation;
 
     @Column(name = "loue", nullable = false)
-    private Boolean loue;
+    private Boolean estLoue;
 
     public String getPlaqueImmatriculation() {
         return plaqueImmatriculation;
@@ -40,7 +40,7 @@ public class Vehicule {
         this.clientId = clientId;
     }
 
-    public void setLoue(final Boolean loue) {
-        this.loue = loue;
+    public void setEstLoue(final Boolean loue) {
+        this.estLoue = loue;
     }
 }

@@ -19,18 +19,29 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
+    /**
+     * Récupérer toutes les réservations
+     *
+     * @return la liste de toutes les réservations
+     */
     public Reservation getReservationById(final int reservationId) {
         return reservationRepository.findById(reservationId).orElse(null);
     }
 
+    /**
+     * Récupérer toutes les réservations
+     *
+     * @return la liste de toutes les réservations
+     */
     public List<Reservation> getReservationsByVehiculeId(final Long vehiculeId) {
         return reservationRepository.findByvehiculeId(vehiculeId);
     }
 
-    public List<Reservation> getReservationsByBorneId(final Long borneId) {
-        return reservationRepository.findByBorneId(borneId);
-    }
-
+    /**
+     * Récupérer toutes les réservations
+     *
+     * @return la liste de toutes les réservations
+     */
     public Reservation getReservationImminente(final List<Reservation> reservations) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime imminentTime = now.plusMinutes(10);
@@ -78,8 +89,12 @@ public class ReservationService {
         return now.isEqual(reservation.getHeureDebut()) || (now.isAfter(reservation.getHeureDebut()) && now.isBefore(attenteTime));
     }
 
+    /**
+     * Ajouter une réservation
+     *
+     * @param reservation la réservation
+     */
     public void addReservation(final Reservation reservation) {
         reservationRepository.save(reservation);
     }
-
 }

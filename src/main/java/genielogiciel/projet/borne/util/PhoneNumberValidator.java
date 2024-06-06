@@ -11,6 +11,12 @@ public class PhoneNumberValidator {
     private PhoneNumberValidator() {
     }
 
+    /**
+     * Vérifier si un numéro de téléphone est valide
+     *
+     * @param phoneNumber le numéro de téléphone
+     * @return true si le numéro de téléphone est valide, false sinon
+     */
     public static boolean isValidPhoneNumber(String phoneNumber) {
         try {
             // On parse le numéro de téléphone pour le saisir sans code région
