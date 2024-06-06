@@ -16,6 +16,10 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
+    public void updateClient(final Client client) {
+        clientRepository.save(client);
+    }
+
     /**
      * Ajouter un client
      *

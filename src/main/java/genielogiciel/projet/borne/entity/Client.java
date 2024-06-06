@@ -33,9 +33,24 @@ public class Client {
     @Column(name = "mot_de_passe")
     private String motDePasse;
 
+    public Client() {
+
+    }
+
+    public Client(long id, String nom, String prenom, String mail, String adresse, String numeroDebit, String numeroTelephone, String motDePasse) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.adresse = adresse;
+        this.numeroDebit = numeroDebit;
+        this.numeroTelephone = numeroTelephone;
+        this.motDePasse = motDePasse;
+    }
+
     public String toString() {
         return """
-                
+                                
                 --------Client n°%d----------
                 Nom : %s
                 Prénom : %s
@@ -53,10 +68,6 @@ public class Client {
 
     public void setMail(final String mail) {
         this.mail = mail;
-    }
-
-    public void setNumeroTelephone(final String numeroTel) {
-        this.numeroTelephone = numeroTel;
     }
 
     public Long getId() {
@@ -101,4 +112,11 @@ public class Client {
         this.nom = nom;
     }
 
+    public String getNumeroTelephone() {
+        return numeroTelephone;
+    }
+
+    public void setNumeroTelephone(final String numeroTel) {
+        this.numeroTelephone = numeroTel;
+    }
 }

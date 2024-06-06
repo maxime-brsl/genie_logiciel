@@ -17,13 +17,11 @@ import static org.mockito.Mockito.*;
 
 class ClientServiceTests {
 
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     @Mock
     private ClientRepository clientRepository;
-
     @InjectMocks
     private ClientService clientService;
-
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @BeforeEach
     void setUp() {
@@ -142,5 +140,17 @@ class ClientServiceTests {
     @DisplayName("Test getClientByPhoneNumber - numéro de téléphone mauvais format")
     void testGetClientByPhoneNumberMauvaisFormat() {
         assertNull(clientService.getClientByPhoneNumber("abcde"), "Le client ne devrait pas être trouvé");
+    }
+
+    @Test
+    @DisplayName("Test updateClient")
+    void testUpdateClient() {
+        Client client = new Client(1L, "Nom", "Prenom", "mail", "1 adresse, 11111 ville, pays", "1234123412341234 555 01/01", "+33123456789", "motDePasse");
+        clientService.addClient(client);
+        client.setNumeroTelephone("+33612345678");
+
+        clientService.updateClient(client);
+
+        assertEquals("+33612345678", client.getNumeroTelephone());
     }
 }
