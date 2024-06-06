@@ -29,7 +29,7 @@
 
 ## Git Groupe
 
-- Julie Barthet : jbrht (deux utilisateurs avec ce nom car il y a eu un souci d'association entre git et GitHub
+- Julie Barthet : jbrht (deux utilisateurs avec ce nom car il y a eu un souci d'association entre git et GitHub)
 - Maxime Brasley : maxime-brsl
 - Jade Fischer : jadefischr
 - A noter que les commits dans contributors ne sont pas à jour et nous ignorons la raison
