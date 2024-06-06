@@ -135,7 +135,6 @@ public class ConnectedMenu {
                 }
                 break;
             case "3":
-                // TODO US-010
                 EditProfileMenu.displayEditProfileMenu(client);
                 break;
             case "4":

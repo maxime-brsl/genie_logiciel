@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class EditProfileMenu {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = Logger.getLogger(String.valueOf(ConnectedMenu.class));
+    private static final Logger LOG = Logger.getLogger(String.valueOf(ConnectedMenu.class));
     private static ClientService clientService;
 
     @Autowired
@@ -22,11 +22,16 @@ public class EditProfileMenu {
         EditProfileMenu.clientService = clientService;
     }
 
+    /**
+     * Afficher le menu de modification du profil
+     *
+     * @param client
+     */
     public static void displayEditProfileMenu(final Client client) {
         boolean running = true;
         while (running) {
             displayOptions();
-            logger.info(TextMenu.CHOISIR_UNE_OPTION);
+            LOG.info(TextMenu.CHOISIR_UNE_OPTION);
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -40,12 +45,15 @@ public class EditProfileMenu {
                     running = false;
                     break;
                 default:
-                    logger.info(TextMenu.OPTION_INVALIDE);
+                    LOG.info(TextMenu.OPTION_INVALIDE);
             }
         }
         scanner.close();
     }
 
+    /**
+     * Afficher les options du menu de modification
+     */
     private static void displayOptions() {
         String menu = """
                                 
@@ -53,9 +61,15 @@ public class EditProfileMenu {
                 1. Modifier mon profil
                 2. Retour menu principal
                 """;
-        logger.info(menu);
+        LOG.info(menu);
     }
 
+    /**
+     * Afficher les options de modification du profil
+     *
+     * @param prenom prénom du client
+     * @param nom    nom du client
+     */
     private static void displayOptionsEditProfile(final String prenom, final String nom) {
         String menu = """
                 ------ Bienvenue %s %s ! ------
@@ -69,65 +83,72 @@ public class EditProfileMenu {
                 7. Mot de passe
                 8. Retour menu précédent
                 """.formatted(prenom, nom);
-        logger.info(menu);
+        LOG.info(menu);
     }
 
+    /**
+     * Choisir les options de modification du profil
+     *
+     * @param choice choix de l'utilisateur
+     * @param client client connecté
+     * @return retourne true si l'utilisateur veut continuer à modifier son profil, false sinon
+     */
     private static boolean choiceOptionsEditProfile(final String choice, final Client client) {
         switch (choice) {
             case "1":
                 String nom = CompteValidator.saisirNom();
                 client.setNom(nom);
                 clientService.updateClient(client);
-                logger.info("Nom modifié !");
-                logger.info(client.toString());
+                LOG.info("Nom modifié !");
+                LOG.info(client.toString());
                 break;
 
             case "2":
                 String prenom = CompteValidator.saisirPrenom();
                 client.setPrenom(prenom);
                 clientService.updateClient(client);
-                logger.info("Prénom modifié !");
-                logger.info(client.toString());
+                LOG.info("Prénom modifié !");
+                LOG.info(client.toString());
                 break;
 
             case "3":
                 String mail = CompteValidator.saisirEmail();
                 client.setMail(mail);
                 clientService.updateClient(client);
-                logger.info("Adresse-mail modifiée !");
-                logger.info(client.toString());
+                LOG.info("Adresse-mail modifiée !");
+                LOG.info(client.toString());
                 break;
 
             case "4":
                 String adresse = CompteValidator.saisirAdresse();
                 client.setAdresse(adresse);
                 clientService.updateClient(client);
-                logger.info("Adresse postale modifiée !");
-                logger.info(client.toString());
+                LOG.info("Adresse postale modifiée !");
+                LOG.info(client.toString());
                 break;
 
             case "5":
                 String numeroDebit = CompteValidator.saisirNumeroCarteCredit();
                 client.setNumeroDebit(numeroDebit);
                 clientService.updateClient(client);
-                logger.info("Numéro de débit modifié !");
-                logger.info(client.toString());
+                LOG.info("Numéro de débit modifié !");
+                LOG.info(client.toString());
                 break;
 
             case "6":
-                String numeroTel = CompteValidator.saisirTelephone();
-                client.setNumeroTel(numeroTel);
+                String numeroTelephone = CompteValidator.saisirTelephone();
+                client.setNumeroTelephone(numeroTelephone);
                 clientService.updateClient(client);
-                logger.info("Numéro de téléphone modifié !");
-                logger.info(client.toString());
+                LOG.info("Numéro de téléphone modifié !");
+                LOG.info(client.toString());
                 break;
 
             case "7":
                 String motDePasse = CompteValidator.saisirMotDePasse();
                 client.setMotDePasse(motDePasse);
                 clientService.updateClient(client);
-                logger.info("Mot de passe modifié !");
-                logger.info(client.toString());
+                LOG.info("Mot de passe modifié !");
+                LOG.info(client.toString());
                 break;
 
             case "8":
@@ -135,7 +156,7 @@ public class EditProfileMenu {
                 return false;
 
             default:
-                logger.info(TextMenu.OPTION_INVALIDE);
+                LOG.info(TextMenu.OPTION_INVALIDE);
         }
         return true;
     }

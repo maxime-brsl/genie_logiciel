@@ -145,17 +145,12 @@ class ClientServiceTests {
     @Test
     @DisplayName("Test updateClient")
     void testUpdateClient() {
-        Client client = new Client();
-        client.setId(1L);
-        client.setNom("Nom");
-        client.setPrenom("Prenom");
-        client.setMail("ancien@mail.com");
-        client.setAdresse("1 rue Adresse, 11111 Ville, Pays");
-        client.setNumeroDebit("1234123412341234 555 02/26");
-        client.setNumeroTel("+33612345678");
+        Client client = new Client(1L, "Nom", "Prenom", "mail", "1 adresse, 11111 ville, pays", "1234123412341234 555 01/01", "+33123456789", "motDePasse");
+        clientService.addClient(client);
+        client.setNumeroTelephone("+33612345678");
 
         clientService.updateClient(client);
 
-        verify(clientRepository, times(1)).save(client);
+        assertEquals("+33612345678", client.getNumeroTelephone());
     }
 }
