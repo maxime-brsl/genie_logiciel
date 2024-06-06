@@ -22,6 +22,10 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
+    public void updateClient(final Client client) {
+        clientRepository.save(client);
+    }
+
     public void addClient(final Client client) {
         clientRepository.save(client);
     }

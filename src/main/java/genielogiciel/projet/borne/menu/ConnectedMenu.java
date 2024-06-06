@@ -116,6 +116,7 @@ public class ConnectedMenu {
                 break;
             case "3":
                 // TODO US-010
+                EditProfileMenu.displayEditProfileMenu(client);
                 break;
             case "4":
                 logger.info(TextMenu.SAISIR_NUMERO_RESERVATION);
